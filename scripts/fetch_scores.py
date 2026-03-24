@@ -9,7 +9,7 @@ def fred(series):
             "series_id": series,
             "api_key": FRED_KEY,
             "sort_order": "desc",
-            "limit": 10,
+            "limit": 24,
             "file_type": "json"
         }
     )
@@ -103,7 +103,7 @@ r_au_n,   r_au_p   = fred("INTDSRAUM193N")
 cpi_nz_n, cpi_nz_p = fred("NZLCPIALLQINMEI")
 gdp_nz_n, gdp_nz_p = fred("NAEXKP01NZQ657S")
 une_nz_n, _        = fred("LRUNTTTTNZQ156S")
-r_nz_n,   r_nz_p   = fred("INTDSRNZM193N")
+r_nz_n,   r_nz_p   = fred("IR3TIB01NZM156N")
 
 print("All data fetched. Calculating scores...")
 

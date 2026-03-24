@@ -78,7 +78,7 @@ r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 # Japan CPI - use quarterly OECD series which is more reliable
-cpi_jp_n, cpi_jp_p = fred("CPALTT01JPM659N")
+cpi_jp_n, cpi_jp_p = fred("CPGRLE01JPM659N")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
@@ -92,13 +92,13 @@ r_ch_n,   r_ch_p   = fred("IR3TIB01CHM156N")
 
 # ── AUD (FRED) ────────────────────────────────────────────────────────
 cpi_au_n, cpi_au_p = fred("AUSCPIALLQINMEI")
-gdp_au_n, gdp_au_p = fred("AUSRGDPEXP")
+gdp_au_n, gdp_au_p = fred("NGDPRSAXDCAUQ")
 une_au_n, _        = fred("LRHUTTTTAUM156S")
 r_au_n,   r_au_p   = fred("INTDSRAUM193N")
 
 # ── NZD (FRED) ────────────────────────────────────────────────────────
 cpi_nz_n, cpi_nz_p = fred("NZLCPIALLQINMEI")
-gdp_nz_n, gdp_nz_p = fred("NZLRGDPEXP")
+gdp_nz_n, gdp_nz_p = fred("NAEXKP01NZQ657S")
 une_nz_n, _        = fred("LRHUTTTTNUM156S")
 r_nz_n,   r_nz_p   = fred("INTDSRNZM193N")
 

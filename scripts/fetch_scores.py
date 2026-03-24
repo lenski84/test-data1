@@ -26,6 +26,10 @@ def fred(series):
 def ecb(dataset, key):
     url = f"https://data-api.ecb.europa.eu/service/data/{dataset}?lastNObservations=2&format=jsondata"
     r = requests.get(url)
+    print(f"ECB {key} status: {r.status_code}")
+    if r.status_code != 200:
+        print(f"ECB {key} failed: {r.text[:200]}")
+        return 0.0, 0.0
     data = r.json()
     try:
         series = data["dataSets"][0]["series"]
@@ -62,18 +66,18 @@ ff_n,     ff_p     = fred("FEDFUNDS")
 cpi_eu_n, cpi_eu_p = ecb("ICP/M.U2.N.000000.4.INX", "EUR CPI")
 gdp_eu_n, gdp_eu_p = ecb("MNA/Q.Y.I8.W2.S1.S1.B.B1GQ._Z._Z._Z.EUR.LR.GY", "EUR GDP")
 une_eu_n, _        = ecb("LFSI/M.I8.S.UNEHRT.TOTAL0.15_74.T", "EUR UNEMP")
-r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.MM.EURIBOR3MD_.HSTA", "EUR RATE")
+r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.IR.MRR_FR.LEV", "EUR RATE")
 
 # ── GBP (FRED) ────────────────────────────────────────────────────────
 cpi_gb_n, cpi_gb_p = fred("GBRCPIALLMINMEI")
-gdp_gb_n, gdp_gb_p = fred("GBRRGDPEXP")
+gdp_gb_n, gdp_gb_p = fred("UKNGDP")
 une_gb_n, _        = fred("LRHUTTTTGBM156S")
 r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 cpi_jp_n, cpi_jp_p = fred("JPNCPIALLMINMEI")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
-une_jp_n, _        = fred("LRHUTTTTJPM156S")
+une_jp_n, _        = fred("LRHUTTTTJPM156N")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
 
 # ── CHF (FRED) ────────────────────────────────────────────────────────

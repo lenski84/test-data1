@@ -155,4 +155,25 @@ with open("data/scores.csv", "w") as f:
                 f"{v['wachstum']},{v['cb_ton']},{v['yields']},"
                 f"{v['zinsdiff']},{v['risk']},{v['total']}\n")
 print("scores.csv written")
+import gspread
+from google.oauth2.service_account import Credentials
+import json as json_lib
+
+creds_json = json_lib.loads(os.environ["GOOGLE_CREDENTIALS"])
+creds = Credentials.from_service_account_info(
+  creds_json,
+  scopes=["https://www.googleapis.com/auth/spreadsheets"]
+)
+gc = gspread.authorize(creds)
+sh = gc.open_by_key(os.environ["SHEET_ID"])
+ws = sh.sheet1
+ws.clear()
+ws.append_row(["currency","zinsen","inflation","arbeitsmarkt",
+  "wachstum","cb_ton","yields","zinsdiff","risk","total"])
+for ccy in ["USD","EUR","GBP","JPY","CHF","AUD","NZD"]:
+  v = currencies[ccy]
+  ws.append_row([ccy,v["zinsen"],v["inflation"],
+    v["arbeitsmarkt"],v["wachstum"],v["cb_ton"],
+    v["yields"],v["zinsdiff"],v["risk"],v["total"]])
+print("Google Sheet updated")
 print("All done!")

@@ -19,22 +19,25 @@ def fred(series):
         sys.exit(1)
     valid = [o for o in data["observations"] if o["value"] != "."]
     if len(valid) < 2:
+        print(f"Not enough data for {series}, using 0")
         return 0.0, 0.0
     return float(valid[0]["value"]), float(valid[1]["value"])
 
-def ecb(series):
-    url = f"https://data-api.ecb.europa.eu/service/data/ICP/M.U2.N.000000.4.INX?lastNObservations=2&format=jsondata"
-    # Generic ECB fetcher - series passed as override url
-    r = requests.get(series)
+def ecb(dataset, key):
+    url = f"https://data-api.ecb.europa.eu/service/data/{dataset}?lastNObservations=2&format=jsondata"
+    r = requests.get(url)
     data = r.json()
     try:
-        obs = data["dataSets"][0]["series"]["0:0:0:0:0:0"]["observations"]
+        series = data["dataSets"][0]["series"]
+        first_key = list(series.keys())[0]
+        obs = series[first_key]["observations"]
         keys = sorted(obs.keys(), key=lambda x: int(x))
-        current = float(obs[keys[-1]][0])
+        current  = float(obs[keys[-1]][0])
         previous = float(obs[keys[-2]][0])
+        print(f"ECB {key}: {current} / {previous}")
         return current, previous
     except Exception as e:
-        print(f"ECB error: {e}")
+        print(f"ECB error for {key}: {e} — using 0")
         return 0.0, 0.0
 
 def score_dir(current, previous):
@@ -50,43 +53,42 @@ def unemp_score(rate, low_thresh, high_thresh):
 print("Fetching data...")
 
 # ── USD (FRED) ────────────────────────────────────────────────────────
-cpi_us_n,  cpi_us_p  = fred("CPIAUCSL")
-gdp_us_n,  gdp_us_p  = fred("GDP")
-une_us_n,  _         = fred("UNRATE")
-ff_n,      ff_p      = fred("FEDFUNDS")
-y10_us_n,  y10_us_p  = fred("DGS10")
+cpi_us_n, cpi_us_p = fred("CPIAUCSL")
+gdp_us_n, gdp_us_p = fred("GDP")
+une_us_n, _        = fred("UNRATE")
+ff_n,     ff_p     = fred("FEDFUNDS")
 
-# ── EUR (ECB API) ─────────────────────────────────────────────────────
-cpi_eu_n, cpi_eu_p = ecb("https://data-api.ecb.europa.eu/service/data/ICP/M.U2.N.000000.4.INX?lastNObservations=2&format=jsondata")
-gdp_eu_n, gdp_eu_p = ecb("https://data-api.ecb.europa.eu/service/data/MNA/Q.Y.I8.W2.S1.S1.B.B1GQ._Z._Z._Z.EUR.LR.GY?lastNObservations=2&format=jsondata")
-une_eu_n, _        = ecb("https://data-api.ecb.europa.eu/service/data/LFSI/M.I8.S.UNEHRT.TOTAL0.15_74.T?lastNObservations=2&format=jsondata")
-r_eu_n,   r_eu_p   = ecb("https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.RT.MM.EURIBOR3MD_.HSTA?lastNObservations=2&format=jsondata")
+# ── EUR (ECB) ─────────────────────────────────────────────────────────
+cpi_eu_n, cpi_eu_p = ecb("ICP/M.U2.N.000000.4.INX", "EUR CPI")
+gdp_eu_n, gdp_eu_p = ecb("MNA/Q.Y.I8.W2.S1.S1.B.B1GQ._Z._Z._Z.EUR.LR.GY", "EUR GDP")
+une_eu_n, _        = ecb("LFSI/M.I8.S.UNEHRT.TOTAL0.15_74.T", "EUR UNEMP")
+r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.MM.EURIBOR3MD_.HSTA", "EUR RATE")
 
-# ── GBP (ONS/FRED proxies) ────────────────────────────────────────────
+# ── GBP (FRED) ────────────────────────────────────────────────────────
 cpi_gb_n, cpi_gb_p = fred("GBRCPIALLMINMEI")
-gdp_gb_n, gdp_gb_p = fred("NGDPRSAXDCGBQ")
+gdp_gb_n, gdp_gb_p = fred("GBRRGDPEXP")
 une_gb_n, _        = fred("LRHUTTTTGBM156S")
 r_gb_n,   r_gb_p   = fred("BOERUKM")
 
-# ── JPY ───────────────────────────────────────────────────────────────
+# ── JPY (FRED) ────────────────────────────────────────────────────────
 cpi_jp_n, cpi_jp_p = fred("JPNCPIALLMINMEI")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
 
-# ── CHF ───────────────────────────────────────────────────────────────
+# ── CHF (FRED) ────────────────────────────────────────────────────────
 cpi_ch_n, cpi_ch_p = fred("CHECPIALLMINMEI")
-gdp_ch_n, gdp_ch_p = fred("CHENGDPNQDSMEI")
+gdp_ch_n, gdp_ch_p = fred("CHEGDPNQDSMEI")
 une_ch_n, _        = fred("LRHUTTTTCHM156S")
 r_ch_n,   r_ch_p   = fred("INTDSRCHM193N")
 
-# ── AUD ───────────────────────────────────────────────────────────────
+# ── AUD (FRED) ────────────────────────────────────────────────────────
 cpi_au_n, cpi_au_p = fred("AUSCPIALLQINMEI")
 gdp_au_n, gdp_au_p = fred("AUSRGDPEXP")
 une_au_n, _        = fred("LRHUTTTTAUM156S")
 r_au_n,   r_au_p   = fred("INTDSRAUM193N")
 
-# ── NZD ───────────────────────────────────────────────────────────────
+# ── NZD (FRED) ────────────────────────────────────────────────────────
 cpi_nz_n, cpi_nz_p = fred("NZLCPIALLQINMEI")
 gdp_nz_n, gdp_nz_p = fred("NZLRGDPEXP")
 une_nz_n, _        = fred("LRHUTTTTNUM156S")
@@ -100,21 +102,21 @@ def build_scores(r_n, r_p, cpi_n, cpi_p, une_n, lo, hi, gdp_n, gdp_p):
         "inflation":    score_dir(cpi_n, cpi_p),
         "arbeitsmarkt": unemp_score(une_n, lo, hi),
         "wachstum":     score_dir(gdp_n, gdp_p),
-        "cb_ton":       0,   # manual or sentiment API
-        "yields":       0,   # calculated in Pine
-        "zinsdiff":     0,   # calculated in Pine
-        "risk":         0,   # calculated in Pine
+        "cb_ton":       0,
+        "yields":       0,
+        "zinsdiff":     0,
+        "risk":         0,
     }
 
 currencies = {
     "timestamp": datetime.datetime.utcnow().isoformat(),
-    "USD": build_scores(ff_n,    ff_p,    cpi_us_n, cpi_us_p, une_us_n, 3.8, 4.5, gdp_us_n, gdp_us_p),
-    "EUR": build_scores(r_eu_n,  r_eu_p,  cpi_eu_n, cpi_eu_p, une_eu_n, 6.0, 7.5, gdp_eu_n, gdp_eu_p),
-    "GBP": build_scores(r_gb_n,  r_gb_p,  cpi_gb_n, cpi_gb_p, une_gb_n, 3.5, 4.5, gdp_gb_n, gdp_gb_p),
-    "JPY": build_scores(r_jp_n,  r_jp_p,  cpi_jp_n, cpi_jp_p, une_jp_n, 2.0, 3.0, gdp_jp_n, gdp_jp_p),
-    "CHF": build_scores(r_ch_n,  r_ch_p,  cpi_ch_n, cpi_ch_p, une_ch_n, 2.0, 3.0, gdp_ch_n, gdp_ch_p),
-    "AUD": build_scores(r_au_n,  r_au_p,  cpi_au_n, cpi_au_p, une_au_n, 3.5, 4.5, gdp_au_n, gdp_au_p),
-    "NZD": build_scores(r_nz_n,  r_nz_p,  cpi_nz_n, cpi_nz_p, une_nz_n, 3.5, 4.5, gdp_nz_n, gdp_nz_p),
+    "USD": build_scores(ff_n,   ff_p,   cpi_us_n, cpi_us_p, une_us_n, 3.8, 4.5, gdp_us_n, gdp_us_p),
+    "EUR": build_scores(r_eu_n, r_eu_p, cpi_eu_n, cpi_eu_p, une_eu_n, 6.0, 7.5, gdp_eu_n, gdp_eu_p),
+    "GBP": build_scores(r_gb_n, r_gb_p, cpi_gb_n, cpi_gb_p, une_gb_n, 3.5, 4.5, gdp_gb_n, gdp_gb_p),
+    "JPY": build_scores(r_jp_n, r_jp_p, cpi_jp_n, cpi_jp_p, une_jp_n, 2.0, 3.0, gdp_jp_n, gdp_jp_p),
+    "CHF": build_scores(r_ch_n, r_ch_p, cpi_ch_n, cpi_ch_p, une_ch_n, 2.0, 3.0, gdp_ch_n, gdp_ch_p),
+    "AUD": build_scores(r_au_n, r_au_p, cpi_au_n, cpi_au_p, une_au_n, 3.5, 4.5, gdp_au_n, gdp_au_p),
+    "NZD": build_scores(r_nz_n, r_nz_p, cpi_nz_n, cpi_nz_p, une_nz_n, 3.5, 4.5, gdp_nz_n, gdp_nz_p),
 }
 
 # Calculate totals

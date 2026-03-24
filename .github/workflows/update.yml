@@ -2,25 +2,27 @@ name: Update Macro Scores
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # täglich 06:00 UTC
-  workflow_dispatch:        # auch manuell auslösbar
+    - cron: '0 6 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - run: pip install requests gspread google-auth
-      
+
       - run: python scripts/fetch_scores.py
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-      
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+
       - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"

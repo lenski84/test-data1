@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX Macro Scorecard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0f1117;
+    color: #c9d1d9;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .timestamp {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .refresh-btn {
+    background: #1e222d;
+    border: 1px solid #444;
+    color: #c9d1d9;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .refresh-btn:hover { background: #2a2e39; }
+
+  /* Pair selector */
+  .pair-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .pair-bar label { font-size: 13px; color: #888; }
+
+  .pair-bar select {
+    background: #1e222d;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .vs { color: #555; font-size: 14px; }
+
+  /* Overview grid */
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .ccy-card {
+    background: #1e222d;
+    border: 1px solid #2a2e39;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+
+  .ccy-card:hover { border-color: #555; }
+  .ccy-card.selected { border-color: #378ADD; }
+
+  .ccy-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .ccy-score {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .ccy-label {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  /* Scorecard table */
+  .scorecard {
+    background: #1e222d;
+    border: 1px solid #2a2e39;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .scorecard-header {
+    display: grid;
+    grid-template-columns: 1fr 80px 80px 80px;
+    padding: 10px 16px;
+    background: #161b22;
+    font-size: 12px;
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  .scorecard-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 80px 80px;
+    padding: 10px 16px;
+    border-top: 1px solid #2a2e39;
+    font-size: 14px;
+    align-items: center;
+  }
+
+  .scorecard-row.total-row {
+    background: #161b22;
+    font-weight: 600;
+  }
+
+  .factor-name { color: #c9d1d9; }
+
+  .score-cell {
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .pos  { background: rgba(29,158,117,.25); color: #1D9E75; }
+  .neg  { background: rgba(226,75,74,.25);  color: #E24B4A; }
+  .neu  { background: rgba(42,46,57,.8);    color: #666; }
+
+  /* Bias badge */
+  .bias-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #161b22;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .bias-pair {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .bias-badge {
+    font-size: 15px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 8px;
+  }
+
+  .bias-score {
+    font-size: 13px;
+    color: #888;
+  }
+
+  /* CB Ton section */
+  .cb-section {
+    background: #1e222d;
+    border: 1px solid #2a2e39;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .cb-title {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  .cb-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .cb-item {
+    text-align: center;
+  }
+
+  .cb-item label {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .cb-item select {
+    width: 100%;
+    background: #161b22;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 4px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .auto-badge {
+    display: inline-block;
+    background: rgba(29,158,117,.2);
+    color: #1D9E75;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: #555;
+    font-size: 14px;
+  }
+
+  @media (max-width: 700px) {
+    .overview { grid-template-columns: repeat(4, 1fr); }
+    .cb-grid  { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>FX Macro Scorecard</h1>
+    <div class="timestamp" id="ts">Loading...</div>
+  </div>
+  <button class="refresh-btn" onclick="loadData()">Refresh</button>
+</div>
+
+<div id="app"><div class="loading">Loading scores...</div></div>
+
+<script>
+const CSV_URL = 'https://raw.githubusercontent.com/lenski84/test-data1/main/data/scores.csv'
+const CCYS = ['USD','EUR','GBP','JPY','CHF','AUD','NZD']
+
+// CB Ton stored in localStorage so it persists
+const cbTon = JSON.parse(localStorage.getItem('cbTon') || '{}')
+CCYS.forEach(c => { if (cbTon[c] === undefined) cbTon[c] = 0 })
+
+let scores = {}
+let baseCcy  = localStorage.getItem('base')  || 'EUR'
+let quoteCcy = localStorage.getItem('quote') || 'USD'
+
+function scoreCol(v) {
+  if (v > 0) return 'pos'
+  if (v < 0) return 'neg'
+  return 'neu'
+}
+
+function scoreTxt(v) {
+  return v > 0 ? '+' + v : '' + v
+}
+
+function biasLabel(v) {
+  if (v >=  5) return ['Stark bullish',  '#1D9E75', 'rgba(29,158,117,.2)']
+  if (v >=  2) return ['Leicht bullish', '#1D9E75', 'rgba(29,158,117,.15)']
+  if (v <= -5) return ['Stark bearish',  '#E24B4A', 'rgba(226,75,74,.2)']
+  if (v <= -2) return ['Leicht bearish', '#E24B4A', 'rgba(226,75,74,.15)']
+  return ['Neutral', '#888780', 'rgba(136,135,128,.2)']
+}
+
+async function loadData() {
+  document.getElementById('ts').textContent = 'Refreshing...'
+  try {
+    const r = await fetch(CSV_URL + '?t=' + Date.now())
+    const txt = await r.text()
+    const lines = txt.trim().split('\n')
+    scores = {}
+    for (let i = 1; i < lines.length; i++) {
+      const c = lines[i].split(',')
+      scores[c[0]] = {
+        zinsen:       parseInt(c[1]),
+        inflation:    parseInt(c[2]),
+        arbeitsmarkt: parseInt(c[3]),
+        wachstum:     parseInt(c[4]),
+        cb_ton:       cbTon[c[0]] || 0,
+        yields:       parseInt(c[6]),
+        zinsdiff:     parseInt(c[7]),
+        risk:         parseInt(c[8]),
+        github_total: parseInt(c[9])
+      }
+    }
+    document.getElementById('ts').textContent = 'Updated: ' + new Date().toLocaleTimeString()
+    render()
+  } catch(e) {
+    document.getElementById('ts').textContent = 'Error loading data'
+    console.error(e)
+  }
+}
+
+function getTotal(ccy) {
+  const s = scores[ccy]
+  if (!s) return 0
+  return s.zinsen + s.inflation + s.arbeitsmarkt + s.wachstum +
+         (cbTon[ccy]||0) + s.yields + s.zinsdiff + s.risk
+}
+
+function render() {
+  const base  = baseCcy
+  const quote = quoteCcy
+  const bias  = getTotal(base) - getTotal(quote)
+  const [blabel, bcolor, bbg] = biasLabel(bias)
+
+  const factors = [
+    ['Zinsen',       'zinsen'],
+    ['Inflation',    'inflation'],
+    ['Arbeitsmarkt', 'arbeitsmarkt'],
+    ['Wachstum',     'wachstum'],
+    ['CB Ton',       'cb_ton'],
+    ['Yields',       'yields'],
+    ['Zinsdiff',     'zinsdiff'],
+    ['Risk',         'risk'],
+  ]
+
+  const overviewCards = CCYS.map(c => {
+    const t = getTotal(c)
+    const [,col] = biasLabel(t)
+    return `
+      <div class="ccy-card ${c===base||c===quote?'selected':''}" onclick="selectCcy('${c}')">
+        <div class="ccy-name">${c}</div>
+        <div class="ccy-score" style="color:${col}">${scoreTxt(t)}</div>
+      </div>`
+  }).join('')
+
+  const tableRows = factors.map(([name, key]) => {
+    const bv = key === 'cb_ton' ? (cbTon[base]||0) : (scores[base]?.[key] ?? 0)
+    const qv = key === 'cb_ton' ? (cbTon[quote]||0) : (scores[quote]?.[key] ?? 0)
+    const diff = bv - qv
+    const manual = key === 'cb_ton' ? '<span class="auto-badge">manual</span>' : '<span class="auto-badge" style="background:rgba(55,138,221,.2);color:#378ADD">auto</span>'
+    return `
+      <div class="scorecard-row">
+        <div class="factor-name">${name} ${manual}</div>
+        <div><span class="score-cell ${scoreCol(bv)}">${scoreTxt(bv)}</span></div>
+        <div><span class="score-cell ${scoreCol(qv)}">${scoreTxt(qv)}</span></div>
+        <div><span class="score-cell ${scoreCol(diff)}">${scoreTxt(diff)}</span></div>
+      </div>`
+  }).join('')
+
+  const cbGrid = CCYS.map(c => `
+    <div class="cb-item">
+      <label>${c}</label>
+      <select onchange="setCb('${c}', this.value)">
+        <option value="-1" ${(cbTon[c]||0)===-1?'selected':''}>-1 Dovish</option>
+        <option value="0"  ${(cbTon[c]||0)===0 ?'selected':''}>0 Neutral</option>
+        <option value="1"  ${(cbTon[c]||0)===1 ?'selected':''}>+1 Hawkish</option>
+      </select>
+    </div>`).join('')
+
+  document.getElementById('app').innerHTML = `
+    <div class="pair-bar">
+      <label>Base</label>
+      <select onchange="setBase(this.value)">
+        ${CCYS.map(c=>`<option ${c===base?'selected':''}>${c}</option>`).join('')}
+      </select>
+      <span class="vs">vs</span>
+      <label>Quote</label>
+      <select onchange="setQuote(this.value)">
+        ${CCYS.map(c=>`<option ${c===quote?'selected':''}>${c}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="bias-section">
+      <div class="bias-pair">${base} / ${quote}</div>
+      <div class="bias-badge" style="color:${bcolor};background:${bbg}">${blabel}</div>
+      <div class="bias-score">${base}: ${scoreTxt(getTotal(base))} &nbsp;|&nbsp; ${quote}: ${scoreTxt(getTotal(quote))} &nbsp;|&nbsp; Diff: ${scoreTxt(bias)}</div>
+    </div>
+
+    <div class="overview">${overviewCards}</div>
+
+    <div class="scorecard">
+      <div class="scorecard-header">
+        <div>Faktor</div>
+        <div style="text-align:center">${base}</div>
+        <div style="text-align:center">${quote}</div>
+        <div style="text-align:center">Diff</div>
+      </div>
+      ${tableRows}
+      <div class="scorecard-row total-row">
+        <div class="factor-name">TOTAL</div>
+        <div><span class="score-cell ${scoreCol(getTotal(base))}">${scoreTxt(getTotal(base))}</span></div>
+        <div><span class="score-cell ${scoreCol(getTotal(quote))}">${scoreTxt(getTotal(quote))}</span></div>
+        <div><span class="score-cell" style="background:${bbg};color:${bcolor}">${blabel}</span></div>
+      </div>
+    </div>
+
+    <div class="cb-section">
+      <div class="cb-title">CB Ton (manual — update after central bank meetings)</div>
+      <div class="cb-grid">${cbGrid}</div>
+    </div>
+  `
+}
+
+function selectCcy(c) {
+  if (c === baseCcy) return
+  if (c === quoteCcy) { quoteCcy = baseCcy; baseCcy = c }
+  else baseCcy = c
+  localStorage.setItem('base', baseCcy)
+  localStorage.setItem('quote', quoteCcy)
+  render()
+}
+
+function setBase(v)  { baseCcy  = v; localStorage.setItem('base',  v); render() }
+function setQuote(v) { quoteCcy = v; localStorage.setItem('quote', v); render() }
+
+function setCb(ccy, val) {
+  cbTon[ccy] = parseInt(val)
+  localStorage.setItem('cbTon', JSON.stringify(cbTon))
+  render()
+}
+
+// Auto refresh every 5 minutes
+loadData()
+setInterval(loadData, 5 * 60 * 1000)
+</script>
+</body>
+</html>

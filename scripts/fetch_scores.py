@@ -28,7 +28,7 @@ def ecb(dataset, key):
     r = requests.get(url)
     print(f"ECB {key} status: {r.status_code}")
     if r.status_code != 200:
-        print(f"ECB {key} failed: {r.text[:200]}")
+        print(f"ECB {key} failed — using 0")
         return 0.0, 0.0
     data = r.json()
     try:
@@ -65,8 +65,10 @@ ff_n,     ff_p     = fred("FEDFUNDS")
 # ── EUR (ECB) ─────────────────────────────────────────────────────────
 cpi_eu_n, cpi_eu_p = ecb("ICP/M.U2.N.000000.4.INX", "EUR CPI")
 gdp_eu_n, gdp_eu_p = ecb("MNA/Q.Y.I8.W2.S1.S1.B.B1GQ._Z._Z._Z.EUR.LR.GY", "EUR GDP")
-une_eu_n, _        = ecb("LFSI/M.I8.S.UNEHRT.TOTAL0.15_74.T", "EUR UNEMP")
-r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.IR.MRR_FR.LEV", "EUR RATE")
+# Eurozone unemployment - OECD series via FRED
+une_eu_n, _        = fred("LRHUTTTTEZM156S")
+# ECB deposit facility rate - most reliable ECB rate series
+r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.IR.EDF.LEV", "EUR RATE")
 
 # ── GBP (FRED) ────────────────────────────────────────────────────────
 cpi_gb_n, cpi_gb_p = fred("GBRCPIALLMINMEI")
@@ -75,15 +77,17 @@ une_gb_n, _        = fred("LRHUTTTTGBM156S")
 r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
-cpi_jp_n, cpi_jp_p = fred("JPNCPIALLMINMEI")
+# Japan CPI - use quarterly OECD series which is more reliable
+cpi_jp_n, cpi_jp_p = fred("CPALTT01JPM657N")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
-une_jp_n, _        = fred("LRHUTTTTJPM156N")
+une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
 
 # ── CHF (FRED) ────────────────────────────────────────────────────────
 cpi_ch_n, cpi_ch_p = fred("CHECPIALLMINMEI")
 gdp_ch_n, gdp_ch_p = fred("CHEGDPNQDSMEI")
-une_ch_n, _        = fred("LRHUTTTTCHM156S")
+# Switzerland unemployment via OECD
+une_ch_n, _        = fred("LRHUTTTTCHM156N")
 r_ch_n,   r_ch_p   = fred("INTDSRCHM193N")
 
 # ── AUD (FRED) ────────────────────────────────────────────────────────

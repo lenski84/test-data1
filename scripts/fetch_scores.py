@@ -78,7 +78,7 @@ r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 # Japan CPI - use quarterly OECD series which is more reliable
-cpi_jp_n, cpi_jp_p = fred("CPHPTT01JPM659N")
+cpi_jp_n, cpi_jp_p = fred("CPALTT01JPM659N")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")

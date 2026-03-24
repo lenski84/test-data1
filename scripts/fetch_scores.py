@@ -72,6 +72,13 @@ scores["USD"]["total"] = sum(v for k, v in scores["USD"].items() if k != "total"
 os.makedirs("data", exist_ok=True)
 with open("data/scores.json", "w") as f:
     json.dump(scores, f, indent=2)
-
+# Write CSV for Pine Script to read
+with open("data/scores.csv", "w") as f:
+    f.write("currency,zinsen,inflation,arbeitsmarkt,wachstum,cb_ton,yields,zinsdiff,risk,total\n")
+    for ccy, vals in scores.items():
+        if isinstance(vals, dict) and "zinsen" in vals:
+            f.write(f"{ccy},{vals['zinsen']},{vals['inflation']},{vals['arbeitsmarkt']},"
+                    f"{vals['wachstum']},{vals['cb_ton']},{vals['yields']},"
+                    f"{vals['zinsdiff']},{vals['risk']},{vals['total']}\n")
 print("Done!")
 print(json.dumps(scores, indent=2))

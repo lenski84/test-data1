@@ -1,14 +1,80 @@
 {
-  "timestamp": "2026-03-24T21:07:58.597401",
+  "timestamp": "2026-03-24T21:47:53.718253",
   "USD": {
     "zinsen": 0,
     "inflation": 1,
     "arbeitsmarkt": 0,
     "wachstum": 1,
     "cb_ton": 0,
-    "yields": -1,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": 2
+  },
+  "EUR": {
+    "zinsen": 0,
+    "inflation": 0,
+    "arbeitsmarkt": 0,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
     "zinsdiff": 0,
     "risk": 0,
     "total": 1
+  },
+  "GBP": {
+    "zinsen": 0,
+    "inflation": 1,
+    "arbeitsmarkt": -1,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": 1
+  },
+  "JPY": {
+    "zinsen": 0,
+    "inflation": 1,
+    "arbeitsmarkt": 0,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": 2
+  },
+  "CHF": {
+    "zinsen": -1,
+    "inflation": 0,
+    "arbeitsmarkt": -1,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": -1
+  },
+  "AUD": {
+    "zinsen": 0,
+    "inflation": 1,
+    "arbeitsmarkt": 0,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": 2
+  },
+  "NZD": {
+    "zinsen": -1,
+    "inflation": 1,
+    "arbeitsmarkt": -1,
+    "wachstum": 1,
+    "cb_ton": 0,
+    "yields": 0,
+    "zinsdiff": 0,
+    "risk": 0,
+    "total": 0
   }
 }

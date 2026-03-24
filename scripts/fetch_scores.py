@@ -78,7 +78,7 @@ r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 # Japan CPI - use quarterly OECD series which is more reliable
-cpi_jp_n, cpi_jp_p = fred("JPNCPIALLMINMEI")
+cpi_jp_n, cpi_jp_p = fred("CPHPTT01JPM659N")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
@@ -87,8 +87,8 @@ r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
 cpi_ch_n, cpi_ch_p = fred("CHECPIALLMINMEI")
 gdp_ch_n, gdp_ch_p = fred("CHEGDPNQDSMEI")
 # Switzerland unemployment via OECD
-une_ch_n, _        = fred("LRHUTTTTCHQ156S")
-r_ch_n,   r_ch_p   = fred("INTDSRCHM193N")
+une_ch_n, _        = fred("LRUNTTTTCHA156S")
+r_ch_n,   r_ch_p   = fred("IR3TIB01CHM156N")
 
 # ── AUD (FRED) ────────────────────────────────────────────────────────
 cpi_au_n, cpi_au_p = fred("AUSCPIALLQINMEI")

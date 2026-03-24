@@ -68,7 +68,7 @@ gdp_eu_n, gdp_eu_p = ecb("MNA/Q.Y.I8.W2.S1.S1.B.B1GQ._Z._Z._Z.EUR.LR.GY", "EUR G
 # Eurozone unemployment - OECD series via FRED
 une_eu_n, _        = fred("LRHUTTTTEZM156S")
 # ECB deposit facility rate - most reliable ECB rate series
-r_eu_n,   r_eu_p   = ecb("FM/B.U2.EUR.RT.IR.EDF.LEV", "EUR RATE")
+r_eu_n,   r_eu_p   = fred("ECBDFR")
 
 # ── GBP (FRED) ────────────────────────────────────────────────────────
 cpi_gb_n, cpi_gb_p = fred("GBRCPIALLMINMEI")
@@ -78,7 +78,7 @@ r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 # Japan CPI - use quarterly OECD series which is more reliable
-cpi_jp_n, cpi_jp_p = fred("CPALTT01JPM657N")
+cpi_jp_n, cpi_jp_p = fred("JPNCPIALLMINMEI")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
@@ -87,7 +87,7 @@ r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
 cpi_ch_n, cpi_ch_p = fred("CHECPIALLMINMEI")
 gdp_ch_n, gdp_ch_p = fred("CHEGDPNQDSMEI")
 # Switzerland unemployment via OECD
-une_ch_n, _        = fred("LRHUTTTTCHM156N")
+une_ch_n, _        = fred("LRHUTTTTCHQ156S")
 r_ch_n,   r_ch_p   = fred("INTDSRCHM193N")
 
 # ── AUD (FRED) ────────────────────────────────────────────────────────

@@ -17,10 +17,11 @@ def fred(series):
     if "observations" not in data:
         print(f"ERROR for {series}: {data}")
         sys.exit(1)
-    valid = [o for o in data["observations"] if o["value"] != "."]
+    valid = [o for o in data["observations"] if o["value"] not in (".", "")]
     if len(valid) < 2:
         print(f"Not enough data for {series}, using 0")
         return 0.0, 0.0
+    # For growth rate series where values may be identical, still return them
     return float(valid[0]["value"]), float(valid[1]["value"])
 
 def ecb(dataset, key):
@@ -45,6 +46,8 @@ def ecb(dataset, key):
         return 0.0, 0.0
 
 def score_dir(current, previous):
+    if previous == 0:
+        return 1 if current > 0 else (-1 if current < 0 else 0)
     if current > previous * 1.002: return 1
     if current < previous * 0.998: return -1
     return 0
@@ -78,7 +81,7 @@ r_gb_n,   r_gb_p   = fred("BOERUKM")
 
 # ── JPY (FRED) ────────────────────────────────────────────────────────
 # Japan CPI - use quarterly OECD series which is more reliable
-cpi_jp_n, cpi_jp_p = fred("CPGRLE01JPM659N")
+cpi_jp_n, cpi_jp_p = fred("CPALTT01JPM659N")
 gdp_jp_n, gdp_jp_p = fred("JPNRGDPEXP")
 une_jp_n, _        = fred("LRHUTTTTJPM156S")
 r_jp_n,   r_jp_p   = fred("INTDSRJPM193N")
@@ -99,7 +102,7 @@ r_au_n,   r_au_p   = fred("INTDSRAUM193N")
 # ── NZD (FRED) ────────────────────────────────────────────────────────
 cpi_nz_n, cpi_nz_p = fred("NZLCPIALLQINMEI")
 gdp_nz_n, gdp_nz_p = fred("NAEXKP01NZQ657S")
-une_nz_n, _        = fred("LRHUTTTTNUM156S")
+une_nz_n, _        = fred("LRUNTTTTNZQ156S")
 r_nz_n,   r_nz_p   = fred("INTDSRNZM193N")
 
 print("All data fetched. Calculating scores...")

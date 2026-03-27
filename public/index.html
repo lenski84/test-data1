@@ -1,453 +1,941 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FX Macro Scorecard</title>
+<title>FX Intelligence Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg0: #080b10;
+    --bg1: #0d1117;
+    --bg2: #111820;
+    --bg3: #161e28;
+    --bg4: #1c2533;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --text1: #e8edf3;
+    --text2: #8899aa;
+    --text3: #546070;
+    --bull: #00d4aa;
+    --bull-bg: rgba(0,212,170,0.1);
+    --bull-border: rgba(0,212,170,0.25);
+    --bear: #ff4d6d;
+    --bear-bg: rgba(255,77,109,0.1);
+    --bear-border: rgba(255,77,109,0.25);
+    --neut: #546070;
+    --neut-bg: rgba(84,96,112,0.15);
+    --accent: #3d8ef8;
+    --accent-bg: rgba(61,142,248,0.1);
+    --gold: #f0b429;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
-    background: #0f1117;
-    color: #c9d1d9;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    padding: 24px;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-
-  h1 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-  }
-
-  .timestamp {
-    font-size: 12px;
-    color: #888;
-  }
-
-  .refresh-btn {
-    background: #1e222d;
-    border: 1px solid #444;
-    color: #c9d1d9;
-    padding: 6px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-  }
-
-  .refresh-btn:hover { background: #2a2e39; }
-
-  /* Pair selector */
-  .pair-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .pair-bar label { font-size: 13px; color: #888; }
-
-  .pair-bar select {
-    background: #1e222d;
-    border: 1px solid #444;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  .vs { color: #555; font-size: 14px; }
-
-  /* Overview grid */
-  .overview {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-
-  .ccy-card {
-    background: #1e222d;
-    border: 1px solid #2a2e39;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .15s;
-  }
-
-  .ccy-card:hover { border-color: #555; }
-  .ccy-card.selected { border-color: #378ADD; }
-
-  .ccy-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #888;
-    margin-bottom: 6px;
-  }
-
-  .ccy-score {
-    font-size: 24px;
-    font-weight: 700;
-  }
-
-  .ccy-label {
-    font-size: 11px;
-    margin-top: 4px;
-  }
-
-  /* Scorecard table */
-  .scorecard {
-    background: #1e222d;
-    border: 1px solid #2a2e39;
-    border-radius: 12px;
+    background: var(--bg0);
+    color: var(--text1);
+    font-family: 'JetBrains Mono', monospace;
+    height: 100vh;
     overflow: hidden;
-    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .scorecard-header {
-    display: grid;
-    grid-template-columns: 1fr 80px 80px 80px;
-    padding: 10px 16px;
-    background: #161b22;
-    font-size: 12px;
-    color: #555;
-    font-weight: 600;
+  /* ── TOP BAR ── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 44px;
+    background: var(--bg1);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .12em;
     text-transform: uppercase;
+    color: var(--text1);
+  }
+
+  .logo span { color: var(--accent); }
+
+  .topbar-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--bull);
+    display: inline-block;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100%{opacity:1} 50%{opacity:.4}
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar {
+    width: 200px;
+    background: var(--bg1);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .sidebar-section {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0 14px 8px;
+  }
+
+  .pair-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: background .12s;
+    border-left: 2px solid transparent;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .pair-row:hover { background: var(--bg3); }
+
+  .pair-row.active {
+    background: var(--bg3);
+    border-left-color: var(--accent);
+    color: var(--text1);
+  }
+
+  .pair-name { color: var(--text1); letter-spacing: .04em; }
+
+  .pair-badge {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
     letter-spacing: .04em;
   }
 
-  .scorecard-row {
-    display: grid;
-    grid-template-columns: 1fr 80px 80px 80px;
-    padding: 10px 16px;
-    border-top: 1px solid #2a2e39;
-    font-size: 14px;
-    align-items: center;
+  .pair-badge.bull { background: var(--bull-bg); color: var(--bull); border: 1px solid var(--bull-border); }
+  .pair-badge.bear { background: var(--bear-bg); color: var(--bear); border: 1px solid var(--bear-border); }
+  .pair-badge.neut { background: var(--neut-bg); color: var(--neut); border: 1px solid rgba(84,96,112,.3); }
+
+  /* ── CENTER PANEL ── */
+  .center {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
-  .scorecard-row.total-row {
-    background: #161b22;
-    font-weight: 600;
-  }
+  .center::-webkit-scrollbar { width: 3px; }
+  .center::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-  .factor-name { color: #c9d1d9; }
-
-  .score-cell {
-    text-align: center;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .pos  { background: rgba(29,158,117,.25); color: #1D9E75; }
-  .neg  { background: rgba(226,75,74,.25);  color: #E24B4A; }
-  .neu  { background: rgba(42,46,57,.8);    color: #666; }
-
-  /* Bias badge */
-  .bias-section {
+  /* ── PAIR HEADER ── */
+  .pair-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: #161b22;
-    border-radius: 12px;
-    margin-bottom: 24px;
-  }
-
-  .bias-pair {
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-  }
-
-  .bias-badge {
-    font-size: 15px;
-    font-weight: 700;
-    padding: 6px 16px;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
     border-radius: 8px;
   }
 
-  .bias-score {
-    font-size: 13px;
-    color: #888;
+  .pair-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: .06em;
   }
 
-  /* CB Ton section */
-  .cb-section {
-    background: #1e222d;
-    border: 1px solid #2a2e39;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 24px;
+  .pair-bias-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 6px;
+    letter-spacing: .06em;
   }
 
-  .cb-title {
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 12px;
+  .pair-scores {
+    display: flex;
+    gap: 24px;
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .pair-score-item { text-align: center; }
+  .pair-score-val {
+    font-size: 20px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .04em;
+    font-family: 'Syne', sans-serif;
+    display: block;
   }
 
+  /* ── TWO COLUMN ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── PANEL ── */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+
+  .panel-tag {
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid rgba(61,142,248,.2);
+    letter-spacing: .06em;
+  }
+
+  .panel-tag.auto { background: var(--bull-bg); color: var(--bull); border-color: var(--bull-border); }
+
+  /* ── SCORE TABLE ── */
+  .score-table { width: 100%; }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: 1fr 56px 56px 56px;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    align-items: center;
+    transition: background .1s;
+  }
+
+  .score-row:hover { background: var(--bg3); }
+  .score-row:last-child { border-bottom: none; }
+
+  .score-row.header-row {
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .score-row.header-row:hover { background: var(--bg3); }
+
+  .factor-label { color: var(--text2); font-size: 11px; }
+
+  .auto-tag {
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    background: var(--bull-bg);
+    color: var(--bull);
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
+  .manual-tag {
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
+  .score-cell {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .score-chip {
+    display: inline-block;
+    min-width: 32px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .c-bull { background: var(--bull-bg); color: var(--bull); border: 1px solid var(--bull-border); }
+  .c-bear { background: var(--bear-bg); color: var(--bear); border: 1px solid var(--bear-border); }
+  .c-neut { background: var(--neut-bg); color: var(--neut); border: 1px solid rgba(84,96,112,.25); }
+
+  .total-row {
+    background: var(--bg3);
+    border-top: 1px solid var(--border2) !important;
+    font-weight: 600;
+  }
+
+  /* ── COT BAR ── */
+  .cot-section { padding: 14px 16px; }
+
+  .cot-currency-block {
+    margin-bottom: 14px;
+  }
+
+  .cot-currency-block:last-child { margin-bottom: 0; }
+
+  .cot-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .cot-ccy { color: var(--text1); font-weight: 600; }
+  .cot-val { color: var(--text2); font-size: 10px; }
+
+  .cot-bar-track {
+    height: 6px;
+    background: var(--bg4);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .cot-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .6s ease;
+  }
+
+  .cot-sub {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--text3);
+  }
+
+  /* ── OVERVIEW ROW ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .ov-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .12s;
+  }
+
+  .ov-card:hover { border-color: var(--border2); background: var(--bg3); }
+  .ov-card.active { border-color: var(--accent); }
+
+  .ov-ccy {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: .08em;
+    margin-bottom: 4px;
+  }
+
+  .ov-score {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* ── CB TON ── */
   .cb-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 8px;
+    padding: 14px 16px;
   }
 
-  .cb-item {
-    text-align: center;
-  }
+  .cb-item { text-align: center; }
 
   .cb-item label {
     display: block;
-    font-size: 11px;
-    color: #888;
-    margin-bottom: 4px;
+    font-size: 9px;
+    color: var(--text3);
+    margin-bottom: 5px;
+    letter-spacing: .08em;
   }
 
   .cb-item select {
     width: 100%;
-    background: #161b22;
-    border: 1px solid #444;
-    color: #fff;
-    padding: 4px;
-    border-radius: 6px;
-    font-size: 13px;
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    color: var(--text1);
+    padding: 4px 2px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
     text-align: center;
     cursor: pointer;
+    outline: none;
   }
 
-  .auto-badge {
-    display: inline-block;
-    background: rgba(29,158,117,.2);
-    color: #1D9E75;
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 11px;
-    margin-left: 6px;
+  .cb-item select:focus { border-color: var(--accent); }
+
+  /* ── LOADING ── */
+  .loading-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--text3);
+    font-size: 12px;
   }
 
-  .loading {
-    text-align: center;
-    padding: 60px;
-    color: #555;
-    font-size: 14px;
+  .spinner {
+    width: 24px; height: 24px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
   }
 
-  @media (max-width: 700px) {
-    .overview { grid-template-columns: repeat(4, 1fr); }
-    .cb-grid  { grid-template-columns: repeat(4, 1fr); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── SCROLLBAR ── */
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .overview-grid { grid-template-columns: repeat(4, 1fr); }
+    .cb-grid { grid-template-columns: repeat(4, 1fr); }
+    .sidebar { width: 160px; }
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div>
-    <h1>FX Macro Scorecard</h1>
-    <div class="timestamp" id="ts">Loading...</div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">FX <span>Intelligence</span> Terminal</div>
+  <div class="topbar-meta">
+    <span><span class="status-dot"></span><span id="status-text">Loading...</span></span>
+    <span id="last-update">—</span>
   </div>
-  <button class="refresh-btn" onclick="loadData()">Refresh</button>
 </div>
 
-<div id="app"><div class="loading">Loading scores...</div></div>
+<div class="main">
+
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="loading-overlay" style="padding:20px;font-size:11px;color:var(--text3)">Loading pairs...</div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center" id="center">
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <span>Fetching macro & COT data...</span>
+    </div>
+  </div>
+
+</div>
 
 <script>
+// ── CONFIG ──────────────────────────────────────────────────────────────
 const CSV_URL = 'https://raw.githubusercontent.com/lenski84/test-data1/main/data/scores.csv'
+
+// CFTC codes for each currency (Legacy Futures)
+const CFTC_CODES = {
+  USD: '098662',
+  EUR: '099741',
+  GBP: '096742',
+  JPY: '097741',
+  CHF: '092741',
+  AUD: '232741',
+  NZD: '112741',
+  CAD: '090741'
+}
+
 const CCYS = ['USD','EUR','GBP','JPY','CHF','AUD','NZD']
 
-// CB Ton stored in localStorage so it persists
-const cbTon = JSON.parse(localStorage.getItem('cbTon') || '{}')
+// All pairs including crosses
+const ALL_PAIRS = [
+  // Majors vs USD
+  'EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD',
+  // EUR crosses
+  'EURGBP','EURJPY','EURCHF','EURAUD','EURNZD','EURCAD',
+  // GBP crosses
+  'GBPJPY','GBPCHF','GBPAUD','GBPNZD','GBPCAD',
+  // Other crosses
+  'AUDJPY','AUDNZD','AUDCAD','NZDJPY','NZDCAD','CADJPY','CHFJPY'
+]
+
+// ── STATE ──────────────────────────────────────────────────────────────
+let macroScores = {}   // { USD: {zinsen,inflation,...,total}, ... }
+let cotData     = {}   // { USD: {comm_idx, small_idx}, ... }
+let cbTon       = JSON.parse(localStorage.getItem('cbTon') || '{}')
+let selectedPair = localStorage.getItem('selectedPair') || 'EURUSD'
+let cotLoaded   = false
+
 CCYS.forEach(c => { if (cbTon[c] === undefined) cbTon[c] = 0 })
 
-let scores = {}
-let baseCcy  = localStorage.getItem('base')  || 'EUR'
-let quoteCcy = localStorage.getItem('quote') || 'USD'
-
-function scoreCol(v) {
-  if (v > 0) return 'pos'
-  if (v < 0) return 'neg'
-  return 'neu'
-}
-
-function scoreTxt(v) {
-  return v > 0 ? '+' + v : '' + v
-}
-
-function biasLabel(v) {
-  if (v >=  5) return ['Stark bullish',  '#1D9E75', 'rgba(29,158,117,.2)']
-  if (v >=  2) return ['Leicht bullish', '#1D9E75', 'rgba(29,158,117,.15)']
-  if (v <= -5) return ['Stark bearish',  '#E24B4A', 'rgba(226,75,74,.2)']
-  if (v <= -2) return ['Leicht bearish', '#E24B4A', 'rgba(226,75,74,.15)']
-  return ['Neutral', '#888780', 'rgba(136,135,128,.2)']
-}
-
-async function loadData() {
-  document.getElementById('ts').textContent = 'Refreshing...'
-  try {
-    const r = await fetch(CSV_URL + '?t=' + Date.now())
-    const txt = await r.text()
-    const lines = txt.trim().split('\n')
-    scores = {}
-    for (let i = 1; i < lines.length; i++) {
-      const c = lines[i].split(',')
-      scores[c[0]] = {
-        zinsen:       parseInt(c[1]),
-        inflation:    parseInt(c[2]),
-        arbeitsmarkt: parseInt(c[3]),
-        wachstum:     parseInt(c[4]),
-        cb_ton:       cbTon[c[0]] || 0,
-        yields:       parseInt(c[6]),
-        zinsdiff:     parseInt(c[7]),
-        risk:         parseInt(c[8]),
-        github_total: parseInt(c[9])
-      }
+// ── HELPERS ────────────────────────────────────────────────────────────
+function parsePair(pair) {
+  // Handle both BASE/QUOTE formats
+  const known = Object.keys(CFTC_CODES)
+  for (const b of known) {
+    if (pair.startsWith(b)) {
+      const q = pair.slice(b.length)
+      if (known.includes(q)) return { base: b, quote: q }
     }
-    document.getElementById('ts').textContent = 'Updated: ' + new Date().toLocaleTimeString()
-    render()
-  } catch(e) {
-    document.getElementById('ts').textContent = 'Error loading data'
-    console.error(e)
   }
+  return null
 }
 
-function getTotal(ccy) {
-  const s = scores[ccy]
+function getMacroTotal(ccy) {
+  const s = macroScores[ccy]
   if (!s) return 0
   return s.zinsen + s.inflation + s.arbeitsmarkt + s.wachstum +
          (cbTon[ccy]||0) + s.yields + s.zinsdiff + s.risk
 }
 
-function render() {
-  const base  = baseCcy
-  const quote = quoteCcy
-  const bias  = getTotal(base) - getTotal(quote)
-  const [blabel, bcolor, bbg] = biasLabel(bias)
+function getPairBias(pair) {
+  const p = parsePair(pair)
+  if (!p) return 0
+  return getMacroTotal(p.base) - getMacroTotal(p.quote)
+}
 
-  const factors = [
-    ['Zinsen',       'zinsen'],
-    ['Inflation',    'inflation'],
-    ['Arbeitsmarkt', 'arbeitsmarkt'],
-    ['Wachstum',     'wachstum'],
-    ['CB Ton',       'cb_ton'],
-    ['Yields',       'yields'],
-    ['Zinsdiff',     'zinsdiff'],
-    ['Risk',         'risk'],
-  ]
+function biasInfo(v) {
+  if (v >=  5) return { label: 'STRONG BULL', cls: 'bull', color: 'var(--bull)' }
+  if (v >=  2) return { label: 'BULL',        cls: 'bull', color: 'var(--bull)' }
+  if (v <= -5) return { label: 'STRONG BEAR', cls: 'bear', color: 'var(--bear)' }
+  if (v <= -2) return { label: 'BEAR',        cls: 'bear', color: 'var(--bear)' }
+  return { label: 'NEUTRAL', cls: 'neut', color: 'var(--neut)' }
+}
 
-  const overviewCards = CCYS.map(c => {
-    const t = getTotal(c)
-    const [,col] = biasLabel(t)
-    return `
-      <div class="ccy-card ${c===base||c===quote?'selected':''}" onclick="selectCcy('${c}')">
-        <div class="ccy-name">${c}</div>
-        <div class="ccy-score" style="color:${col}">${scoreTxt(t)}</div>
+function chipHtml(v) {
+  const cls = v > 0 ? 'c-bull' : v < 0 ? 'c-bear' : 'c-neut'
+  const txt = v > 0 ? '+'+v : ''+v
+  return `<span class="score-chip ${cls}">${txt}</span>`
+}
+
+function cotBarColor(idx) {
+  if (idx >= 70) return 'var(--bull)'
+  if (idx <= 30) return 'var(--bear)'
+  return 'var(--neut)'
+}
+
+// ── FETCH MACRO CSV ────────────────────────────────────────────────────
+async function fetchMacro() {
+  const r = await fetch(CSV_URL + '?t=' + Date.now())
+  const txt = await r.text()
+  const lines = txt.trim().split('\n')
+  macroScores = {}
+  for (let i = 1; i < lines.length; i++) {
+    const c = lines[i].split(',')
+    macroScores[c[0]] = {
+      zinsen:       parseInt(c[1]),
+      inflation:    parseInt(c[2]),
+      arbeitsmarkt: parseInt(c[3]),
+      wachstum:     parseInt(c[4]),
+      cb_ton:       0,
+      yields:       parseInt(c[6]),
+      zinsdiff:     parseInt(c[7]),
+      risk:         parseInt(c[8]),
+    }
+  }
+}
+
+// ── FETCH COT DATA ─────────────────────────────────────────────────────
+async function fetchCOT() {
+  const codes = Object.values(CFTC_CODES)
+  const codesFilter = codes.map(c => `'${c}'`).join(',')
+  const url = `https://publicreporting.cftc.gov/resource/6dca-aqww.json?$where=cftc_contract_market_code in(${codesFilter})&$order=report_date_as_yyyy_mm_dd DESC&$limit=200`
+
+  const r = await fetch(url)
+  const data = await r.json()
+
+  // Group by code, keep last 26 weeks
+  const byCode = {}
+  for (const row of data) {
+    const code = row.cftc_contract_market_code
+    if (!byCode[code]) byCode[code] = []
+    if (byCode[code].length < 26) {
+      byCode[code].push({
+        date: row.report_date_as_yyyy_mm_dd,
+        comm_long:  parseFloat(row.comm_positions_long_all  || 0),
+        comm_short: parseFloat(row.comm_positions_short_all || 0),
+        small_long: parseFloat(row.nonrept_positions_long_all  || 0),
+        small_short:parseFloat(row.nonrept_positions_short_all || 0),
+      })
+    }
+  }
+
+  // Calculate net positions and index (0-100) for each currency
+  cotData = {}
+  for (const [ccy, code] of Object.entries(CFTC_CODES)) {
+    const rows = byCode[code] || []
+    if (rows.length < 2) {
+      cotData[ccy] = { comm_idx: 50, small_idx: 50, comm_net: 0, small_net: 0, weeks: 0 }
+      continue
+    }
+
+    const nets_comm  = rows.map(r => r.comm_long  - r.comm_short)
+    const nets_small = rows.map(r => r.small_long - r.small_short)
+
+    const maxC = Math.max(...nets_comm),  minC = Math.min(...nets_comm)
+    const maxS = Math.max(...nets_small), minS = Math.min(...nets_small)
+
+    const comm_idx  = maxC === minC ? 50 : Math.round(100 * (nets_comm[0]  - minC)  / (maxC - minC))
+    const small_idx = maxS === minS ? 50 : Math.round(100 * (nets_small[0] - minS) / (maxS - minS))
+
+    cotData[ccy] = {
+      comm_idx,
+      small_idx,
+      comm_net:  Math.round(nets_comm[0] / 1000),
+      small_net: Math.round(nets_small[0] / 1000),
+      weeks: rows.length,
+      latest_date: rows[0]?.date?.slice(0,10) || '—'
+    }
+  }
+  cotLoaded = true
+}
+
+// ── RENDER SIDEBAR ─────────────────────────────────────────────────────
+function renderSidebar() {
+  const majorPairs = ['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD']
+  const eurCross   = ['EURGBP','EURJPY','EURCHF','EURAUD','EURNZD','EURCAD']
+  const gbpCross   = ['GBPJPY','GBPCHF','GBPAUD','GBPNZD','GBPCAD']
+  const otherCross = ['AUDJPY','AUDNZD','AUDCAD','NZDJPY','NZDCAD','CADJPY','CHFJPY']
+
+  function pairRows(pairs) {
+    return pairs.map(pair => {
+      const bias = getPairBias(pair)
+      const info = biasInfo(bias)
+      const active = pair === selectedPair ? ' active' : ''
+      return `<div class="pair-row${active}" onclick="selectPair('${pair}')">
+        <span class="pair-name">${pair}</span>
+        <span class="pair-badge ${info.cls}">${bias > 0 ? '+' : ''}${bias}</span>
       </div>`
-  }).join('')
+    }).join('')
+  }
 
-  const tableRows = factors.map(([name, key]) => {
-    const bv = key === 'cb_ton' ? (cbTon[base]||0) : (scores[base]?.[key] ?? 0)
-    const qv = key === 'cb_ton' ? (cbTon[quote]||0) : (scores[quote]?.[key] ?? 0)
-    const diff = bv - qv
-    const manual = key === 'cb_ton' ? '<span class="auto-badge">manual</span>' : '<span class="auto-badge" style="background:rgba(55,138,221,.2);color:#378ADD">auto</span>'
-    return `
-      <div class="scorecard-row">
-        <div class="factor-name">${name} ${manual}</div>
-        <div><span class="score-cell ${scoreCol(bv)}">${scoreTxt(bv)}</span></div>
-        <div><span class="score-cell ${scoreCol(qv)}">${scoreTxt(qv)}</span></div>
-        <div><span class="score-cell ${scoreCol(diff)}">${scoreTxt(diff)}</span></div>
-      </div>`
-  }).join('')
-
-  const cbGrid = CCYS.map(c => `
-    <div class="cb-item">
-      <label>${c}</label>
-      <select onchange="setCb('${c}', this.value)">
-        <option value="-1" ${(cbTon[c]||0)===-1?'selected':''}>-1 Dovish</option>
-        <option value="0"  ${(cbTon[c]||0)===0 ?'selected':''}>0 Neutral</option>
-        <option value="1"  ${(cbTon[c]||0)===1 ?'selected':''}>+1 Hawkish</option>
-      </select>
-    </div>`).join('')
-
-  document.getElementById('app').innerHTML = `
-    <div class="pair-bar">
-      <label>Base</label>
-      <select onchange="setBase(this.value)">
-        ${CCYS.map(c=>`<option ${c===base?'selected':''}>${c}</option>`).join('')}
-      </select>
-      <span class="vs">vs</span>
-      <label>Quote</label>
-      <select onchange="setQuote(this.value)">
-        ${CCYS.map(c=>`<option ${c===quote?'selected':''}>${c}</option>`).join('')}
-      </select>
+  document.getElementById('sidebar').innerHTML = `
+    <div class="sidebar-section">
+      <div class="sidebar-label">Majors</div>
+      ${pairRows(majorPairs)}
     </div>
-
-    <div class="bias-section">
-      <div class="bias-pair">${base} / ${quote}</div>
-      <div class="bias-badge" style="color:${bcolor};background:${bbg}">${blabel}</div>
-      <div class="bias-score">${base}: ${scoreTxt(getTotal(base))} &nbsp;|&nbsp; ${quote}: ${scoreTxt(getTotal(quote))} &nbsp;|&nbsp; Diff: ${scoreTxt(bias)}</div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">EUR Crosses</div>
+      ${pairRows(eurCross)}
     </div>
-
-    <div class="overview">${overviewCards}</div>
-
-    <div class="scorecard">
-      <div class="scorecard-header">
-        <div>Faktor</div>
-        <div style="text-align:center">${base}</div>
-        <div style="text-align:center">${quote}</div>
-        <div style="text-align:center">Diff</div>
-      </div>
-      ${tableRows}
-      <div class="scorecard-row total-row">
-        <div class="factor-name">TOTAL</div>
-        <div><span class="score-cell ${scoreCol(getTotal(base))}">${scoreTxt(getTotal(base))}</span></div>
-        <div><span class="score-cell ${scoreCol(getTotal(quote))}">${scoreTxt(getTotal(quote))}</span></div>
-        <div><span class="score-cell" style="background:${bbg};color:${bcolor}">${blabel}</span></div>
-      </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">GBP Crosses</div>
+      ${pairRows(gbpCross)}
     </div>
-
-    <div class="cb-section">
-      <div class="cb-title">CB Ton (manual — update after central bank meetings)</div>
-      <div class="cb-grid">${cbGrid}</div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Other Crosses</div>
+      ${pairRows(otherCross)}
     </div>
   `
 }
 
-function selectCcy(c) {
-  if (c === baseCcy) return
-  if (c === quoteCcy) { quoteCcy = baseCcy; baseCcy = c }
-  else baseCcy = c
-  localStorage.setItem('base', baseCcy)
-  localStorage.setItem('quote', quoteCcy)
-  render()
+// ── RENDER CENTER ──────────────────────────────────────────────────────
+function renderCenter() {
+  const pair = selectedPair
+  const p    = parsePair(pair)
+  if (!p) return
+
+  const { base, quote } = p
+  const bTotal = getMacroTotal(base)
+  const qTotal = getMacroTotal(quote)
+  const bias   = bTotal - qTotal
+  const bInfo  = biasInfo(bias)
+
+  const factors = [
+    { key: 'zinsen',       label: 'Zinsen',       auto: true },
+    { key: 'inflation',    label: 'Inflation',    auto: true },
+    { key: 'arbeitsmarkt', label: 'Arbeitsmarkt', auto: true },
+    { key: 'wachstum',     label: 'Wachstum',     auto: true },
+    { key: 'cb_ton',       label: 'CB Ton',       auto: false },
+    { key: 'yields',       label: 'Yields',       auto: true },
+    { key: 'zinsdiff',     label: 'Zinsdiff',     auto: true },
+    { key: 'risk',         label: 'Risk',         auto: true },
+  ]
+
+  function getVal(ccy, key) {
+    if (key === 'cb_ton') return cbTon[ccy] || 0
+    return macroScores[ccy]?.[key] ?? 0
+  }
+
+  const tableRows = factors.map(f => {
+    const bv   = getVal(base, f.key)
+    const qv   = getVal(quote, f.key)
+    const diff = bv - qv
+    const tag  = f.auto
+      ? `<span class="auto-tag">AUTO</span>`
+      : `<span class="manual-tag">CB</span>`
+    return `
+      <div class="score-row">
+        <span class="factor-label">${f.label}${tag}</span>
+        <div class="score-cell">${chipHtml(bv)}</div>
+        <div class="score-cell">${chipHtml(qv)}</div>
+        <div class="score-cell">${chipHtml(diff)}</div>
+      </div>`
+  }).join('')
+
+  // COT section
+  const bCot = cotData[base]  || { comm_idx:50, small_idx:50, weeks:0 }
+  const qCot = cotData[quote] || { comm_idx:50, small_idx:50, weeks:0 }
+
+  function cotBlock(ccy, cot) {
+    const cColor = cotBarColor(cot.comm_idx)
+    const sColor = cotBarColor(100 - cot.small_idx)
+    return `
+      <div class="cot-currency-block">
+        <div class="cot-label">
+          <span class="cot-ccy">${ccy}</span>
+          <span class="cot-val">${cot.latest_date || '—'} · ${cot.weeks}w</span>
+        </div>
+        <div style="margin-bottom:8px">
+          <div class="cot-label" style="margin-bottom:3px">
+            <span style="font-size:10px;color:var(--text3)">Commercials</span>
+            <span style="font-size:11px;color:${cColor};font-weight:600">${cot.comm_idx}</span>
+          </div>
+          <div class="cot-bar-track">
+            <div class="cot-bar-fill" style="width:${cot.comm_idx}%;background:${cColor}"></div>
+          </div>
+          <div class="cot-sub"><span>Bearish (0)</span><span>Bullish (100)</span></div>
+        </div>
+        <div>
+          <div class="cot-label" style="margin-bottom:3px">
+            <span style="font-size:10px;color:var(--text3)">Small Traders</span>
+            <span style="font-size:11px;color:var(--text2)">${cot.small_idx}</span>
+          </div>
+          <div class="cot-bar-track">
+            <div class="cot-bar-fill" style="width:${cot.small_idx}%;background:var(--text3)"></div>
+          </div>
+          <div class="cot-sub"><span>Bearish (0)</span><span>Bullish (100)</span></div>
+        </div>
+      </div>`
+  }
+
+  // Overview cards
+  const ovCards = CCYS.map(c => {
+    const t = getMacroTotal(c)
+    const [, , color] = [biasInfo(t).cls, biasInfo(t).label, biasInfo(t).color]
+    const active = (c === base || c === quote) ? ' active' : ''
+    return `<div class="ov-card${active}">
+      <div class="ov-ccy">${c}</div>
+      <div class="ov-score" style="color:${color}">${t > 0 ? '+' : ''}${t}</div>
+    </div>`
+  }).join('')
+
+  // CB Ton controls
+  const cbControls = CCYS.map(c => `
+    <div class="cb-item">
+      <label>${c}</label>
+      <select onchange="setCb('${c}',this.value)">
+        <option value="-1" ${(cbTon[c]||0)===-1?'selected':''}>-1 Dove</option>
+        <option value="0"  ${(cbTon[c]||0)===0 ?'selected':''}>0 Neut</option>
+        <option value="1"  ${(cbTon[c]||0)===1 ?'selected':''}>+1 Hawk</option>
+      </select>
+    </div>`).join('')
+
+  document.getElementById('center').innerHTML = `
+
+    <!-- Overview -->
+    <div class="overview-grid">${ovCards}</div>
+
+    <!-- Pair header -->
+    <div class="pair-header">
+      <div>
+        <div class="pair-title">${pair}</div>
+        <div class="pair-scores">
+          <div class="pair-score-item">
+            <span class="pair-score-val" style="color:${biasInfo(bTotal).color}">${bTotal > 0 ? '+' : ''}${bTotal}</span>
+            <span>${base}</span>
+          </div>
+          <div style="color:var(--text3);font-size:20px;align-self:center">vs</div>
+          <div class="pair-score-item">
+            <span class="pair-score-val" style="color:${biasInfo(qTotal).color}">${qTotal > 0 ? '+' : ''}${qTotal}</span>
+            <span>${quote}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="pair-bias-badge" style="background:${bInfo.color}18;color:${bInfo.color};border:1px solid ${bInfo.color}44">
+          ${pair} ${bInfo.label}
+        </div>
+        <div style="text-align:right;margin-top:6px;font-size:10px;color:var(--text3)">
+          Macro diff: ${bias > 0 ? '+' : ''}${bias}
+        </div>
+      </div>
+    </div>
+
+    <!-- Macro + COT side by side -->
+    <div class="two-col">
+
+      <!-- Macro Scorecard -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Macro Scorecard</span>
+          <span class="panel-tag auto">AUTO + CB</span>
+        </div>
+        <div class="score-table">
+          <div class="score-row header-row">
+            <span>Factor</span>
+            <span style="text-align:center">${base}</span>
+            <span style="text-align:center">${quote}</span>
+            <span style="text-align:center">Diff</span>
+          </div>
+          ${tableRows}
+          <div class="score-row total-row">
+            <span class="factor-label" style="color:var(--text1);font-weight:600">TOTAL</span>
+            <div class="score-cell">${chipHtml(bTotal)}</div>
+            <div class="score-cell">${chipHtml(qTotal)}</div>
+            <div class="score-cell">
+              <span class="score-chip" style="background:${bInfo.color}18;color:${bInfo.color};border:1px solid ${bInfo.color}33">
+                ${bInfo.label}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COT Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">COT — Commitments of Traders</span>
+          <span class="panel-tag auto">LIVE · CFTC</span>
+        </div>
+        ${cotLoaded ? `<div class="cot-section">${cotBlock(base, bCot)}${cotBlock(quote, qCot)}</div>`
+          : `<div style="padding:30px;text-align:center;color:var(--text3);font-size:11px">Loading COT data...</div>`}
+      </div>
+
+    </div>
+
+    <!-- CB Ton -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Central Bank Tone (Manual)</span>
+        <span class="panel-tag">MANUAL</span>
+      </div>
+      <div class="cb-grid">${cbControls}</div>
+    </div>
+
+  `
 }
 
-function setBase(v)  { baseCcy  = v; localStorage.setItem('base',  v); render() }
-function setQuote(v) { quoteCcy = v; localStorage.setItem('quote', v); render() }
+// ── INTERACTIONS ───────────────────────────────────────────────────────
+function selectPair(pair) {
+  selectedPair = pair
+  localStorage.setItem('selectedPair', pair)
+  renderSidebar()
+  renderCenter()
+}
 
 function setCb(ccy, val) {
   cbTon[ccy] = parseInt(val)
   localStorage.setItem('cbTon', JSON.stringify(cbTon))
-  render()
+  renderSidebar()
+  renderCenter()
 }
 
-// Auto refresh every 5 minutes
-loadData()
-setInterval(loadData, 5 * 60 * 1000)
+// ── INIT ───────────────────────────────────────────────────────────────
+async function init() {
+  document.getElementById('status-text').textContent = 'Fetching data...'
+
+  try {
+    // Fetch macro and COT in parallel
+    await Promise.all([fetchMacro(), fetchCOT()])
+
+    document.getElementById('status-text').textContent = 'Live'
+    document.getElementById('last-update').textContent =
+      'Updated ' + new Date().toLocaleTimeString()
+
+    renderSidebar()
+    renderCenter()
+
+    // Auto refresh every 10 minutes
+    setInterval(async () => {
+      await Promise.all([fetchMacro(), fetchCOT()])
+      renderSidebar()
+      renderCenter()
+      document.getElementById('last-update').textContent =
+        'Updated ' + new Date().toLocaleTimeString()
+    }, 10 * 60 * 1000)
+
+  } catch(e) {
+    console.error(e)
+    document.getElementById('status-text').textContent = 'Error loading data'
+    document.getElementById('center').innerHTML = `
+      <div class="loading-overlay">
+        <span style="color:var(--bear)">Failed to load data. Check console for details.</span>
+      </div>`
+  }
+}
+
+init()
 </script>
 </body>
 </html>

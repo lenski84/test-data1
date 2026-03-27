@@ -8,472 +8,106 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg0: #080b10;
-    --bg1: #0d1117;
-    --bg2: #111820;
-    --bg3: #161e28;
-    --bg4: #1c2533;
-    --border: rgba(255,255,255,0.06);
-    --border2: rgba(255,255,255,0.1);
-    --text1: #e8edf3;
-    --text2: #8899aa;
-    --text3: #546070;
-    --bull: #00d4aa;
-    --bull-bg: rgba(0,212,170,0.1);
-    --bull-border: rgba(0,212,170,0.25);
-    --bear: #ff4d6d;
-    --bear-bg: rgba(255,77,109,0.1);
-    --bear-border: rgba(255,77,109,0.25);
-    --neut: #546070;
-    --neut-bg: rgba(84,96,112,0.15);
-    --accent: #3d8ef8;
-    --accent-bg: rgba(61,142,248,0.1);
-    --gold: #f0b429;
+    --bg0:#080b10;--bg1:#0d1117;--bg2:#111820;--bg3:#161e28;--bg4:#1c2533;
+    --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+    --text1:#e8edf3;--text2:#8899aa;--text3:#546070;
+    --bull:#00d4aa;--bull-bg:rgba(0,212,170,0.1);--bull-border:rgba(0,212,170,0.25);
+    --bear:#ff4d6d;--bear-bg:rgba(255,77,109,0.1);--bear-border:rgba(255,77,109,0.25);
+    --neut:#546070;--neut-bg:rgba(84,96,112,0.15);
+    --accent:#3d8ef8;--accent-bg:rgba(61,142,248,0.1);
+    --warn:#f0b429;--warn-bg:rgba(240,180,41,0.1);
   }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--bg0);
-    color: var(--text1);
-    font-family: 'JetBrains Mono', monospace;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── TOP BAR ── */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    height: 44px;
-    background: var(--bg1);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--text1);
-  }
-
-  .logo span { color: var(--accent); }
-
-  .topbar-meta {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 11px;
-    color: var(--text3);
-  }
-
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--bull);
-    display: inline-block;
-    margin-right: 5px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%,100%{opacity:1} 50%{opacity:.4}
-  }
-
-  /* ── MAIN LAYOUT ── */
-  .main {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
-
-  /* ── LEFT SIDEBAR ── */
-  .sidebar {
-    width: 200px;
-    background: var(--bg1);
-    border-right: 1px solid var(--border);
-    overflow-y: auto;
-    flex-shrink: 0;
-  }
-
-  .sidebar::-webkit-scrollbar { width: 3px; }
-  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-  .sidebar-section {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .sidebar-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--text3);
-    padding: 0 14px 8px;
-  }
-
-  .pair-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 7px 14px;
-    cursor: pointer;
-    transition: background .12s;
-    border-left: 2px solid transparent;
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .pair-row:hover { background: var(--bg3); }
-
-  .pair-row.active {
-    background: var(--bg3);
-    border-left-color: var(--accent);
-    color: var(--text1);
-  }
-
-  .pair-name { color: var(--text1); letter-spacing: .04em; }
-
-  .pair-badge {
-    font-size: 9px;
-    font-weight: 600;
-    padding: 2px 6px;
-    border-radius: 3px;
-    letter-spacing: .04em;
-  }
-
-  .pair-badge.bull { background: var(--bull-bg); color: var(--bull); border: 1px solid var(--bull-border); }
-  .pair-badge.bear { background: var(--bear-bg); color: var(--bear); border: 1px solid var(--bear-border); }
-  .pair-badge.neut { background: var(--neut-bg); color: var(--neut); border: 1px solid rgba(84,96,112,.3); }
-
-  /* ── CENTER PANEL ── */
-  .center {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .center::-webkit-scrollbar { width: 3px; }
-  .center::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-  /* ── PAIR HEADER ── */
-  .pair-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-  }
-
-  .pair-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: .06em;
-  }
-
-  .pair-bias-badge {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 6px;
-    letter-spacing: .06em;
-  }
-
-  .pair-scores {
-    display: flex;
-    gap: 24px;
-    font-size: 11px;
-    color: var(--text2);
-  }
-
-  .pair-score-item { text-align: center; }
-  .pair-score-val {
-    font-size: 20px;
-    font-weight: 600;
-    font-family: 'Syne', sans-serif;
-    display: block;
-  }
-
-  /* ── TWO COLUMN ── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  /* ── PANEL ── */
-  .panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: var(--bg3);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .panel-title {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--text2);
-  }
-
-  .panel-tag {
-    font-size: 9px;
-    padding: 2px 8px;
-    border-radius: 3px;
-    background: var(--accent-bg);
-    color: var(--accent);
-    border: 1px solid rgba(61,142,248,.2);
-    letter-spacing: .06em;
-  }
-
-  .panel-tag.auto { background: var(--bull-bg); color: var(--bull); border-color: var(--bull-border); }
-
-  /* ── SCORE TABLE ── */
-  .score-table { width: 100%; }
-
-  .score-row {
-    display: grid;
-    grid-template-columns: 1fr 56px 56px 56px;
-    padding: 9px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 12px;
-    align-items: center;
-    transition: background .1s;
-  }
-
-  .score-row:hover { background: var(--bg3); }
-  .score-row:last-child { border-bottom: none; }
-
-  .score-row.header-row {
-    font-size: 9px;
-    color: var(--text3);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    background: var(--bg3);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .score-row.header-row:hover { background: var(--bg3); }
-
-  .factor-label { color: var(--text2); font-size: 11px; }
-
-  .auto-tag {
-    font-size: 8px;
-    padding: 1px 5px;
-    border-radius: 2px;
-    background: var(--bull-bg);
-    color: var(--bull);
-    margin-left: 5px;
-    vertical-align: middle;
-  }
-
-  .manual-tag {
-    font-size: 8px;
-    padding: 1px 5px;
-    border-radius: 2px;
-    background: var(--accent-bg);
-    color: var(--accent);
-    margin-left: 5px;
-    vertical-align: middle;
-  }
-
-  .score-cell {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .score-chip {
-    display: inline-block;
-    min-width: 32px;
-    padding: 3px 6px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .c-bull { background: var(--bull-bg); color: var(--bull); border: 1px solid var(--bull-border); }
-  .c-bear { background: var(--bear-bg); color: var(--bear); border: 1px solid var(--bear-border); }
-  .c-neut { background: var(--neut-bg); color: var(--neut); border: 1px solid rgba(84,96,112,.25); }
-
-  .total-row {
-    background: var(--bg3);
-    border-top: 1px solid var(--border2) !important;
-    font-weight: 600;
-  }
-
-  /* ── COT BAR ── */
-  .cot-section { padding: 14px 16px; }
-
-  .cot-currency-block {
-    margin-bottom: 14px;
-  }
-
-  .cot-currency-block:last-child { margin-bottom: 0; }
-
-  .cot-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-    font-size: 11px;
-  }
-
-  .cot-ccy { color: var(--text1); font-weight: 600; }
-  .cot-val { color: var(--text2); font-size: 10px; }
-
-  .cot-bar-track {
-    height: 6px;
-    background: var(--bg4);
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 4px;
-  }
-
-  .cot-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width .6s ease;
-  }
-
-  .cot-sub {
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    color: var(--text3);
-  }
-
-  /* ── OVERVIEW ROW ── */
-  .overview-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-  }
-
-  .ov-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .12s;
-  }
-
-  .ov-card:hover { border-color: var(--border2); background: var(--bg3); }
-  .ov-card.active { border-color: var(--accent); }
-
-  .ov-ccy {
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: .08em;
-    margin-bottom: 4px;
-  }
-
-  .ov-score {
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  /* ── CB TON ── */
-  .cb-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    padding: 14px 16px;
-  }
-
-  .cb-item { text-align: center; }
-
-  .cb-item label {
-    display: block;
-    font-size: 9px;
-    color: var(--text3);
-    margin-bottom: 5px;
-    letter-spacing: .08em;
-  }
-
-  .cb-item select {
-    width: 100%;
-    background: var(--bg4);
-    border: 1px solid var(--border2);
-    color: var(--text1);
-    padding: 4px 2px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    text-align: center;
-    cursor: pointer;
-    outline: none;
-  }
-
-  .cb-item select:focus { border-color: var(--accent); }
-
-  /* ── LOADING ── */
-  .loading-overlay {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    flex-direction: column;
-    gap: 12px;
-    color: var(--text3);
-    font-size: 12px;
-  }
-
-  .spinner {
-    width: 24px; height: 24px;
-    border: 2px solid var(--border2);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── SCROLLBAR ── */
-  .sidebar::-webkit-scrollbar-track { background: transparent; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .two-col { grid-template-columns: 1fr; }
-    .overview-grid { grid-template-columns: repeat(4, 1fr); }
-    .cb-grid { grid-template-columns: repeat(4, 1fr); }
-    .sidebar { width: 160px; }
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg0);color:var(--text1);font-family:'JetBrains Mono',monospace;height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:44px;background:var(--bg1);border-bottom:1px solid var(--border);flex-shrink:0;}
+  .logo{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+  .logo span{color:var(--accent);}
+  .topbar-meta{display:flex;align-items:center;gap:20px;font-size:11px;color:var(--text3);}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);display:inline-block;margin-right:5px;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .main{display:flex;flex:1;overflow:hidden;}
+  .sidebar{width:195px;background:var(--bg1);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;}
+  .sidebar::-webkit-scrollbar{width:3px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+  .sidebar-section{padding:10px 0;border-bottom:1px solid var(--border);}
+  .sidebar-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);padding:0 14px 8px;}
+  .pair-row{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;cursor:pointer;transition:background .12s;border-left:2px solid transparent;font-size:12px;}
+  .pair-row:hover{background:var(--bg3);}
+  .pair-row.active{background:var(--bg3);border-left-color:var(--accent);}
+  .pair-name{color:var(--text1);letter-spacing:.04em;}
+  .sig-badge{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;white-space:nowrap;}
+  .sig-sl{background:rgba(0,212,170,.15);color:var(--bull);border:1px solid rgba(0,212,170,.35);}
+  .sig-l {background:rgba(0,212,170,.08);color:var(--bull);border:1px solid rgba(0,212,170,.2);}
+  .sig-tl{background:rgba(0,212,170,.04);color:#5ecfb8;border:1px solid rgba(0,212,170,.12);}
+  .sig-n {background:var(--neut-bg);color:var(--neut);border:1px solid rgba(84,96,112,.25);}
+  .sig-ts{background:rgba(255,77,109,.04);color:#f07088;border:1px solid rgba(255,77,109,.12);}
+  .sig-s {background:rgba(255,77,109,.08);color:var(--bear);border:1px solid rgba(255,77,109,.2);}
+  .sig-ss{background:rgba(255,77,109,.15);color:var(--bear);border:1px solid rgba(255,77,109,.35);}
+  .center{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;}
+  .center::-webkit-scrollbar{width:3px;}
+  .center::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+  .pair-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;gap:16px;flex-wrap:wrap;}
+  .pair-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:.06em;}
+  .pair-ccy-scores{display:flex;gap:20px;font-size:11px;color:var(--text2);margin-top:6px;}
+  .pcs-val{font-size:18px;font-weight:700;font-family:'Syne',sans-serif;display:block;}
+  .sig-pill{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:9px 16px;border-radius:6px;letter-spacing:.05em;text-align:center;}
+  .sig-group{display:flex;align-items:center;gap:8px;}
+  .sig-group-label{font-size:9px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;text-align:center;}
+  .overview-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+  .ov-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px;text-align:center;cursor:pointer;transition:all .12s;}
+  .ov-card:hover{border-color:var(--border2);background:var(--bg3);}
+  .ov-card.ov-active{border-color:var(--accent);}
+  .ov-ccy{font-size:9px;color:var(--text3);letter-spacing:.08em;margin-bottom:3px;}
+  .ov-score{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+  .ov-status{font-size:8px;font-weight:700;margin-top:2px;letter-spacing:.05em;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .panel-header{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+  .panel-title{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);}
+  .ptag{font-size:9px;padding:2px 7px;border-radius:3px;letter-spacing:.05em;font-weight:600;}
+  .ptag-auto{background:var(--bull-bg);color:var(--bull);border:1px solid var(--bull-border);}
+  .ptag-live{background:var(--accent-bg);color:var(--accent);border:1px solid rgba(61,142,248,.25);}
+  .ptag-manual{background:var(--warn-bg);color:var(--warn);border:1px solid rgba(240,180,41,.25);}
+  .score-row{display:grid;grid-template-columns:1fr 50px 50px 80px;padding:9px 16px;border-bottom:1px solid var(--border);font-size:12px;align-items:center;transition:background .1s;}
+  .score-row:hover{background:var(--bg3);}
+  .score-row:last-child{border-bottom:none;}
+  .score-row.hdr{font-size:9px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;background:var(--bg3);}
+  .score-row.hdr:hover{background:var(--bg3);}
+  .score-row.total-row{background:var(--bg3);border-top:1px solid var(--border2)!important;font-weight:600;}
+  .flabel{color:var(--text2);font-size:11px;}
+  .atag{font-size:8px;padding:1px 4px;border-radius:2px;background:var(--bull-bg);color:var(--bull);margin-left:4px;vertical-align:middle;}
+  .mtag{font-size:8px;padding:1px 4px;border-radius:2px;background:var(--warn-bg);color:var(--warn);margin-left:4px;vertical-align:middle;}
+  .sc{text-align:center;}
+  .chip{display:inline-block;min-width:30px;padding:3px 5px;border-radius:4px;text-align:center;font-size:11px;font-weight:600;}
+  .cb{background:var(--bull-bg);color:var(--bull);border:1px solid var(--bull-border);}
+  .cr{background:var(--bear-bg);color:var(--bear);border:1px solid var(--bear-border);}
+  .cn{background:var(--neut-bg);color:var(--neut);border:1px solid rgba(84,96,112,.25);}
+  .cot-body{padding:14px 16px;display:flex;flex-direction:column;gap:14px;}
+  .cot-block{border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .cot-block-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg3);border-bottom:1px solid var(--border);}
+  .cot-block-name{font-size:12px;font-weight:600;}
+  .cot-inner{padding:10px 12px;display:flex;flex-direction:column;gap:8px;}
+  .cot-bar-row{display:flex;flex-direction:column;gap:3px;}
+  .cot-bar-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);}
+  .cot-bar-lbl span:last-child{font-weight:600;}
+  .cot-track{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;position:relative;}
+  .cot-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+  .cot-line-bull{position:absolute;top:0;bottom:0;width:1px;background:rgba(0,212,170,.4);}
+  .cot-line-bear{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,77,109,.4);}
+  .cot-sub{display:flex;justify-content:space-between;font-size:8px;color:var(--text3);margin-top:2px;}
+  .cb-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:14px 16px;}
+  .cb-item{text-align:center;}
+  .cb-item label{display:block;font-size:9px;color:var(--text3);margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase;}
+  .cb-item select{width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text1);padding:5px 2px;border-radius:4px;font-size:10px;font-family:'JetBrains Mono',monospace;text-align:center;cursor:pointer;outline:none;}
+  .cb-item select:focus{border-color:var(--accent);}
+  .loading-overlay{display:flex;align-items:center;justify-content:center;flex:1;flex-direction:column;gap:12px;color:var(--text3);font-size:12px;}
+  .spinner{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .divider{color:var(--text3);font-size:18px;align-self:center;padding:0 4px;}
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div class="logo">FX <span>Intelligence</span> Terminal</div>
   <div class="topbar-meta">
@@ -483,74 +117,120 @@
 </div>
 
 <div class="main">
-
-  <!-- LEFT SIDEBAR -->
   <div class="sidebar" id="sidebar">
-    <div class="loading-overlay" style="padding:20px;font-size:11px;color:var(--text3)">Loading pairs...</div>
+    <div style="padding:20px;font-size:11px;color:var(--text3)">Loading pairs...</div>
   </div>
-
-  <!-- CENTER -->
   <div class="center" id="center">
     <div class="loading-overlay">
       <div class="spinner"></div>
-      <span>Fetching macro & COT data...</span>
+      <span>Fetching macro &amp; COT data...</span>
     </div>
   </div>
-
 </div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────────
+// ── CONFIG ─────────────────────────────────────────────────────────────
 const CSV_URL = 'https://raw.githubusercontent.com/lenski84/test-data1/main/data/scores.csv'
 
-// CFTC codes for each currency (Legacy Futures)
 const CFTC_CODES = {
-  USD: '098662',
-  EUR: '099741',
-  GBP: '096742',
-  JPY: '097741',
-  CHF: '092741',
-  AUD: '232741',
-  NZD: '112741',
-  CAD: '090741'
+  USD:'098662', EUR:'099741', GBP:'096742', JPY:'097741',
+  CHF:'092741', AUD:'232741', NZD:'112741', CAD:'090741'
 }
-
 const CCYS = ['USD','EUR','GBP','JPY','CHF','AUD','NZD']
 
-// All pairs including crosses
-const ALL_PAIRS = [
-  // Majors vs USD
-  'EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD',
-  // EUR crosses
-  'EURGBP','EURJPY','EURCHF','EURAUD','EURNZD','EURCAD',
-  // GBP crosses
-  'GBPJPY','GBPCHF','GBPAUD','GBPNZD','GBPCAD',
-  // Other crosses
-  'AUDJPY','AUDNZD','AUDCAD','NZDJPY','NZDCAD','CADJPY','CHFJPY'
+const SIDEBAR_GROUPS = [
+  { label:'Majors',       pairs:['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD'] },
+  { label:'EUR Crosses',  pairs:['EURGBP','EURJPY','EURCHF','EURAUD','EURNZD','EURCAD'] },
+  { label:'GBP Crosses',  pairs:['GBPJPY','GBPCHF','GBPAUD','GBPNZD','GBPCAD'] },
+  { label:'Other',        pairs:['AUDJPY','AUDNZD','AUDCAD','NZDJPY','NZDCAD','CADJPY','CHFJPY'] }
 ]
 
-// ── STATE ──────────────────────────────────────────────────────────────
-let macroScores = {}   // { USD: {zinsen,inflation,...,total}, ... }
-let cotData     = {}   // { USD: {comm_idx, small_idx}, ... }
-let cbTon       = JSON.parse(localStorage.getItem('cbTon') || '{}')
-let selectedPair = localStorage.getItem('selectedPair') || 'EURUSD'
-let cotLoaded   = false
+const THR_BULL = 80   // Matching Pine Script
+const THR_BEAR = 20
 
+// ── STATE ──────────────────────────────────────────────────────────────
+let macroScores  = {}
+let cotData      = {}
+let cbTon        = JSON.parse(localStorage.getItem('cbTon') || '{}')
+let selectedPair = localStorage.getItem('selectedPair') || 'EURUSD'
+let cotLoaded    = false
 CCYS.forEach(c => { if (cbTon[c] === undefined) cbTon[c] = 0 })
 
-// ── HELPERS ────────────────────────────────────────────────────────────
-function parsePair(pair) {
-  // Handle both BASE/QUOTE formats
-  const known = Object.keys(CFTC_CODES)
-  for (const b of known) {
-    if (pair.startsWith(b)) {
-      const q = pair.slice(b.length)
-      if (known.includes(q)) return { base: b, quote: q }
-    }
-  }
-  return null
+// ── SIGNAL LOGIC ───────────────────────────────────────────────────────
+
+// Macro: convert total score to -1 / 0 / +1
+function macroStatus(ccy) {
+  const t = getMacroTotal(ccy)
+  if (t >= 3)  return  1
+  if (t <= -3) return -1
+  return 0
 }
 
+// COT: exactly matching Pine Script logic
+// Commercial ≥ 80 = bull, ≤ 20 = bear
+// Requires small traders opposite as confirmation
+function cotStatus(ccy) {
+  const d = cotData[ccy]
+  if (!d) return 0
+  let s = 0
+  if (d.comm_idx >= THR_BULL) s =  1
+  else if (d.comm_idx <= THR_BEAR) s = -1
+  // Small trader confirmation (contrarian — small traders should be on opposite side)
+  if (s ===  1 && d.small_idx > (100 - THR_BULL)) s = 0  // small traders too bullish = no confirm
+  if (s === -1 && d.small_idx < (100 - THR_BEAR)) s = 0  // small traders too bearish = no confirm
+  return s
+}
+
+// Combine two currency statuses into a PAIR signal
+// Logic: based on combination, not subtraction
+function combinePair(bStatus, qStatus) {
+  if (bStatus ===  1 && qStatus === -1) return 'STRONG LONG'
+  if (bStatus === -1 && qStatus ===  1) return 'STRONG SHORT'
+  if (bStatus ===  1 && qStatus ===  0) return 'LONG'
+  if (bStatus ===  0 && qStatus === -1) return 'LONG'
+  if (bStatus === -1 && qStatus ===  0) return 'SHORT'
+  if (bStatus ===  0 && qStatus ===  1) return 'SHORT'
+  if (bStatus ===  1 && qStatus ===  1) return 'TEND LONG'
+  if (bStatus === -1 && qStatus === -1) return 'TEND SHORT'
+  return 'NEUTRAL'
+}
+
+// Combine macro + COT pair signals into final combined signal
+function combineMacroCot(macroSig, cotSig) {
+  const ORDER = ['STRONG SHORT','SHORT','TEND SHORT','NEUTRAL','TEND LONG','LONG','STRONG LONG']
+  const i1 = ORDER.indexOf(macroSig)
+  const i2 = ORDER.indexOf(cotSig)
+  if (i1 < 0 || i2 < 0) return 'NEUTRAL'
+  // Average the positions, round toward center if conflicting
+  const avg = (i1 + i2) / 2
+  return ORDER[Math.round(avg)]
+}
+
+function sigInfo(sig) {
+  const M = {
+    'STRONG LONG':  { cls:'sig-sl', color:'#00d4aa', short:'⬆⬆ S.LONG'  },
+    'LONG':         { cls:'sig-l',  color:'#00d4aa', short:'⬆ LONG'      },
+    'TEND LONG':    { cls:'sig-tl', color:'#5ecfb8', short:'↗ T.LONG'    },
+    'NEUTRAL':      { cls:'sig-n',  color:'#546070', short:'→ NEUT'      },
+    'TEND SHORT':   { cls:'sig-ts', color:'#f07088', short:'↘ T.SHORT'   },
+    'SHORT':        { cls:'sig-s',  color:'#ff4d6d', short:'⬇ SHORT'     },
+    'STRONG SHORT': { cls:'sig-ss', color:'#ff4d6d', short:'⬇⬇ S.SHORT'  },
+  }
+  return M[sig] || M['NEUTRAL']
+}
+
+function statusChip(s, label) {
+  const l = label || (s===1?'BULL':s===-1?'BEAR':'NEUT')
+  const cls = s===1?'cb':s===-1?'cr':'cn'
+  return `<span class="chip ${cls}">${l}</span>`
+}
+
+function chipHtml(v) {
+  const cls = v>0?'cb':v<0?'cr':'cn'
+  return `<span class="chip ${cls}">${v>0?'+'+v:v}</span>`
+}
+
+// ── MACRO HELPERS ──────────────────────────────────────────────────────
 function getMacroTotal(ccy) {
   const s = macroScores[ccy]
   if (!s) return 0
@@ -558,240 +238,216 @@ function getMacroTotal(ccy) {
          (cbTon[ccy]||0) + s.yields + s.zinsdiff + s.risk
 }
 
-function getPairBias(pair) {
-  const p = parsePair(pair)
-  if (!p) return 0
-  return getMacroTotal(p.base) - getMacroTotal(p.quote)
-}
-
-function biasInfo(v) {
-  if (v >=  5) return { label: 'STRONG BULL', cls: 'bull', color: 'var(--bull)' }
-  if (v >=  2) return { label: 'BULL',        cls: 'bull', color: 'var(--bull)' }
-  if (v <= -5) return { label: 'STRONG BEAR', cls: 'bear', color: 'var(--bear)' }
-  if (v <= -2) return { label: 'BEAR',        cls: 'bear', color: 'var(--bear)' }
-  return { label: 'NEUTRAL', cls: 'neut', color: 'var(--neut)' }
-}
-
-function chipHtml(v) {
-  const cls = v > 0 ? 'c-bull' : v < 0 ? 'c-bear' : 'c-neut'
-  const txt = v > 0 ? '+'+v : ''+v
-  return `<span class="score-chip ${cls}">${txt}</span>`
+function parsePair(pair) {
+  const all = [...CCYS, 'CAD']
+  for (const b of all) {
+    if (pair.startsWith(b)) {
+      const q = pair.slice(b.length)
+      if (all.includes(q)) return { base:b, quote:q }
+    }
+  }
+  return null
 }
 
 function cotBarColor(idx) {
-  if (idx >= 70) return 'var(--bull)'
-  if (idx <= 30) return 'var(--bear)'
-  return 'var(--neut)'
+  if (idx >= THR_BULL) return '#00d4aa'
+  if (idx <= THR_BEAR) return '#ff4d6d'
+  return '#546070'
 }
 
-// ── FETCH MACRO CSV ────────────────────────────────────────────────────
+// ── FETCH ──────────────────────────────────────────────────────────────
 async function fetchMacro() {
   const r = await fetch(CSV_URL + '?t=' + Date.now())
   const txt = await r.text()
-  const lines = txt.trim().split('\n')
   macroScores = {}
-  for (let i = 1; i < lines.length; i++) {
-    const c = lines[i].split(',')
+  txt.trim().split('\n').slice(1).forEach(line => {
+    const c = line.split(',')
+    if (!c[0]) return
     macroScores[c[0]] = {
-      zinsen:       parseInt(c[1]),
-      inflation:    parseInt(c[2]),
-      arbeitsmarkt: parseInt(c[3]),
-      wachstum:     parseInt(c[4]),
-      cb_ton:       0,
-      yields:       parseInt(c[6]),
-      zinsdiff:     parseInt(c[7]),
-      risk:         parseInt(c[8]),
+      zinsen:parseInt(c[1])||0, inflation:parseInt(c[2])||0,
+      arbeitsmarkt:parseInt(c[3])||0, wachstum:parseInt(c[4])||0,
+      cb_ton:0, yields:parseInt(c[6])||0,
+      zinsdiff:parseInt(c[7])||0, risk:parseInt(c[8])||0
     }
-  }
+  })
 }
 
-// ── FETCH COT DATA ─────────────────────────────────────────────────────
 async function fetchCOT() {
   const codes = Object.values(CFTC_CODES)
-  const codesFilter = codes.map(c => `'${c}'`).join(',')
-  const url = `https://publicreporting.cftc.gov/resource/6dca-aqww.json?$where=cftc_contract_market_code in(${codesFilter})&$order=report_date_as_yyyy_mm_dd DESC&$limit=200`
-
+  const filter = codes.map(c=>`'${c}'`).join(',')
+  const url = `https://publicreporting.cftc.gov/resource/6dca-aqww.json?$where=cftc_contract_market_code in(${filter})&$order=report_date_as_yyyy_mm_dd DESC&$limit=250`
   const r = await fetch(url)
   const data = await r.json()
 
-  // Group by code, keep last 26 weeks
   const byCode = {}
   for (const row of data) {
     const code = row.cftc_contract_market_code
     if (!byCode[code]) byCode[code] = []
-    if (byCode[code].length < 26) {
-      byCode[code].push({
-        date: row.report_date_as_yyyy_mm_dd,
-        comm_long:  parseFloat(row.comm_positions_long_all  || 0),
-        comm_short: parseFloat(row.comm_positions_short_all || 0),
-        small_long: parseFloat(row.nonrept_positions_long_all  || 0),
-        small_short:parseFloat(row.nonrept_positions_short_all || 0),
-      })
-    }
+    if (byCode[code].length < 26) byCode[code].push({
+      date: row.report_date_as_yyyy_mm_dd,
+      cl:   parseFloat(row.comm_positions_long_all   || 0),
+      cs:   parseFloat(row.comm_positions_short_all  || 0),
+      sl:   parseFloat(row.nonrept_positions_long_all  || 0),
+      ss:   parseFloat(row.nonrept_positions_short_all || 0),
+    })
   }
 
-  // Calculate net positions and index (0-100) for each currency
   cotData = {}
   for (const [ccy, code] of Object.entries(CFTC_CODES)) {
     const rows = byCode[code] || []
-    if (rows.length < 2) {
-      cotData[ccy] = { comm_idx: 50, small_idx: 50, comm_net: 0, small_net: 0, weeks: 0 }
-      continue
-    }
-
-    const nets_comm  = rows.map(r => r.comm_long  - r.comm_short)
-    const nets_small = rows.map(r => r.small_long - r.small_short)
-
-    const maxC = Math.max(...nets_comm),  minC = Math.min(...nets_comm)
-    const maxS = Math.max(...nets_small), minS = Math.min(...nets_small)
-
-    const comm_idx  = maxC === minC ? 50 : Math.round(100 * (nets_comm[0]  - minC)  / (maxC - minC))
-    const small_idx = maxS === minS ? 50 : Math.round(100 * (nets_small[0] - minS) / (maxS - minS))
-
+    if (rows.length < 2) { cotData[ccy]={comm_idx:50,small_idx:50,weeks:0,latest:'—'}; continue }
+    const nc = rows.map(r => r.cl - r.cs)
+    const ns = rows.map(r => r.sl - r.ss)
+    const maxC=Math.max(...nc), minC=Math.min(...nc)
+    const maxS=Math.max(...ns), minS=Math.min(...ns)
     cotData[ccy] = {
-      comm_idx,
-      small_idx,
-      comm_net:  Math.round(nets_comm[0] / 1000),
-      small_net: Math.round(nets_small[0] / 1000),
-      weeks: rows.length,
-      latest_date: rows[0]?.date?.slice(0,10) || '—'
+      comm_idx:  maxC===minC ? 50 : Math.round(100*(nc[0]-minC)/(maxC-minC)),
+      small_idx: maxS===minS ? 50 : Math.round(100*(ns[0]-minS)/(maxS-minS)),
+      comm_net:  Math.round(nc[0]/1000),
+      small_net: Math.round(ns[0]/1000),
+      weeks:     rows.length,
+      latest:    (rows[0]?.date||'').slice(0,10)
     }
   }
   cotLoaded = true
 }
 
-// ── RENDER SIDEBAR ─────────────────────────────────────────────────────
+// ── RENDER ─────────────────────────────────────────────────────────────
 function renderSidebar() {
-  const majorPairs = ['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','NZDUSD','USDCAD']
-  const eurCross   = ['EURGBP','EURJPY','EURCHF','EURAUD','EURNZD','EURCAD']
-  const gbpCross   = ['GBPJPY','GBPCHF','GBPAUD','GBPNZD','GBPCAD']
-  const otherCross = ['AUDJPY','AUDNZD','AUDCAD','NZDJPY','NZDCAD','CADJPY','CHFJPY']
-
-  function pairRows(pairs) {
-    return pairs.map(pair => {
-      const bias = getPairBias(pair)
-      const info = biasInfo(bias)
-      const active = pair === selectedPair ? ' active' : ''
-      return `<div class="pair-row${active}" onclick="selectPair('${pair}')">
-        <span class="pair-name">${pair}</span>
-        <span class="pair-badge ${info.cls}">${bias > 0 ? '+' : ''}${bias}</span>
-      </div>`
-    }).join('')
-  }
-
-  document.getElementById('sidebar').innerHTML = `
+  const html = SIDEBAR_GROUPS.map(g => `
     <div class="sidebar-section">
-      <div class="sidebar-label">Majors</div>
-      ${pairRows(majorPairs)}
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">EUR Crosses</div>
-      ${pairRows(eurCross)}
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">GBP Crosses</div>
-      ${pairRows(gbpCross)}
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Other Crosses</div>
-      ${pairRows(otherCross)}
-    </div>
-  `
+      <div class="sidebar-label">${g.label}</div>
+      ${g.pairs.map(pair => {
+        const p = parsePair(pair)
+        if (!p) return ''
+        const ms = combinePair(macroStatus(p.base), macroStatus(p.quote))
+        const info = sigInfo(ms)
+        const active = pair===selectedPair?' active':''
+        return `<div class="pair-row${active}" onclick="selectPair('${pair}')">
+          <span class="pair-name">${pair}</span>
+          <span class="sig-badge ${info.cls}">${info.short}</span>
+        </div>`
+      }).join('')}
+    </div>`).join('')
+  document.getElementById('sidebar').innerHTML = html
 }
 
-// ── RENDER CENTER ──────────────────────────────────────────────────────
 function renderCenter() {
   const pair = selectedPair
-  const p    = parsePair(pair)
+  const p = parsePair(pair)
   if (!p) return
-
   const { base, quote } = p
-  const bTotal = getMacroTotal(base)
-  const qTotal = getMacroTotal(quote)
-  const bias   = bTotal - qTotal
-  const bInfo  = biasInfo(bias)
 
+  const mBase = macroStatus(base), mQuote = macroStatus(quote)
+  const cBase = cotStatus(base),   cQuote = cotStatus(quote)
+  const macroSig = combinePair(mBase, mQuote)
+  const cotSig   = combinePair(cBase, cQuote)
+  const combSig  = combineMacroCot(macroSig, cotSig)
+
+  const mInfo = sigInfo(macroSig)
+  const cInfo = sigInfo(cotSig)
+  const xInfo = sigInfo(combSig)
+
+  const bTotal = getMacroTotal(base), qTotal = getMacroTotal(quote)
+
+  // Factors table
   const factors = [
-    { key: 'zinsen',       label: 'Zinsen',       auto: true },
-    { key: 'inflation',    label: 'Inflation',    auto: true },
-    { key: 'arbeitsmarkt', label: 'Arbeitsmarkt', auto: true },
-    { key: 'wachstum',     label: 'Wachstum',     auto: true },
-    { key: 'cb_ton',       label: 'CB Ton',       auto: false },
-    { key: 'yields',       label: 'Yields',       auto: true },
-    { key: 'zinsdiff',     label: 'Zinsdiff',     auto: true },
-    { key: 'risk',         label: 'Risk',         auto: true },
+    {key:'zinsen',label:'Zinsen',auto:true},
+    {key:'inflation',label:'Inflation',auto:true},
+    {key:'arbeitsmarkt',label:'Arbeitsmarkt',auto:true},
+    {key:'wachstum',label:'Wachstum',auto:true},
+    {key:'cb_ton',label:'CB Ton',auto:false},
+    {key:'yields',label:'Yields',auto:true},
+    {key:'zinsdiff',label:'Zinsdiff',auto:true},
+    {key:'risk',label:'Risk',auto:true},
   ]
 
   function getVal(ccy, key) {
-    if (key === 'cb_ton') return cbTon[ccy] || 0
-    return macroScores[ccy]?.[key] ?? 0
+    if (key==='cb_ton') return cbTon[ccy]||0
+    return macroScores[ccy]?.[key]??0
   }
 
   const tableRows = factors.map(f => {
-    const bv   = getVal(base, f.key)
-    const qv   = getVal(quote, f.key)
-    const diff = bv - qv
-    const tag  = f.auto
-      ? `<span class="auto-tag">AUTO</span>`
-      : `<span class="manual-tag">CB</span>`
-    return `
-      <div class="score-row">
-        <span class="factor-label">${f.label}${tag}</span>
-        <div class="score-cell">${chipHtml(bv)}</div>
-        <div class="score-cell">${chipHtml(qv)}</div>
-        <div class="score-cell">${chipHtml(diff)}</div>
-      </div>`
-  }).join('')
-
-  // COT section
-  const bCot = cotData[base]  || { comm_idx:50, small_idx:50, weeks:0 }
-  const qCot = cotData[quote] || { comm_idx:50, small_idx:50, weeks:0 }
-
-  function cotBlock(ccy, cot) {
-    const cColor = cotBarColor(cot.comm_idx)
-    const sColor = cotBarColor(100 - cot.small_idx)
-    return `
-      <div class="cot-currency-block">
-        <div class="cot-label">
-          <span class="cot-ccy">${ccy}</span>
-          <span class="cot-val">${cot.latest_date || '—'} · ${cot.weeks}w</span>
-        </div>
-        <div style="margin-bottom:8px">
-          <div class="cot-label" style="margin-bottom:3px">
-            <span style="font-size:10px;color:var(--text3)">Commercials</span>
-            <span style="font-size:11px;color:${cColor};font-weight:600">${cot.comm_idx}</span>
-          </div>
-          <div class="cot-bar-track">
-            <div class="cot-bar-fill" style="width:${cot.comm_idx}%;background:${cColor}"></div>
-          </div>
-          <div class="cot-sub"><span>Bearish (0)</span><span>Bullish (100)</span></div>
-        </div>
-        <div>
-          <div class="cot-label" style="margin-bottom:3px">
-            <span style="font-size:10px;color:var(--text3)">Small Traders</span>
-            <span style="font-size:11px;color:var(--text2)">${cot.small_idx}</span>
-          </div>
-          <div class="cot-bar-track">
-            <div class="cot-bar-fill" style="width:${cot.small_idx}%;background:var(--text3)"></div>
-          </div>
-          <div class="cot-sub"><span>Bearish (0)</span><span>Bullish (100)</span></div>
-        </div>
-      </div>`
-  }
-
-  // Overview cards
-  const ovCards = CCYS.map(c => {
-    const t = getMacroTotal(c)
-    const [, , color] = [biasInfo(t).cls, biasInfo(t).label, biasInfo(t).color]
-    const active = (c === base || c === quote) ? ' active' : ''
-    return `<div class="ov-card${active}">
-      <div class="ov-ccy">${c}</div>
-      <div class="ov-score" style="color:${color}">${t > 0 ? '+' : ''}${t}</div>
+    const bv=getVal(base,f.key), qv=getVal(quote,f.key)
+    const tag = f.auto?`<span class="atag">AUTO</span>`:`<span class="mtag">CB</span>`
+    return `<div class="score-row">
+      <span class="flabel">${f.label}${tag}</span>
+      <div class="sc">${chipHtml(bv)}</div>
+      <div class="sc">${chipHtml(qv)}</div>
+      <div class="sc">${chipHtml(bv-qv)}</div>
     </div>`
   }).join('')
 
-  // CB Ton controls
-  const cbControls = CCYS.map(c => `
+  // Overview
+  const ovCards = CCYS.map(c => {
+    const t = getMacroTotal(c), s = macroStatus(c)
+    const color = s===1?'#00d4aa':s===-1?'#ff4d6d':'#546070'
+    const lbl   = s===1?'BULL':s===-1?'BEAR':'NEUT'
+    const active = (c===base||c===quote)?' ov-active':''
+    return `<div class="ov-card${active}">
+      <div class="ov-ccy">${c}</div>
+      <div class="ov-score" style="color:${color}">${t>0?'+':''}${t}</div>
+      <div class="ov-status" style="color:${color}">${lbl}</div>
+    </div>`
+  }).join('')
+
+  // COT block per currency
+  function cotBlock(ccy) {
+    const d = cotData[ccy]||{comm_idx:50,small_idx:50,weeks:0,latest:'—'}
+    const cs = cotStatus(ccy)
+    const csInfo = sigInfo(cs===1?'LONG':cs===-1?'SHORT':'NEUTRAL')
+    const cColor = cotBarColor(d.comm_idx)
+
+    // Small traders: contrarian — when they are very bullish that's bearish signal
+    // We show the raw index but annotate it as contrarian
+    const sContrarian = 100 - d.small_idx
+    const sColor = cotBarColor(sContrarian)
+
+    return `<div class="cot-block">
+      <div class="cot-block-hdr">
+        <span class="cot-block-name">${ccy}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:9px;color:var(--text3)">${d.latest} · ${d.weeks}w</span>
+          <span class="chip ${csInfo.cls}" style="font-size:9px;color:${csInfo.color};background:${csInfo.color}18;border:1px solid ${csInfo.color}33">
+            ${cs===1?'BULL':cs===-1?'BEAR':'NEUT'}
+          </span>
+        </div>
+      </div>
+      <div class="cot-inner">
+        <div class="cot-bar-row">
+          <div class="cot-bar-lbl">
+            <span>Commercials (26w index)</span>
+            <span style="color:${cColor}">${d.comm_idx} / 100</span>
+          </div>
+          <div class="cot-track">
+            <div class="cot-fill" style="width:${d.comm_idx}%;background:${cColor}"></div>
+            <div class="cot-line-bull" style="left:${THR_BULL}%"></div>
+            <div class="cot-line-bear" style="left:${THR_BEAR}%"></div>
+          </div>
+          <div class="cot-sub">
+            <span style="color:#ff4d6d">≤${THR_BEAR} bearish</span>
+            <span>|</span>
+            <span style="color:#00d4aa">≥${THR_BULL} bullish</span>
+          </div>
+        </div>
+        <div class="cot-bar-row">
+          <div class="cot-bar-lbl">
+            <span>Small Traders — contrarian view</span>
+            <span style="color:var(--text2)">${d.small_idx} raw → ${sContrarian} contrarian</span>
+          </div>
+          <div class="cot-track">
+            <div class="cot-fill" style="width:${sContrarian}%;background:${sColor}"></div>
+          </div>
+          <div class="cot-sub">
+            <span>High = confirms bear · Low = confirms bull</span>
+          </div>
+        </div>
+      </div>
+    </div>`
+  }
+
+  // CB controls
+  const cbCtrls = CCYS.map(c=>`
     <div class="cb-item">
       <label>${c}</label>
       <select onchange="setCb('${c}',this.value)">
@@ -803,46 +459,54 @@ function renderCenter() {
 
   document.getElementById('center').innerHTML = `
 
-    <!-- Overview -->
     <div class="overview-grid">${ovCards}</div>
 
-    <!-- Pair header -->
     <div class="pair-header">
       <div>
         <div class="pair-title">${pair}</div>
-        <div class="pair-scores">
-          <div class="pair-score-item">
-            <span class="pair-score-val" style="color:${biasInfo(bTotal).color}">${bTotal > 0 ? '+' : ''}${bTotal}</span>
-            <span>${base}</span>
+        <div class="pair-ccy-scores">
+          <div>
+            <span class="pcs-val" style="color:${mBase===1?'#00d4aa':mBase===-1?'#ff4d6d':'#546070'}">${bTotal>0?'+':''}${bTotal}</span>
+            <span>${base} macro ${statusChip(mBase)}</span>
           </div>
-          <div style="color:var(--text3);font-size:20px;align-self:center">vs</div>
-          <div class="pair-score-item">
-            <span class="pair-score-val" style="color:${biasInfo(qTotal).color}">${qTotal > 0 ? '+' : ''}${qTotal}</span>
-            <span>${quote}</span>
+          <div class="divider">vs</div>
+          <div>
+            <span class="pcs-val" style="color:${mQuote===1?'#00d4aa':mQuote===-1?'#ff4d6d':'#546070'}">${qTotal>0?'+':''}${qTotal}</span>
+            <span>${quote} macro ${statusChip(mQuote)}</span>
           </div>
         </div>
       </div>
-      <div>
-        <div class="pair-bias-badge" style="background:${bInfo.color}18;color:${bInfo.color};border:1px solid ${bInfo.color}44">
-          ${pair} ${bInfo.label}
+      <div class="sig-group">
+        <div style="text-align:center">
+          <div class="sig-group-label">Macro</div>
+          <div class="sig-pill ${mInfo.cls}" style="color:${mInfo.color};background:${mInfo.color}15;border:1px solid ${mInfo.color}33">${mInfo.short}</div>
         </div>
-        <div style="text-align:right;margin-top:6px;font-size:10px;color:var(--text3)">
-          Macro diff: ${bias > 0 ? '+' : ''}${bias}
+        <div class="divider" style="font-size:14px">+</div>
+        <div style="text-align:center">
+          <div class="sig-group-label">COT</div>
+          <div class="sig-pill ${cInfo.cls}" style="color:${cInfo.color};background:${cInfo.color}15;border:1px solid ${cInfo.color}33">${cotLoaded?cInfo.short:'...'}</div>
+        </div>
+        <div class="divider" style="font-size:14px">=</div>
+        <div style="text-align:center">
+          <div class="sig-group-label">Combined</div>
+          <div class="sig-pill ${xInfo.cls}" style="color:${xInfo.color};background:${xInfo.color}15;border:1px solid ${xInfo.color}33;font-size:14px;font-weight:800">${cotLoaded?xInfo.short:mInfo.short}</div>
         </div>
       </div>
     </div>
 
-    <!-- Macro + COT side by side -->
     <div class="two-col">
-
-      <!-- Macro Scorecard -->
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">Macro Scorecard</span>
-          <span class="panel-tag auto">AUTO + CB</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            ${statusChip(mBase)} ${base}
+            <span style="color:var(--text3);font-size:10px">vs</span>
+            ${statusChip(mQuote)} ${quote}
+            <span class="ptag ptag-auto" style="margin-left:4px">→ ${mInfo.short}</span>
+          </div>
         </div>
-        <div class="score-table">
-          <div class="score-row header-row">
+        <div>
+          <div class="score-row hdr">
             <span>Factor</span>
             <span style="text-align:center">${base}</span>
             <span style="text-align:center">${quote}</span>
@@ -850,39 +514,42 @@ function renderCenter() {
           </div>
           ${tableRows}
           <div class="score-row total-row">
-            <span class="factor-label" style="color:var(--text1);font-weight:600">TOTAL</span>
-            <div class="score-cell">${chipHtml(bTotal)}</div>
-            <div class="score-cell">${chipHtml(qTotal)}</div>
-            <div class="score-cell">
-              <span class="score-chip" style="background:${bInfo.color}18;color:${bInfo.color};border:1px solid ${bInfo.color}33">
-                ${bInfo.label}
+            <span class="flabel" style="color:var(--text1)">Total → Signal</span>
+            <div class="sc">${chipHtml(bTotal)}</div>
+            <div class="sc">${chipHtml(qTotal)}</div>
+            <div class="sc">
+              <span class="chip" style="background:${mInfo.color}15;color:${mInfo.color};border:1px solid ${mInfo.color}33;font-size:9px;min-width:70px">
+                ${mInfo.short}
               </span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- COT Panel -->
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">COT — Commitments of Traders</span>
-          <span class="panel-tag auto">LIVE · CFTC</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            ${statusChip(cBase)} ${base}
+            <span style="color:var(--text3);font-size:10px">vs</span>
+            ${statusChip(cQuote)} ${quote}
+            <span class="ptag ptag-live" style="margin-left:4px">→ ${cotLoaded?cInfo.short:'loading'}</span>
+          </div>
         </div>
-        ${cotLoaded ? `<div class="cot-section">${cotBlock(base, bCot)}${cotBlock(quote, qCot)}</div>`
-          : `<div style="padding:30px;text-align:center;color:var(--text3);font-size:11px">Loading COT data...</div>`}
+        ${cotLoaded
+          ? `<div class="cot-body">${cotBlock(base)}${cotBlock(quote)}</div>`
+          : `<div style="padding:30px;text-align:center;color:var(--text3);font-size:11px"><div class="spinner" style="margin:0 auto 10px"></div>Loading COT data...</div>`
+        }
       </div>
-
     </div>
 
-    <!-- CB Ton -->
     <div class="panel">
       <div class="panel-header">
-        <span class="panel-title">Central Bank Tone (Manual)</span>
-        <span class="panel-tag">MANUAL</span>
+        <span class="panel-title">Central Bank Tone — Manual</span>
+        <span class="ptag ptag-manual">Saved in browser · update after CB meetings</span>
       </div>
-      <div class="cb-grid">${cbControls}</div>
+      <div class="cb-grid">${cbCtrls}</div>
     </div>
-
   `
 }
 
@@ -903,35 +570,23 @@ function setCb(ccy, val) {
 
 // ── INIT ───────────────────────────────────────────────────────────────
 async function init() {
-  document.getElementById('status-text').textContent = 'Fetching data...'
-
+  document.getElementById('status-text').textContent = 'Fetching...'
   try {
-    // Fetch macro and COT in parallel
     await Promise.all([fetchMacro(), fetchCOT()])
-
     document.getElementById('status-text').textContent = 'Live'
-    document.getElementById('last-update').textContent =
-      'Updated ' + new Date().toLocaleTimeString()
-
+    document.getElementById('last-update').textContent = 'Updated ' + new Date().toLocaleTimeString()
     renderSidebar()
     renderCenter()
-
-    // Auto refresh every 10 minutes
     setInterval(async () => {
       await Promise.all([fetchMacro(), fetchCOT()])
       renderSidebar()
       renderCenter()
-      document.getElementById('last-update').textContent =
-        'Updated ' + new Date().toLocaleTimeString()
+      document.getElementById('last-update').textContent = 'Updated ' + new Date().toLocaleTimeString()
     }, 10 * 60 * 1000)
-
   } catch(e) {
     console.error(e)
-    document.getElementById('status-text').textContent = 'Error loading data'
-    document.getElementById('center').innerHTML = `
-      <div class="loading-overlay">
-        <span style="color:var(--bear)">Failed to load data. Check console for details.</span>
-      </div>`
+    document.getElementById('status-text').textContent = 'Error'
+    document.getElementById('center').innerHTML = `<div class="loading-overlay"><span style="color:#ff4d6d">Failed to load. Check console (F12).</span></div>`
   }
 }
 

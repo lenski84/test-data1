@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-15T07:18:11.928729",
+  "timestamp": "2026-04-16T07:18:33.015627",
   "USD": {
     "zinsen": 0,
     "inflation": 1,
@@ -45,7 +45,7 @@
     "total": 2
   },
   "CHF": {
-    "zinsen": -1,
+    "zinsen": 1,
     "inflation": 0,
     "arbeitsmarkt": -1,
     "wachstum": 1,
@@ -53,7 +53,7 @@
     "yields": 0,
     "zinsdiff": 0,
     "risk": 0,
-    "total": -1
+    "total": 1
   },
   "AUD": {
     "zinsen": 0,
@@ -67,10 +67,10 @@
     "total": 2
   },
   "NZD": {
-    "zinsen": -1,
+    "zinsen": 1,
     "inflation": 1,
     "arbeitsmarkt": -1,
-    "wachstum": 1,
+    "wachstum": -1,
     "cb_ton": 0,
     "yields": 0,
     "zinsdiff": 0,

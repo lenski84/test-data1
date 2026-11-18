@@ -598,6 +598,101 @@ input{font:inherit}
 .pt.abs .ph-img{filter:none;opacity:1}
 .pt.abs .ph-img::before{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(246,247,248,.45);-webkit-backdrop-filter:grayscale(1);backdrop-filter:grayscale(1)}
 .ph-img .sd{z-index:1}
+
+/* =====================================================================
+   DESIGN 3 – hell, kräftiges Schaeffler-Grün, große klare Blöcke
+   ===================================================================== */
+#stage{background:#FFFFFF}
+.hdr{background:var(--green-dk);box-shadow:none;color:var(--white);height:64px}
+.hdr .wordmark{color:var(--white)}
+.hdr .brand .sep{background:rgba(255,255,255,.3)}
+.hdr .app-title{color:var(--white);font-size:19px;font-weight:600}
+.hdr .app-title small,.hdr .sync{display:none}
+.hdr .icon-btn,.hdr .btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:var(--white)}
+.hdr .kw-label{color:var(--white)}
+.hdr .kw-range{color:rgba(255,255,255,.8)}
+.hdr .seg{background:rgba(0,0,0,.15);border-color:rgba(255,255,255,.2)}
+.hdr .seg button{color:rgba(255,255,255,.75)}
+.hdr .seg button.on{background:var(--white);color:var(--green-dk);box-shadow:none}
+.hdr .tabs button{color:rgba(255,255,255,.72)}
+.hdr .tabs button.on{color:var(--white)}
+.hdr .tabs button.on::after{background:var(--white);bottom:0;height:4px;border-radius:2px 2px 0 0}
+.hdr .vsep{background:rgba(255,255,255,.25)}
+.hdr .clock{color:var(--white)}
+.hdr .role{background:var(--white);border:0;color:var(--green-dk)}
+.hdr .role span{background:var(--green-dk)}
+.badge-n{border-color:var(--green-dk)}
+
+.main{grid-template-columns:372px minmax(0,1fr) 480px;gap:20px;padding:20px 20px 16px}
+#v-board > .panel{background:var(--white);border:1px solid #DDE1E4;border-radius:12px;box-shadow:none;padding:0 16px 16px;overflow:hidden}
+.ph{height:46px;margin:0 -16px 14px;padding:0 10px 0 16px;background:var(--green-dk);color:var(--white)}
+.ph h2{font-size:16px;font-weight:700;letter-spacing:.14em;color:var(--white)}
+.ph .sub,.legend-mini{display:none!important}
+.ph .btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:var(--white);height:32px}
+
+/* Personal */
+.pt-h{height:40px;font-size:13px;letter-spacing:.08em;border-bottom:2px solid var(--green-dk)}
+.pt-h > span:first-child{font-size:0}
+.pt-h .c-ab{background:transparent;border-radius:0}
+.pt-h .count{background:var(--green-lt);border:0;color:var(--green-dk);font-size:12.5px}
+.pt-h .c-ab .count{background:#FBE3E6;color:#9E1528}
+.prow .dl{font-size:13px;color:var(--green-dk);font-weight:800;padding-top:16px}
+.prow .c-ab{background:#F7F8F9}
+.pt .cap{font-size:11px;color:var(--text);font-weight:600}
+
+/* Hallenplan */
+.mapwrap{align-items:flex-start}
+.map{background:#FFFFFF;border:4px solid #5F6870;border-radius:6px}
+.gate{background:var(--white)}
+.gate-l{background:transparent;color:var(--text-2);font-size:11px;font-weight:800}
+.aisle span{background:var(--white);color:#8F989F;font-size:12px}
+.fl{background:var(--green-lt)!important;border:0;border-radius:0 8px 8px 0}
+.fl.drop-ok{box-shadow:inset 0 0 0 3px var(--green)}
+.fl-band{position:absolute;background:var(--green-dk);border-radius:8px 0 0 8px;display:grid;place-items:center;pointer-events:none}
+.fl-band span{writing-mode:vertical-rl;transform:rotate(180deg);color:var(--white);font-size:13px;font-weight:800;letter-spacing:.3em}
+.fl-hint{color:#5E8E6F;font-size:15px;font-weight:700;gap:6px}
+.fl-hint span{font-size:12.5px;font-weight:600;color:#7FA58C}
+.fl-hint svg{width:44px;height:44px}
+.pr{padding:0;gap:0;border:2px solid var(--green-dk);border-left-width:2px;border-radius:8px;background:var(--white);box-shadow:0 2px 6px rgba(0,60,25,.12);overflow:hidden;display:flex;flex-direction:column}
+.pr.in{border-color:#5F6870;border-style:solid}
+.pr-h{height:30px;flex:none;background:var(--green-dk);color:var(--white);display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 10px;font-size:12.5px;font-weight:700;letter-spacing:.04em}
+.pr.in .pr-h{background:#5F6870}
+.pcnt{background:rgba(255,255,255,.18);border-radius:10px;padding:1px 8px;font-size:12.5px;font-weight:800}
+.pcnt.under{background:var(--st-ab)}
+.pcnt.over{background:var(--warn);color:var(--text)}
+.pr-b{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;text-align:center}
+.pr-b .mk{width:56px;height:56px;color:var(--text)}
+.pr-b .cn{font-size:17px;font-weight:800;letter-spacing:.04em;line-height:1.15;max-width:100%}
+.pr-b .pn{font-size:13.5px;font-weight:600;color:var(--text-2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr .stk{flex:none;display:flex;flex-wrap:wrap;justify-content:center;gap:3px;padding:0 6px 10px;margin:0}
+.pr .stk .av{margin:0;width:24px;height:24px;border:0}
+.pr .stk .more{margin:0;border:0}
+.pr .dim-m{left:auto;right:6px;bottom:auto;top:34px;border-radius:4px}
+.pr .del{top:36px;right:6px}
+.pr.sel{box-shadow:0 0 0 4px rgba(0,137,61,.35),0 10px 24px rgba(0,60,25,.18)}
+.pr.focus{box-shadow:0 0 0 4px var(--green)}
+.ghost{border-radius:8px}
+
+/* Projekte */
+.sec-h{height:26px;border-bottom:2px solid var(--green-dk);padding-bottom:4px}
+.sec-h h3{font-size:13px;color:var(--green-dk);letter-spacing:.12em}
+.sec-h .count{background:var(--green-lt);border:0;color:var(--green-dk)}
+.sec-h .hint{font-size:12.5px}
+.pc2{height:64px;border-color:#DDE1E4;border-radius:10px}
+.pc2 > .mk{width:44px;height:44px;padding:8px;background:var(--green-lt);color:var(--green-dk)}
+.pc2 .tx b{font-size:15px}
+.pc2 .tx span{font-size:13px;color:var(--text-2)}
+.stat{height:30px;font-size:13px;padding:0 12px}
+.svcbox{background:#F7F8F9}
+.pt.svcp .cap{font-size:12px}
+.pt .cu{font-size:10px}
+
+/* Fußleiste */
+.ftr .lg{font-size:13px}
+.gate-l{background:var(--white)!important;padding:0 6px}
+.mapwrap{align-items:center}
+.pt-h{letter-spacing:.04em}
+.pt-h > span.c-ab{gap:3px}
 @media (prefers-reduced-motion:reduce){.pt.sel,.flash{animation:none}}
 </style>
 </head>
@@ -809,17 +904,17 @@ const ZUTEILUNG = {
 /* HALLE in Metern: Umriss 60 × 50 m mit zwei Montageflächen und Hauptgang */
 const HALLE = {w:60, h:50};
 const FLAECHEN = [
-  {id:'F1', n:'Montagefläche 1 · oben',  x:3, y:3,  w:54, h:20},
-  {id:'F2', n:'Montagefläche 2 · unten', x:3, y:27, w:54, h:20},
+  {id:'F1', n:'Montagefläche oben',  k:'OBEN',  x:4, y:2,  w:54, h:21},
+  {id:'F2', n:'Montagefläche unten', k:'UNTEN', x:4, y:27, w:54, h:21},
 ];
 /* PLAN – Projekt → aufgezogenes Rechteck (Meter, Hallenkoordinaten) */
 let PLAN = {
-  'P-24117':{x:4, y:4, w:18,h:10},
-  'P-24121':{x:23,y:4, w:11,h:9},
-  'P-24098':{x:35,y:4, w:11,h:9},
-  'P-24105':{x:47,y:4, w:10,h:10},
-  'P-24126':{x:4, y:28,w:11,h:8},
-  'I-26003':{x:16,y:28,w:10,h:8},
+  'P-24117':{x:5, y:3, w:14,h:19},
+  'P-24121':{x:20,y:3, w:12,h:19},
+  'P-24098':{x:33,y:3, w:12,h:19},
+  'P-24105':{x:46,y:3, w:11,h:19},
+  'P-24126':{x:5, y:28,w:13,h:19},
+  'I-26003':{x:19,y:28,w:12,h:19},
 };
 
 /* Stammdaten-Abruf per Projektnummer (fiktive ERP-Antworten) */
@@ -951,24 +1046,22 @@ function renderMap(){
   let html = `
     <span class="gate" style="top:${pc(23.5,50)};height:${pc(3,50)};left:-6px;width:8px"></span><span class="gate-l" style="left:34px;top:${pc(25,50)};transform:translateY(-50%)">TOR 1</span>
     <span class="gate" style="top:${pc(23.5,50)};height:${pc(3,50)};right:-6px;width:8px"></span><span class="gate-l" style="right:4px;top:${pc(25,50)};transform:translateY(-50%)">TOR 2</span>
-    <div class="aisle" style="${box({x:3,y:23,w:54,h:4})}"><span style="writing-mode:horizontal-tb;transform:none">HAUPTGANG</span></div>`;
+    <div class="aisle" style="${box({x:2,y:23,w:56,h:4})}"><span style="writing-mode:horizontal-tb;transform:none">HAUPTGANG</span></div>`;
   FLAECHEN.forEach(f=>{
-    html += `<div class="fl" data-fl="${f.id}" style="${box(f)};background-image:linear-gradient(to right,#EEF0F2 1px,transparent 1px),linear-gradient(to bottom,#EEF0F2 1px,transparent 1px);background-size:${100/(f.w/2)}% ${100/(f.h/2)}%">
-      <span class="fl-l">${f.n}<small>${f.w} × ${f.h} m</small></span></div>`;
+    html += `<div class="fl-band" style="${box({x:f.x-2,y:f.y,w:2,h:f.h})}"><span>${f.k}</span></div><div class="fl" data-fl="${f.id}" style="${box(f)}"></div>`;
   });
   // Hinweis auf größter freier Zone
-  const hz = [{x:28,y:29,w:28,h:16},{x:4,y:37,w:22,h:9},{x:25,y:15,w:31,h:7}].find(z=>frei(z));
-  if(hz) html += `<div class="fl-hint" style="${box(hz)}">${ICO.draw}Rechteck aufziehen<br><span style="font-weight:600">oder Projektkarte von rechts hierher ziehen</span></div>`;
+  const hz = [{x:33,y:29,w:23,h:17},{x:5,y:29,w:25,h:17},{x:5,y:4,w:25,h:17}].find(z=>frei(z));
+  if(hz) html += `<div class="fl-hint" style="${box(hz)}">${ICO.draw}Freie Fläche<br><span>Rechteck aufziehen oder Projekt hierher ziehen</span></div>`;
   Object.entries(PLAN).forEach(([nr,r])=>{
     const pr = PR(nr); if(!pr) return;
-    const ppl = leute(nr), n = ppl.length, maxAv = Math.max(1, Math.floor((r.w*15.5-100)/20));
+    const ppl = leute(nr), n = ppl.length, maxAv = Math.max(2, Math.floor((r.w*15.7-24)/27)*2);
     const vis = ppl.length>maxAv ? maxAv-1 : maxAv;
     const stk = ppl.slice(0,vis).map(p=>`<span class="av ph-${p.id}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"></span>`).join('') + (ppl.length>vis?`<span class="more">+${ppl.length-vis}</span>`:'');
     html += `<div class="pr ${pr.kl==='intern'?'in':''} ${S.selRect===nr?'sel':''} ${S.focus===nr?'focus':''}" data-nr="${nr}" style="${box(r)}" data-tip="${pr.nr} ${pr.nm} · ${LOGO[pr.c].n}\nFläche ${r.w} × ${r.h} m · Personal ${n}/${pr.soll}">
-      <span class="dim-m">${r.w} × ${r.h} m</span>
-      <div class="co">${mk(pr.c)}<b>${LOGO[pr.c].n}</b></div>
-      <div class="pn">${pr.nm}</div><div class="nr2">${nr} · ${pr.kl}</div>
-      <div class="ft"><span class="stk">${stk}</span><span class="cnt ${n<pr.soll?'under':n>pr.soll?'over':''}">${n}/${pr.soll}</span></div>
+      <div class="pr-h"><span>${nr}</span><span class="pcnt ${n<pr.soll?'under':n>pr.soll?'over':''}">${n}/${pr.soll}</span></div>
+      <div class="pr-b"><span class="mk">${LOGO[pr.c].svg}</span><b class="cn">${LOGO[pr.c].n}</b><span class="pn">${pr.nm}</span></div>
+      <div class="stk">${stk}</div><span class="dim-m">${r.w} × ${r.h} m</span>
       <button class="del" data-del="${nr}" aria-label="Aus dem Plan nehmen" data-tip="Aus dem Plan nehmen">${ICO.x}</button><span class="rz" data-tip="Größe ändern"></span></div>`;
   });
   if(S.ghost) html += `<div class="ghost ${S.ghost.bad?'bad':''}" style="${box(S.ghost)}">${S.ghost.w} × ${S.ghost.h} m</div>`;
@@ -983,24 +1076,24 @@ function renderProjects(){
   const ohne = MITARBEITER.filter(p=>istAnw(p) && !ZUTEILUNG[p.id]);
   const nPlan = PROJEKTE.filter(p=>p.kl!=='service' && imPlan(p)).length, nHalle = PROJEKTE.filter(p=>p.kl!=='service').length;
   $('#projSub').textContent = `${nPlan}/${nHalle} im Hallenplan`;
-  let html = `<div class="ohne ${ohne.length?'has':''}" id="ohne" data-drop="ohne"><span class="l">Ohne Projekt</span>
+  let html = `<div class="ohne ${ohne.length?'has':''}" ${ohne.length?'':'hidden'} id="ohne" data-drop="ohne"><span class="l">Ohne Projekt</span>
     ${ohne.length ? ohne.map(p=>`<span class="ph-img ph-${p.id}" style="width:28px;height:28px" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"><i class="sd ${STATUS[p.s].c}"></i></span>`).join('') : '<span class="t">alle Anwesenden sind einem Projekt zugeteilt</span>'}</div>`;
-  [['extern','Externe Projekte','Firmenlogo · Status'],['intern','Interne Projekte','Firmenlogo · Status']].forEach(([k,l,hint])=>{
+  [['extern','Externe Projekte',''],['intern','Interne Projekte','']].forEach(([k,l,hint])=>{
     const list = PROJEKTE.filter(p=>p.kl===k);
     html += `<div class="sec"><div class="sec-h"><h3>${l}</h3><span class="count">${list.length}</span><span class="hint">${hint}</span></div><div class="plist2">${list.map(zeile).join('')}</div></div>`;
   });
   const svc = MITARBEITER.filter(p=>p.s==='ex');
-  html += `<div class="sec"><div class="sec-h"><h3>Service</h3><span class="count">${svc.length}</span><span class="hint">Personen beim Kunden · nicht im Hallenplan</span></div>
+  html += `<div class="sec"><div class="sec-h"><h3>Service</h3><span class="count">${svc.length}</span><span class="hint">beim Kunden</span></div>
     <div class="svcbox" data-drop="svc">${svc.map(p=>{ const pr=PR(ZUTEILUNG[p.id]);
       return `<div class="pt svcp ${S.sel===p.id?'sel':''}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}">${foto(p)}<span class="cap">${surname(p.n)}</span><span class="cu">${pr?LOGO[pr.c].n:''}</span></div>`; }).join('') || '<span class="t">niemand im externen Service</span>'}</div></div>`;
   box2.innerHTML = html;
 }
 function zeile(pr){
   const f = forecast(pr), d = f.amp[2];
-  const st = d==='g' ? 'Im Zeitrahmen' : d==='y' ? `Verzug Prognose +${pr.verzug.at} AT` : `Verzug +${pr.verzug.at} AT`;
+  const st = d==='g' ? 'Im Plan' : d==='y' ? `Prognose +${pr.verzug.at} AT` : `Verzug +${pr.verzug.at} AT`;
   return `<article class="pc2 ${S.focus===pr.nr?'focus':''}" data-nr="${pr.nr}" draggable="true" data-tip="${pr.nr} ${pr.nm} · Phase ${pr.cur} · bis ${pr.to}\nPersonal Ist ${ist(pr)} / Soll ${pr.soll}${imPlan(pr)?'':'\nNoch nicht im Hallenplan – auf eine Montagefläche ziehen'}">
     <span class="mk">${LOGO[pr.c].svg}</span>
-    <div class="tx"><b>${LOGO[pr.c].n}</b><span>${imPlan(pr)?'':'<em class="np">nicht im Plan</em>'}${pr.nm} · ${pr.nr}</span></div>
+    <div class="tx"><b>${LOGO[pr.c].n}</b><span>${imPlan(pr)?'':'<em class="np">nicht im Plan</em>'}${pr.nm}</span></div>
     <span class="stat ${d}"><i></i>${st}</span></article>`;
 }
 
@@ -1444,7 +1537,7 @@ stage.addEventListener('drop', e=>{
   }
   // Projektkarte auf Fläche → Standardrechteck an der Abwurfstelle
   const pr = PR(d.nr), m = toM(e), f = FLAECHEN.find(x=>m.y>=x.y&&m.y<=x.y+x.h) || (m.y<25?FLAECHEN[0]:FLAECHEN[1]);
-  const sz = PLAN[d.nr] ? {w:PLAN[d.nr].w,h:PLAN[d.nr].h} : {w:Math.max(8,Math.min(14,pr.soll*2+4)), h:8};
+  const sz = PLAN[d.nr] ? {w:PLAN[d.nr].w,h:PLAN[d.nr].h} : {w:12, h:f.h-2};
   const r = freiePos(f, sz.w, sz.h, m.x, m.y, d.nr);
   if(!r){ toast('Kein freier Platz in dieser Größe – Rechteck selbst aufziehen'); return; }
   platzieren(d.nr, r);

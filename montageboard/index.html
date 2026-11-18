@@ -125,6 +125,48 @@ input{font:inherit}
 .dragging{opacity:.35}
 .drop-note{border:1.5px dashed var(--line-2);border-radius:var(--r);padding:8px;font-size:12px;font-weight:600;color:var(--text-2);text-align:center}
 
+/* Tabelle Anwesend | Abwesend */
+.ptab{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;flex:none}
+.pt-h,.prow{display:grid;grid-template-columns:40px minmax(0,1fr) 120px}
+.pt-h{height:36px;background:var(--surface);border-bottom:1px solid var(--line);font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.pt-h > span{display:flex;align-items:center;gap:5px;padding:0 6px;min-width:0}
+.pt-h > span:first-child{font-size:10.5px;color:var(--text-2);letter-spacing:.04em}
+.pt-h i{width:10px;height:10px;border-radius:50%;flex:none}
+.pt-h .count{margin-left:auto;min-width:20px;padding:0 5px}
+.pt-h .c-ab{letter-spacing:.02em}
+.pt-h .c-ab,.prow .c-ab{border-left:1px solid var(--line)}
+.prow{border-bottom:1px solid #EEF0F2}
+.prow:last-child{border-bottom:0}
+.prow .dl{padding:8px 0 0 6px;line-height:13px;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--green-dk);border-right:1px solid #EEF0F2;background:#FAFBFB}
+.prow .c-an,.prow .c-ab{display:flex;flex-wrap:wrap;gap:4px;padding:5px 5px;align-content:flex-start;min-height:62px;min-width:0}
+.prow .c-ab{background:#F8F9FA}
+.prow .none{color:var(--text-3);font-size:13px;font-weight:700;padding:16px 0 0 38px}
+.c-an.drop-ok{background:var(--green-lt)!important;box-shadow:inset 0 0 0 2px var(--green)}
+.c-ab.drop-ok{background:#FDECEE!important;box-shadow:inset 0 0 0 2px var(--st-ab)}
+.ptab.flash{animation:flash 1.4s ease-out 2}
+
+/* Projektliste: Firmenlogo + Status */
+.plist2{display:flex;flex-direction:column;gap:6px}
+.pc2{position:relative;height:54px;padding:0 10px;border:1px solid var(--line);border-radius:var(--r);background:var(--white);display:flex;align-items:center;gap:10px;cursor:grab;min-width:0}
+.pc2 > .mk{width:32px;height:32px;flex:none}
+.pc2 .tx{display:flex;flex-direction:column;min-width:0;flex:1}
+.pc2 .tx b{font-size:14px;font-weight:800;letter-spacing:.05em;white-space:nowrap}
+.pc2 .tx span{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc2 .tag{position:static;flex:none;height:22px;padding:0 8px;border-radius:11px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.pc2.focus{border-color:var(--green);box-shadow:0 0 0 2px var(--green)}
+.pc2.drop-ok{border-color:var(--green);box-shadow:0 0 0 3px var(--green),0 0 16px rgba(0,137,61,.35)}
+.stat{flex:none;height:26px;padding:0 10px 0 8px;border-radius:13px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;white-space:nowrap;border:1px solid}
+.stat i{width:10px;height:10px;border-radius:50%}
+.stat.g{background:#EAF6EE;border-color:#BFE0CA;color:#1E6B37} .stat.g i{background:var(--amp-g)}
+.stat.y{background:#FCF1CC;border-color:#E9C65A;color:#6B4E00} .stat.y i{background:var(--amp-y)}
+.stat.r{background:#FBE3E6;border-color:#E9A3AC;color:#9E1528} .stat.r i{background:var(--amp-r)}
+.svcbox{display:flex;flex-wrap:wrap;gap:10px;padding:8px;border:1px solid var(--line);border-radius:var(--r);min-height:84px}
+.svcbox.drop-ok{border-color:var(--st-ex);box-shadow:inset 0 0 0 2px var(--st-ex)}
+.svcbox .t{font-size:12px;font-weight:600;color:var(--text-3)}
+.pt.svcp{width:64px}
+.pt.svcp .ph-img{width:48px;height:48px}
+.pt .cu{font-size:9.5px;font-weight:700;color:var(--text-2);letter-spacing:.04em;white-space:nowrap}
+
 /* ---------- B3 Hallenplan ---------- */
 .legend-mini{display:flex;gap:12px;font-size:12px;font-weight:600;color:var(--text-2)}
 .legend-mini span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
@@ -638,17 +680,17 @@ const ZUTEILUNG = {
 /* HALLE in Metern: Umriss 60 × 50 m mit zwei Montageflächen und Hauptgang */
 const HALLE = {w:60, h:50};
 const FLAECHEN = [
-  {id:'F1', n:'Montagefläche 1', x:3,  y:4, w:25, h:42},
-  {id:'F2', n:'Montagefläche 2', x:32, y:4, w:25, h:42},
+  {id:'F1', n:'Montagefläche 1 · oben',  x:3, y:3,  w:54, h:20},
+  {id:'F2', n:'Montagefläche 2 · unten', x:3, y:27, w:54, h:20},
 ];
 /* PLAN – Projekt → aufgezogenes Rechteck (Meter, Hallenkoordinaten) */
 let PLAN = {
-  'P-24117':{x:4, y:5, w:23,h:11},
-  'P-24121':{x:4, y:18,w:11,h:10},
-  'P-24098':{x:16,y:18,w:11,h:10},
-  'I-26003':{x:4, y:36,w:11,h:9},
-  'P-24105':{x:33,y:5, w:12,h:11},
-  'P-24126':{x:46,y:5, w:10,h:9},
+  'P-24117':{x:4, y:4, w:18,h:10},
+  'P-24121':{x:23,y:4, w:11,h:9},
+  'P-24098':{x:35,y:4, w:11,h:9},
+  'P-24105':{x:47,y:4, w:10,h:10},
+  'P-24126':{x:4, y:28,w:11,h:8},
+  'I-26003':{x:16,y:28,w:10,h:8},
 };
 
 /* Stammdaten-Abruf per Projektnummer (fiktive ERP-Antworten) */
@@ -761,18 +803,13 @@ function renderPool(){
   const fokus = S.focus ? new Set(leute(S.focus).map(p=>p.id)) : null;
   const pt = p => `<div class="pt ${istAnw(p)?'':'abs'} ${S.sel===p.id?'sel':''} ${fokus&&fokus.has(p.id)?'hit':''}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}">
       ${foto(p)}${p.s==='ex'?'<span class="svc">SERVICE</span>':''}${istAnw(p)?'':`<span class="why ${STATUS[p.s].c}">${why(p)}</span>`}<span class="cap">${surname(p.n)}</span></div>`;
-  const depts = list => TEAMS.map(t=>{ const m=list.filter(p=>p.t===t); if(!m.length) return '';
-      return `<div class="dept ${m.length>3?'full':''}"><div class="dept-h">${t}<b>${m.length}</b></div><div class="phs">${m.map(pt).join('')}</div></div>`; }).join('');
-  const cnt = s => ab.filter(p=>p.s===s.split(':')[0] && (!s.includes(':')||p.grund===s.split(':')[1])).length;
-  const nEx = an.filter(p=>p.s==='ex').length;
   $('#poolSub').textContent = `${MITARBEITER.length} Mitarbeitende · ${TEAMS.length} Abteilungen`;
-  pool.innerHTML = `
-    <div class="sect an ${fokus?'dim':''}" data-drop="an"><div class="sect-h"><i class="st-an"></i>Anwesend <span class="count">${an.length}</span><span class="hint">davon ${nEx} im ext. Service</span></div>
-      <div class="depts">${depts(an)}</div></div>
-    <div class="sect ab ${fokus?'dim':''}" data-drop="ab"><div class="sect-h"><i class="st-ab"></i>Abwesend <span class="count">${ab.length}</span>
-      <span class="hint" data-tip="Krank ${cnt('ab:Krank')} · Urlaub ${cnt('ab:Urlaub')} · Dienstreise ${cnt('dr')} · Schulung ${cnt('sc')}">krank, Urlaub, Reise, Schulung</span></div>
-      ${ab.length?`<div class="depts">${depts(ab)}</div>`:''}
-      <div class="drop-note">Bild hierher ziehen = abwesend melden · Person wird aus Projekt und Hallenplan genommen</div></div>`;
+  pool.innerHTML = `<div class="ptab ${fokus?'dim':''}">
+    <div class="pt-h"><span>Abt.</span><span class="c-an" data-drop="an"><i class="st-an"></i>Anwesend<b class="count">${an.length}</b></span><span class="c-ab" data-drop="ab"><i class="st-ab"></i>Abwesend<b class="count">${ab.length}</b></span></div>
+    ${TEAMS.map(t=>{ const a=an.filter(p=>p.t===t), b=ab.filter(p=>p.t===t);
+      return `<div class="prow"><span class="dl">${t.replace("/","/<br>")}</span><div class="c-an" data-drop="an">${a.map(pt).join('')}</div><div class="c-ab" data-drop="ab">${b.map(pt).join('')||'<span class="none">–</span>'}</div></div>`; }).join('')}
+    </div>
+    <div class="drop-note">Bild in die Spalte <b>Abwesend</b> ziehen = abwesend melden · zurück in <b>Anwesend</b> = wieder da</div>`;
 }
 
 /* =============================================================================
@@ -783,15 +820,15 @@ const box = r => `left:${pc(r.x,HALLE.w)};top:${pc(r.y,HALLE.h)};width:${pc(r.w,
 function renderMap(){
   const map = $('#map');
   let html = `
-    <span class="gate" style="left:${pc(28.5,60)};width:${pc(3,60)};top:-6px"></span><span class="gate-l" style="left:50%;top:6px">TOR 1</span>
-    <span class="gate" style="left:${pc(28.5,60)};width:${pc(3,60)};bottom:-6px"></span><span class="gate-l" style="left:50%;bottom:6px">TOR 2</span>
-    <div class="aisle" style="${box({x:28,y:4,w:4,h:42})}"><span>HAUPTGANG</span></div>`;
+    <span class="gate" style="top:${pc(23.5,50)};height:${pc(3,50)};left:-6px;width:8px"></span><span class="gate-l" style="left:34px;top:${pc(25,50)};transform:translateY(-50%)">TOR 1</span>
+    <span class="gate" style="top:${pc(23.5,50)};height:${pc(3,50)};right:-6px;width:8px"></span><span class="gate-l" style="right:4px;top:${pc(25,50)};transform:translateY(-50%)">TOR 2</span>
+    <div class="aisle" style="${box({x:3,y:23,w:54,h:4})}"><span style="writing-mode:horizontal-tb;transform:none">HAUPTGANG</span></div>`;
   FLAECHEN.forEach(f=>{
     html += `<div class="fl" data-fl="${f.id}" style="${box(f)};background-image:linear-gradient(to right,#EEF0F2 1px,transparent 1px),linear-gradient(to bottom,#EEF0F2 1px,transparent 1px);background-size:${100/(f.w/2)}% ${100/(f.h/2)}%">
       <span class="fl-l">${f.n}<small>${f.w} × ${f.h} m</small></span></div>`;
   });
   // Hinweis auf größter freier Zone
-  const hz = [{x:33,y:18,w:23,h:26},{x:4,y:29,w:23,h:6},{x:16,y:36,w:11,h:9}].find(z=>frei(z));
+  const hz = [{x:28,y:29,w:28,h:16},{x:4,y:37,w:22,h:9},{x:25,y:15,w:31,h:7}].find(z=>frei(z));
   if(hz) html += `<div class="fl-hint" style="${box(hz)}">${ICO.draw}Rechteck aufziehen<br><span style="font-weight:600">oder Projektkarte von rechts hierher ziehen</span></div>`;
   Object.entries(PLAN).forEach(([nr,r])=>{
     const pr = PR(nr); if(!pr) return;
@@ -816,24 +853,27 @@ function renderProjects(){
   const box2 = $('#proj');
   const ohne = MITARBEITER.filter(p=>istAnw(p) && !ZUTEILUNG[p.id]);
   const nPlan = PROJEKTE.filter(p=>p.kl!=='service' && imPlan(p)).length, nHalle = PROJEKTE.filter(p=>p.kl!=='service').length;
-  $('#projSub').textContent = `${PROJEKTE.length} aktiv · ${nPlan}/${nHalle} im Hallenplan`;
+  $('#projSub').textContent = `${nPlan}/${nHalle} im Hallenplan`;
   let html = `<div class="ohne ${ohne.length?'has':''}" id="ohne" data-drop="ohne"><span class="l">Ohne Projekt</span>
     ${ohne.length ? ohne.map(p=>`<span class="ph-img ph-${p.id}" style="width:28px;height:28px" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"><i class="sd ${STATUS[p.s].c}"></i></span>`).join('') : '<span class="t">alle Anwesenden sind einem Projekt zugeteilt</span>'}</div>`;
-  KLASSEN.forEach(([k,l,hint])=>{
+  [['extern','Externe Projekte','Firmenlogo · Status'],['intern','Interne Projekte','Firmenlogo · Status']].forEach(([k,l,hint])=>{
     const list = PROJEKTE.filter(p=>p.kl===k);
-    html += `<div class="sec"><div class="sec-h"><h3>${l}</h3><span class="count">${list.length}</span><span class="hint">${hint}</span></div><div class="cards">${list.map(card).join('')}</div></div>`;
+    html += `<div class="sec"><div class="sec-h"><h3>${l}</h3><span class="count">${list.length}</span><span class="hint">${hint}</span></div><div class="plist2">${list.map(zeile).join('')}</div></div>`;
   });
+  const svc = MITARBEITER.filter(p=>p.s==='ex');
+  html += `<div class="sec"><div class="sec-h"><h3>Service</h3><span class="count">${svc.length}</span><span class="hint">Personen beim Kunden · nicht im Hallenplan</span></div>
+    <div class="svcbox" data-drop="svc">${svc.map(p=>{ const pr=PR(ZUTEILUNG[p.id]);
+      return `<div class="pt svcp ${S.sel===p.id?'sel':''}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}">${foto(p)}<span class="cap">${surname(p.n)}</span><span class="cu">${pr?LOGO[pr.c].n:''}</span></div>`; }).join('') || '<span class="t">niemand im externen Service</span>'}</div></div>`;
   box2.innerHTML = html;
 }
-function card(pr){
-  const ppl = leute(pr.nr), n = ppl.length, vis = ppl.length>7 ? 6 : 7;
-  const tag = pr.kl==='service' ? `<span class="tag kunde">${ICO.truck}beim Kunden</span>`
-            : imPlan(pr) ? '' : `<span class="tag plan" data-tip="Noch keine Fläche im Hallenplan – Karte auf eine Montagefläche ziehen oder Rechteck aufziehen">${ICO.pin}nicht im Plan</span>`;
-  return `<article class="pc ${n<pr.soll?'under':''} ${S.focus===pr.nr?'focus':''}" data-nr="${pr.nr}" draggable="${pr.kl!=='service'}" data-tip="${pr.nr} ${pr.nm} · Phase ${pr.cur} · bis ${pr.to}${pr.kl!=='service'?'\nKarte auf eine Montagefläche ziehen = platzieren':''}">
-    <div class="co">${mk(pr.c)}<b>${LOGO[pr.c].n}</b><span class="nr">${pr.nr}</span></div>
-    <div class="pn"><span>${pr.nm}</span><span class="cnt ${n<pr.soll?'under':n>pr.soll?'over':''}" data-tip="Personal Ist ${n} / Soll ${pr.soll}">${n}/${pr.soll}</span></div>
-    <div class="ppl">${ppl.slice(0,vis).map(p=>foto(p).replace('class="ph-img','draggable="true" data-pid="'+p.id+'" data-tip="'+personTip(p)+'" class="ph-img')).join('') || '<span class="none">keine Person zugeteilt</span>'}${ppl.length>vis?`<span class="none" style="font-weight:800">+${ppl.length-vis}</span>`:''}</div>
-    ${tag}</article>`;
+function zeile(pr){
+  const f = forecast(pr), d = f.amp[2];
+  const st = d==='g' ? 'Im Zeitrahmen' : d==='y' ? `Verzug Prognose +${pr.verzug.at} AT` : `Verzug +${pr.verzug.at} AT`;
+  return `<article class="pc2 ${S.focus===pr.nr?'focus':''}" data-nr="${pr.nr}" draggable="true" data-tip="${pr.nr} ${pr.nm} · Phase ${pr.cur} · bis ${pr.to}\nPersonal Ist ${ist(pr)} / Soll ${pr.soll}${imPlan(pr)?'':'\nNoch nicht im Hallenplan – auf eine Montagefläche ziehen'}">
+    <span class="mk">${LOGO[pr.c].svg}</span>
+    <div class="tx"><b>${LOGO[pr.c].n}</b><span>${pr.nm} · ${pr.nr}</span></div>
+    ${imPlan(pr)?'':`<span class="tag plan">${ICO.pin}nicht im Plan</span>`}
+    <span class="stat ${d}"><i></i>${st}</span></article>`;
 }
 
 /* =============================================================================
@@ -1245,7 +1285,7 @@ map.addEventListener('pointerup', e=>{
 let drag = null;   // {pid} oder {nr}
 const stage = $('#stage');
 stage.addEventListener('dragstart', e=>{
-  const p = e.target.closest && e.target.closest('[data-pid]'), c = e.target.closest && e.target.closest('.pc[draggable="true"]');
+  const p = e.target.closest && e.target.closest('[data-pid]'), c = e.target.closest && e.target.closest('.pc2');
   if(p){ drag = {pid:p.dataset.pid}; p.classList.add('dragging'); }
   else if(c){ drag = {nr:c.dataset.nr}; c.classList.add('dragging'); }
   else return;
@@ -1256,7 +1296,7 @@ stage.addEventListener('dragend', ()=>{ drag=null; clearDrop(); document.querySe
 function ziel(e){
   if(!drag) return null;
   if(drag.pid){
-    const t = e.target.closest('.pr,.pc,[data-drop]'); return t;
+    const t = e.target.closest('.pr,.pc2,[data-drop]'); return t;
   }
   return e.target.closest('.fl,.pr');
 }
@@ -1269,11 +1309,13 @@ stage.addEventListener('drop', e=>{
     const p = byId[d.pid];
     if(t.dataset.nr) return zuteilen(d.pid, t.dataset.nr);
     if(t.dataset.drop==='ab'){ if(istAnw(p)) openPop('person', t.getBoundingClientRect(), {pid:d.pid, pending:['ab','Krank']}); return; }
-    if(t.dataset.drop==='an'||t.dataset.drop==='ohne'){ if(!istAnw(p)||ZUTEILUNG[d.pid]) loesen(d.pid); return; }
+    if(t.dataset.drop==='svc'){ openPop('person', t.getBoundingClientRect(), {pid:d.pid, pending:['ex',null]}); return; }
+    if(t.dataset.drop==='an'){ if(!istAnw(p)) loesen(d.pid); return; }
+    if(t.dataset.drop==='ohne'){ if(!istAnw(p)||ZUTEILUNG[d.pid]) loesen(d.pid); return; }
     return;
   }
   // Projektkarte auf Fläche → Standardrechteck an der Abwurfstelle
-  const pr = PR(d.nr), m = toM(e), f = FLAECHEN.find(x=>m.x>=x.x&&m.x<=x.x+x.w) || FLAECHEN[0];
+  const pr = PR(d.nr), m = toM(e), f = FLAECHEN.find(x=>m.y>=x.y&&m.y<=x.y+x.h) || (m.y<25?FLAECHEN[0]:FLAECHEN[1]);
   const sz = PLAN[d.nr] ? {w:PLAN[d.nr].w,h:PLAN[d.nr].h} : {w:Math.max(8,Math.min(14,pr.soll*2+4)), h:8};
   const r = freiePos(f, sz.w, sz.h, m.x, m.y, d.nr);
   if(!r){ toast('Kein freier Platz in dieser Größe – Rechteck selbst aufziehen'); return; }
@@ -1324,7 +1366,7 @@ stage.addEventListener('click', e=>{
     const r = person.getBoundingClientRect(); renderPool(); renderMap(); renderProjects();
     openPop('person', r, {pid}); return;
   }
-  const pcard = T.closest('.pc');
+  const pcard = T.closest('.pc2');
   if(pcard){
     if(S.sel){ zuteilen(S.sel, pcard.dataset.nr); return; }
     S.focus = S.focus===pcard.dataset.nr ? null : pcard.dataset.nr; S.selRect = PLAN[S.focus] ? S.focus : null; renderAll(); return;
@@ -1333,16 +1375,16 @@ stage.addEventListener('click', e=>{
   if(area && S.sel && S.pop && S.pop.kind==='person' && istAnw(byId[S.sel])){ S.pop.pending=['ab','Krank']; renderPop(); return; }
   if(S.pop || S.sel || S.focus){ S.sel=null; S.focus=null; S.selRect=null; closePop(); renderAll(); }
 });
-stage.addEventListener('dblclick', e=>{ const c = e.target.closest('.pc,.pr'); if(c){ S.hl=c.dataset.nr; setView('forecast'); } });
+stage.addEventListener('dblclick', e=>{ const c = e.target.closest('.pc2,.pr'); if(c){ S.hl=c.dataset.nr; setView('forecast'); } });
 $('#undo').addEventListener('click', ()=>{ undo(); $('#snack').classList.add('hide'); });
 
 function kpiClick(k){
   if(S.view!=='board') setView('board');
   const flash = el=>{ if(!el) return; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
-  if(k==='an') flash($('.sect.ab'));
+  if(k==='an') flash($('.ptab'));
   if(k==='ohne') flash($('#ohne'));
-  if(k==='under') document.querySelectorAll('.pc.under').forEach(flash);
-  if(k==='plan') document.querySelectorAll('.pc .tag.plan').forEach(t=>flash(t.closest('.pc')));
+  if(k==='under') document.querySelectorAll('.pr .cnt.under').forEach(c=>flash(c.closest('.pr')));
+  if(k==='plan') document.querySelectorAll('.pc2 .tag.plan').forEach(t=>flash(t.closest('.pc2')));
   if(k==='rot'){ S.hl = (PROJEKTE.find(p=>forecast(p).amp.includes('r'))||{}).nr; setView('forecast'); }
   if(k==='mn') toast('3 Maßnahmen überfällig – Ansicht „Maßnahmen“ folgt');
 }

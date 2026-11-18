@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montageplanung SMB</title>
+<style>
+/* ==========================================================================
+   Montageplanung SMB – Look-Prototyp (Klick-Dummy)
+   Gestaltet für eine 1920×1080-Bühne; wird per transform: scale auf jede
+   16:9-Auflösung (z. B. 3840×2160 → Faktor 2) skaliert. Alle Daten fiktiv.
+   ========================================================================== */
+:root{
+  --green:#00893D; --green-dk:#006B2F; --green-lt:#E6F3EC;
+  --surface:#F4F5F6; --line:#D9DCDF; --text-2:#5F6870; --text:#1F2328; --white:#FFFFFF;
+  --st-an:#2E9E4F; --st-sc:#F2A900; --st-ku:#1F6FD1; --st-in:#8A3FD1; --st-ab:#D7263D;
+  --amp-g:#2E9E4F; --amp-y:#F2C94C; --amp-r:#D7263D;
+  --warn:#E8710A;
+  --aisle:rgba(242,201,76,.4);
+  --r:8px;
+  --font:"Barlow","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#E3E6E9}
+body{font-family:var(--font);color:var(--text);-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent;user-select:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+
+/* ---------- Bühne 1920×1080 ---------- */
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;background:var(--white);
+  transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center center;
+  display:grid;grid-template-rows:64px minmax(0,1fr) 52px;grid-template-columns:minmax(0,1fr);overflow:hidden}
+
+/* ---------- B1 Kopfzeile ---------- */
+.hdr{display:flex;align-items:center;gap:20px;padding:0 20px 0 24px;white-space:nowrap;border-bottom:3px solid var(--green);background:var(--white)}
+.brand{display:flex;align-items:center;gap:14px;flex:none}
+.wordmark{font-weight:800;font-size:24px;letter-spacing:.06em;color:var(--green);line-height:1}
+.brand .sep{width:1px;height:28px;background:var(--line)}
+.app-title{font-size:19px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.app-title small{display:block;font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.hdr-center{display:flex;align-items:center;gap:12px;margin-left:auto;flex:none}
+.kw{display:flex;align-items:center;gap:4px}
+.icon-btn{width:36px;height:36px;display:grid;place-items:center;border-radius:var(--r);border:1px solid var(--line);background:var(--white)}
+.icon-btn:active,.btn:active{background:var(--surface)}
+.icon-btn svg{width:16px;height:16px}
+.kw-label{font-size:22px;font-weight:700;padding:0 8px;min-width:86px;white-space:nowrap;text-align:center}
+.kw-range{font-size:16px;font-weight:600;color:var(--text-2);margin-left:6px;white-space:nowrap}
+.btn{height:36px;padding:0 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);
+  font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn svg{width:16px;height:16px}
+.seg{display:inline-flex;height:36px;border:1px solid var(--line);border-radius:var(--r);padding:2px;background:var(--surface)}
+.seg button{min-width:72px;padding:0 14px;border-radius:6px;font-size:14px;font-weight:600;color:var(--text-2)}
+.seg button.on{background:var(--white);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:16px;flex:none}
+.tabs{display:flex;align-self:stretch}
+.tabs button{position:relative;padding:0 12px;font-size:15px;font-weight:600;color:var(--text-2);letter-spacing:.01em}
+.tabs button.on{color:var(--text)}
+.tabs button.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-3px;height:3px;background:var(--text)}
+.sync{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text-2)}
+.sync i{width:10px;height:10px;border-radius:50%;background:var(--st-an);box-shadow:0 0 0 3px rgba(46,158,79,.18)}
+.clock{font-size:22px;font-weight:700;min-width:60px;text-align:right}
+.role{height:36px;padding:0 14px 0 8px;border-radius:18px;background:var(--surface);border:1px solid var(--line);
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.role span{width:24px;height:24px;border-radius:50%;background:var(--text);display:grid;place-items:center}
+.role svg{width:14px;height:14px}
+.vsep{width:1px;height:28px;background:var(--line)}
+
+/* ---------- Hauptbereich ---------- */
+.main{display:grid;grid-template-columns:352px minmax(0,1fr) 528px;gap:12px;padding:12px 16px;min-height:0}
+.panel{display:flex;flex-direction:column;min-height:0;min-width:0}
+.ph{height:36px;flex:none;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.ph h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ph .sub{font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap}
+.ph .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.count{min-width:24px;height:20px;padding:0 6px;border-radius:10px;background:var(--surface);border:1px solid var(--line);
+  font-size:12px;font-weight:700;display:inline-grid;place-items:center}
+
+/* ---------- Avatare & Statuspunkte ---------- */
+.av{position:relative;flex:none;width:22px;height:22px;border-radius:50%;background:#E3E6E9;color:var(--text);
+  display:grid;place-items:center;font-size:10px;font-weight:700;letter-spacing:.02em}
+.av.lead{background:var(--green-dk);color:var(--white)}
+.sd{position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;border:2px solid var(--white)}
+.st-an{background:var(--st-an)} .st-sc{background:var(--st-sc)} .st-ku{background:var(--st-ku)}
+.st-in{background:var(--st-in)} .st-ab{background:var(--st-ab)}
+
+/* ---------- B2 Personal-Pool ---------- */
+.pool{background:var(--surface);border-radius:var(--r);padding:8px;flex:1;min-height:0;display:flex;flex-direction:column}
+.pool-tabs{display:flex;height:36px;width:250px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:2px;flex:none}
+.pool-tabs button{flex:1;border-radius:6px;font-size:13px;font-weight:700;color:var(--text-2);display:flex;align-items:center;justify-content:center;gap:8px}
+.pool-tabs button.on{background:var(--text);color:var(--white)}
+.pool-tabs button .count{background:transparent;border-color:currentColor;height:18px}
+.pool-body{display:flex;flex-direction:column;gap:6px;min-height:0}
+.grp{border-radius:var(--r);background:var(--white);border:1px solid var(--line);overflow:visible}
+.grp-h{height:18px;padding:0 8px;display:flex;align-items:center;justify-content:space-between;background:var(--green-dk);color:var(--white);
+  font-size:11px;font-weight:700;letter-spacing:.1em;border-radius:7px 7px 0 0}
+.grp-h b{font-weight:600;opacity:.85;letter-spacing:0}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:3px}
+.grp.ne{background:var(--green-lt);border:1.5px solid var(--green)}
+.grp.ne .grp-h{background:transparent;color:var(--green-dk);height:22px;padding:0 8px;border-radius:0}
+.grp.ne .grp-h b{opacity:1;background:var(--green-dk);color:var(--white);border-radius:9px;padding:0 7px;line-height:18px;font-weight:700}
+.grp.ne .cards{padding-top:0}
+
+.pcard{position:relative;height:42px;min-width:0;padding:2px 4px 0 4px;border-radius:var(--r);background:var(--white);border:1px solid var(--line);
+  display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:22px 13px;column-gap:4px;row-gap:1px;align-items:center;cursor:grab;touch-action:none}
+.pcard .pn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
+.qb{grid-column:1 / -1;display:flex;gap:2px;overflow:hidden}
+.qb b{height:12px;padding:0 3px;border-radius:3px;background:var(--surface);border:1px solid var(--line);
+  font-size:8.5px;font-weight:700;letter-spacing:.03em;line-height:10px;color:#3A4148}
+.pcard.dim{opacity:.92}
+.pcard.ghost{background:transparent;border:1.5px dashed #9AA3AB;cursor:default}
+.pcard.ghost::after{content:"wird gezogen";position:absolute;inset:0;display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--text-2)}
+
+/* Zustand: ausgewählt */
+.selected{border-color:var(--green)!important;box-shadow:0 0 0 2px var(--green),0 0 0 6px rgba(0,137,61,.22);animation:pulse 1.6s ease-in-out infinite;z-index:2}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 2px var(--green),0 0 0 3px rgba(0,137,61,.28)}50%{box-shadow:0 0 0 2px var(--green),0 0 0 8px rgba(0,137,61,0)}}
+/* Zustand: angehoben (beim Ziehen) */
+.lifted{position:absolute;z-index:30;width:108px;transform:rotate(2deg) scale(1.08);box-shadow:0 14px 28px rgba(31,35,40,.28),0 3px 8px rgba(31,35,40,.18);
+  border-color:#B8BEC4;pointer-events:none}
+.touchpoint{position:absolute;z-index:31;width:34px;height:34px;border-radius:50%;background:rgba(31,35,40,.14);border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 0 0 1px rgba(31,35,40,.18);pointer-events:none}
+
+.absent-list{display:none}
+.pool.show-absent .present-list{display:none}
+.pool.show-absent .absent-list{display:flex}
+.absent-note{font-size:13px;color:var(--text-2);padding:4px 8px 8px}
+
+/* ---------- B3 Hallenplan ---------- */
+.legend-mini{display:flex;gap:14px;font-size:12px;font-weight:600;color:var(--text-2)}
+.legend-mini span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.legend-mini i{width:16px;height:12px;border-radius:3px;display:inline-block}
+.sw-mp{background:var(--white);border:1px solid var(--line);box-shadow:inset 0 3px 0 var(--green-dk)}
+.sw-fb{background:var(--green-lt);border:1px solid #BFDCCB}
+.sw-sf{background:var(--white);border:1.5px dashed var(--green)}
+.sw-in{background:repeating-linear-gradient(45deg,#E8EAEC 0 3px,#F7F8F9 3px 6px);border:1px solid var(--line)}
+.sw-vw{background:var(--aisle);border:1px solid rgba(242,201,76,.9)}
+
+.hall{flex:1;min-height:0;position:relative;border:2px solid #9AA3AB;border-radius:var(--r);background:var(--aisle);padding:4px;
+  display:grid;grid-template-columns:repeat(24,minmax(0,1fr));grid-template-rows:repeat(16,minmax(0,1fr));gap:4px}
+.aisle-label{position:absolute;font-size:11px;font-weight:700;letter-spacing:.32em;color:rgba(122,92,0,.62);white-space:nowrap;pointer-events:none}
+.zone{position:relative;min-width:0;min-height:0;border-radius:var(--r);display:flex;flex-direction:column}
+.zone .zl{font-size:11px;font-weight:700;letter-spacing:.06em;hyphens:manual;text-transform:uppercase;color:var(--green-dk);
+  display:flex;align-items:center;justify-content:space-between;gap:6px;line-height:13px}
+.zone .zl em{font-style:normal;font-weight:600;color:var(--text-2);letter-spacing:0}
+.zone .zinfo{font-size:11px;font-weight:600;color:var(--text-2);margin-top:2px}
+.people{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+
+/* Montageplatz */
+.z-mp{background:var(--white);border:1px solid var(--line)}
+.mp-h{height:26px;flex:none;background:var(--green-dk);color:var(--white);border-radius:7px 7px 0 0;padding:0 8px;
+  display:flex;align-items:center;justify-content:space-between}
+.mp-h b{font-size:15px;font-weight:800;letter-spacing:.04em}
+.mp-h span{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+.mp-h span svg{width:12px;height:12px;opacity:.85}
+.mp-b{flex:1;min-height:0;padding:5px 4px 4px;display:flex;flex-direction:column;gap:5px}
+.mp-proj{display:flex;flex-direction:column;gap:2px;padding:0 2px 5px;border-bottom:1px solid #ECEEF0}
+.mp-proj .l1{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.mp-proj .prj{font-size:11px;font-weight:700;color:var(--text-2)}
+.mp-proj .kn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:16px}
+.z-mp .people{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:36px;gap:4px}
+.mp-free{flex:1;display:grid;place-items:center;border:1.5px dashed var(--line);border-radius:6px;color:var(--text-2);
+  font-size:14px;font-weight:600;text-align:center;line-height:1.35}
+.mp-free small{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7A838B}
+.more{height:36px;border-radius:6px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:14px;font-weight:700;color:var(--text-2)}
+.slot{height:36px;border-radius:6px;border:1.5px dashed var(--green);background:rgba(0,137,61,.06)}
+
+/* Funktionsbereich / Sonderfläche / Infrastruktur */
+.z-fb{background:var(--green-lt);border:1px solid #C9E2D3;padding:6px 8px;gap:5px}
+.z-sf{background:var(--white);border:1.5px dashed var(--green);padding:6px 8px;gap:5px}
+.z-in{background:repeating-linear-gradient(45deg,#E6E8EA 0 6px,#F4F5F6 6px 12px);border:1px solid var(--line);padding:6px 8px;
+  justify-content:center;align-items:center}
+.z-in .zl{color:#6B747C;letter-spacing:.1em}
+.zone.row1{flex-direction:row;align-items:center;gap:10px;padding-top:0;padding-bottom:0}
+.zone.row1 .zl{flex:none}
+.zone.row1 .people{flex-wrap:nowrap}
+
+/* Mini-Personenkarte */
+.mcard{position:relative;height:36px;min-width:60px;padding:0 4px 0 6px;border-radius:6px;background:var(--white);border:1px solid var(--line);
+  display:flex;align-items:center;gap:5px;cursor:grab;touch-action:none}
+.mcard .md{flex:none;width:10px;height:10px;border-radius:50%}
+.mcard .mn{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.z-mp .mcard{min-width:0}
+.zone:not(.z-mp) .mcard{width:92px}
+.mcard.fresh{animation:fresh 2.4s ease-out 1}
+@keyframes fresh{0%{background:#CFE9D9}100%{background:var(--white)}}
+.mcard.fresh::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;border-radius:6px 0 0 6px;background:var(--green)}
+
+/* Zonen-Zustände */
+.drop-ok{border-color:var(--green)!important;box-shadow:0 0 0 2px var(--green),0 0 0 6px rgba(0,137,61,.18),0 0 22px rgba(0,137,61,.45);z-index:5}
+.drop-hint{position:absolute;left:50%;top:-30px;transform:translateX(-50%);z-index:6;height:22px;padding:0 9px;border-radius:11px;background:var(--green);color:var(--white);
+  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.over{border-color:var(--warn)!important;box-shadow:0 0 0 2px var(--warn);z-index:4}
+.over .mp-h svg{display:none}
+.over .mp-h > span:last-child{background:var(--warn);color:var(--text);border-radius:4px;padding:1px 6px}
+.mp-h .ob{margin-left:6px;margin-right:auto;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#FFD3B0}
+.over-hint{position:absolute;right:6px;top:-11px;z-index:6;height:20px;padding:0 8px;border-radius:10px;background:var(--warn);color:var(--text);
+  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;white-space:nowrap}
+.dragging{opacity:.35}
+
+/* ---------- B4 Projekte ---------- */
+.proj{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}
+.sec-h{height:24px;flex:none;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.sec-h h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.sec-h .hint{margin-left:auto;font-size:12px;font-weight:600;color:var(--text-2)}
+.sec{display:flex;flex-direction:column;gap:8px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{position:relative;height:150px;padding:10px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);
+  display:grid;grid-template-rows:36px 22px 22px 26px;row-gap:8px;min-width:0;cursor:pointer}
+.tile.under{border-left:4px solid var(--st-ab);padding-left:7px}
+.t-top{display:flex;justify-content:space-between;gap:8px;min-width:0}
+.t-top .nm{font-size:15px;font-weight:700;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-top .nr{font-size:12px;font-weight:600;color:var(--text-2);line-height:16px;white-space:nowrap}
+.t-top .nr b{color:var(--text);font-weight:700}
+.t-top > div:first-child{min-width:0}
+.t-top .rt{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
+.badge-under{height:16px;padding:0 6px;border-radius:4px;background:var(--st-ab);color:var(--white);font-size:10px;font-weight:700;letter-spacing:.06em;
+  display:flex;align-items:center;text-transform:uppercase}
+.t-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.phase{height:22px;padding:0 6px 0 7px;border-radius:4px;background:var(--surface);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.steps{display:inline-flex;gap:2px}
+.steps i{width:4px;height:8px;border-radius:1px;background:#CDD1D5}
+.steps i.done{background:#5F6870}
+.steps i.cur{background:var(--text);height:10px}
+.qcd{display:flex;gap:4px}
+.qcd span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--text)}
+.qcd .g{background:var(--amp-g)} .qcd .y{background:var(--amp-y)} .qcd .r{background:var(--amp-r);color:var(--white)}
+.dates{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap}
+.dates b{color:var(--text);font-weight:700}
+.dates b.crit{color:#B3182C}
+.stack{display:flex;padding-left:5px}
+.stack .av{width:20px;height:20px;margin-left:-6px;border:2px solid var(--white);font-size:9px;box-sizing:content-box}
+.stack .av.plus{background:var(--surface);color:var(--text-2);border-color:var(--white);font-size:10px}
+.stack .none{font-size:12px;color:var(--text-2);font-weight:600}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bar .bl{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:600;color:var(--text-2);line-height:14px;margin-bottom:4px;white-space:nowrap}
+.bar .bl b{color:var(--text);font-weight:700;font-size:12px}
+.track{position:relative;height:8px;border-radius:4px;background:#E6E8EA;overflow:hidden}
+.track i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.track .soll{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--text)}
+.f-g{background:var(--amp-g)} .f-y{background:var(--amp-y)} .f-r{background:var(--amp-r)} .f-n{background:#5F6870}
+.logo{flex:none;font-size:10px;line-height:14px;color:var(--text);white-space:nowrap}
+.logo-a{font-weight:800;font-style:italic;letter-spacing:.02em;font-size:11px}
+.logo-a::before{content:"";display:inline-block;width:8px;height:8px;background:var(--text);transform:skewX(-14deg);margin-right:4px;vertical-align:0}
+.logo-b{font-weight:700;letter-spacing:.02em;border:1.5px solid var(--text);border-radius:8px;padding:0 5px;line-height:12px}
+.logo-c{font-weight:600;letter-spacing:.1em;font-size:9px;border-top:1.5px solid var(--text);border-bottom:1.5px solid var(--text);line-height:11px}
+.logo-d{font-weight:800;letter-spacing:.06em;background:var(--text);color:var(--white);padding:0 5px;border-radius:2px}
+.logo-i{font-weight:700;letter-spacing:.1em;color:var(--text-2);border:1px dashed #8C959D;padding:0 4px;border-radius:3px;font-size:9.5px;line-height:12px}
+
+/* ---------- B5 Fußleiste ---------- */
+.ftr{display:flex;align-items:center;gap:16px;padding:0 16px 0 24px;border-top:1px solid var(--line);background:var(--white)}
+.lg{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap}
+.lg .t{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--text);text-transform:uppercase}
+.lg span{display:inline-flex;align-items:center;gap:6px}
+.lg span > i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.lg .amp{width:20px;height:20px;border-radius:50%;border:1.5px solid #8C959D;display:inline-grid;place-items:center;font-size:10px;font-weight:800;color:var(--text)}
+.lg .ampc{gap:3px}
+.lg .ampc i{width:12px;height:12px;border-radius:50%}
+.lg .ampc i.g{background:var(--amp-g)} .lg .ampc i.y{background:var(--amp-y)} .lg .ampc i.r{background:var(--amp-r);margin-right:5px}
+.lg .avx{width:16px;height:16px;border-radius:50%;background:var(--green-dk);display:inline-block}
+.kpis{margin-left:auto;display:flex;gap:6px}
+.kpi{height:40px;padding:0 8px 0 12px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.kpi .k{font-size:13px;font-weight:600;color:var(--text-2)}
+.kpi .v{font-size:19px;font-weight:800}
+.kpi .v small{font-size:13px;font-weight:700;color:var(--text-2)}
+.kpi svg{width:14px;height:14px;color:#9AA3AB}
+.kpi .dot{width:10px;height:10px;border-radius:50%}
+.kpi.alert{border-color:var(--st-ab);background:#FDECEE}
+.kpi.alert .k{color:#8E1424} .kpi.alert .v{color:#B3182C} .kpi.alert svg{color:#B3182C}
+
+/* ---------- Undo-Snackbar ---------- */
+.snack{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);z-index:50;height:52px;padding:0 8px 0 18px;border-radius:var(--r);
+  background:var(--text);color:var(--white);display:flex;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(31,35,40,.3);overflow:hidden;
+  transition:opacity .2s, transform .2s}
+.snack.hide{opacity:0;transform:translate(-50%,12px);pointer-events:none}
+.snack .ok{width:22px;height:22px;border-radius:50%;background:var(--st-an);display:grid;place-items:center}
+.snack .ok svg{width:13px;height:13px}
+.snack .msg{font-size:16px;font-weight:600;white-space:nowrap}
+.snack .msg b{font-weight:800}
+.snack .div{width:1px;height:24px;background:rgba(255,255,255,.22)}
+.snack .undo{height:40px;padding:0 14px;border-radius:6px;color:#7FD9A3;font-size:14px;font-weight:800;letter-spacing:.1em;display:inline-flex;align-items:center;gap:8px}
+.snack .undo:active{background:rgba(255,255,255,.08)}
+.snack .undo svg{width:16px;height:16px}
+.snack .timer{position:absolute;left:0;bottom:0;height:3px;width:62%;background:#7FD9A3;opacity:.7}
+
+/* Tabellenziffern nur für Zahlen – Namen und Wortmarken proportional */
+.kn,.t-top .nm,.logo,.pn,.mn,.zl,.app-title{font-variant-numeric:normal}
+@media (prefers-reduced-motion:reduce){.selected,.mcard.fresh{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- =============================== B1 KOPFZEILE =============================== -->
+  <header class="hdr">
+    <div class="brand">
+      <span class="wordmark">SCHAEFFLER</span>
+      <span class="sep"></span>
+      <div class="app-title">Montageplanung SMB<small>Halle 3 · Montage</small></div>
+    </div>
+
+    <div class="hdr-center">
+      <div class="kw">
+        <button class="icon-btn" aria-label="Vorherige Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></button>
+        <span class="kw-label">KW 47</span>
+        <button class="icon-btn" aria-label="Nächste Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+        <span class="kw-range">16.11.–22.11.2026</span>
+      </div>
+      <button class="btn">Heute</button>
+      <div class="seg" data-seg>
+        <button>Tag</button><button class="on">Woche</button>
+      </div>
+    </div>
+
+    <div class="hdr-right">
+      <button class="btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z"/></svg>Filter</button>
+      <nav class="tabs" data-tabs>
+        <button class="on">Board</button><button>Maßnahmen</button><button>Auswertung</button><button>Stammdaten</button>
+      </nav>
+      <span class="vsep"></span>
+      <span class="sync"><i></i>aktuell</span>
+      <span class="clock" id="clock">10:42</span>
+      <span class="role"><span><svg viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14.5c.6-3 2.8-4.5 5.5-4.5s4.9 1.5 5.5 4.5z"/></svg></span>Meister</span>
+    </div>
+  </header>
+
+  <!-- =============================== HAUPTBEREICH =============================== -->
+  <main class="main">
+
+    <!-- B2 PERSONAL -->
+    <section class="panel">
+      <div class="ph"><h2>Personal</h2>
+        <div class="right pool-tabs" data-pooltabs>
+          <button class="on" data-v="present">Anwesend <span class="count">40</span></button>
+          <button data-v="absent">Abwesend <span class="count">1</span></button>
+        </div>
+      </div>
+      <div class="pool" id="pool">
+        <div class="pool-body present-list" id="poolPresent"></div>
+        <div class="pool-body absent-list" id="poolAbsent"></div>
+      </div>
+    </section>
+
+    <!-- B3 HALLENPLAN -->
+    <section class="panel">
+      <div class="ph">
+        <h2>Hallenplan</h2><span class="sub">Halle 3 · Mi 18.11.</span>
+        <div class="right legend-mini">
+          <span><i class="sw-mp"></i>Montageplatz</span>
+          <span><i class="sw-fb"></i>Funktionsbereich</span>
+          <span><i class="sw-sf"></i>Sonderfläche</span>
+          <span><i class="sw-in"></i>Infrastruktur</span>
+          <span><i class="sw-vw"></i>Verkehrsweg</span>
+        </div>
+      </div>
+      <div class="hall" id="hall"></div>
+    </section>
+
+    <!-- B4 PROJEKTE -->
+    <section class="panel">
+      <div class="ph"><h2>Projekte</h2><span class="sub">10 aktiv</span><div class="right"><span class="sub">Sortierung: Ampel</span></div></div>
+      <div class="proj" id="proj"></div>
+    </section>
+  </main>
+
+  <!-- =============================== B5 FUSSLEISTE =============================== -->
+  <footer class="ftr">
+    <div class="lg">
+      <span class="t">Status</span>
+      <span><i class="st-an"></i>Anwesend</span>
+      <span><i class="st-sc"></i>Schulung</span>
+      <span><i class="st-ku"></i>Kundeneinsatz</span>
+      <span><i class="st-in"></i>Intern</span>
+      <span><i class="st-ab"></i>Abwesend</span>
+    </div>
+    <span class="vsep"></span>
+    <div class="lg">
+      <span class="t">Ampel</span>
+      <span><b class="amp">Q</b>Qualität</span>
+      <span><b class="amp">C</b>Kosten</span>
+      <span><b class="amp">D</b>Termin</span>
+    </div>
+    <span class="vsep"></span>
+    <div class="lg"><span><i class="avx"></i>Vorarbeiter</span></div>
+
+    <div class="kpis">
+      <button class="kpi"><span class="dot st-an"></span><span class="k">Anwesend</span><span class="v">34<small>/41</small></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="kpi"><span class="k">Nicht eingeteilt</span><span class="v">4</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="kpi"><span class="k">Unterbesetzt</span><span class="v">2</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="kpi"><span class="dot st-ab"></span><span class="k">Rote Ampel</span><span class="v">1</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="kpi alert"><span class="k">Maßnahmen überfällig</span><span class="v">3</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+    </div>
+  </footer>
+
+  <!-- Undo-Snackbar -->
+  <div class="snack" id="snack" role="status">
+    <span class="ok"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+    <span class="msg" id="snackMsg"><b>M. Becker</b> → A2 eingeteilt</span>
+    <span class="div"></span>
+    <button class="undo" id="undo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h6a3.5 3.5 0 0 1 0 7H7"/><path d="M6.5 3 3.5 6l3 3"/></svg>RÜCKGÄNGIG</button>
+    <span class="timer"></span>
+  </div>
+</div>
+
+<script>
+/* =============================================================================
+   Statische, fiktive Daten
+   status: an = anwesend · sc = Schulung · ku = Kundeneinsatz · in = intern · ab = abwesend
+   ============================================================================= */
+const P = [
+  // Nicht eingeteilt
+  {id:'vogel',  n:'J. Vogel',  t:'NE',   s:'an', q:['MECH','KRAN']},
+  {id:'kaiser', n:'C. Kaiser', t:'NE',   s:'an', q:['ELEK','IBN']},
+  {id:'roth',   n:'N. Roth',   t:'NE',   s:'an', q:['MECH']},
+  {id:'graf',   n:'E. Graf',   t:'NE',   s:'an', q:['SCHW','MECH']},
+  // ZSA
+  {id:'weber',  n:'T. Weber',  t:'ZSA',  s:'an', q:['MECH','ELEK','IBN'], lead:1},
+  {id:'lange',  n:'S. Lange',  t:'ZSA',  s:'an', q:['MECH']},
+  {id:'hahn',   n:'D. Hahn',   t:'ZSA',  s:'an', q:['IBN','ELEK']},
+  {id:'busch',  n:'K. Busch',  t:'ZSA',  s:'an', q:['MECH']},
+  {id:'otto',   n:'F. Otto',   t:'ZSA',  s:'an', q:['MECH','SCHW']},
+  {id:'kuehn',  n:'R. Kühn',   t:'ZSA',  s:'an', q:['MECH']},
+  // ZSA1
+  {id:'wolf',   n:'A. Wolf',   t:'ZSA1', s:'an', q:['MECH','KRAN','IBN'], lead:1},
+  {id:'koch',   n:'J. Koch',   t:'ZSA1', s:'an', q:['MECH']},
+  {id:'braun',  n:'L. Braun',  t:'ZSA1', s:'an', q:['ELEK']},
+  {id:'kraus',  n:'P. Kraus',  t:'ZSA1', s:'an', q:['MECH','KRAN']},
+  {id:'engel',  n:'M. Engel',  t:'ZSA1', s:'an', q:['MECH']},
+  {id:'simon',  n:'B. Simon',  t:'ZSA1', s:'an', q:['ELEK','IBN']},
+  // ZSA2
+  {id:'becker', n:'M. Becker', t:'ZSA2', s:'an', q:['MECH','ELEK']},
+  {id:'fuchs',  n:'O. Fuchs',  t:'ZSA2', s:'an', q:['MECH','IBN'], lead:1},
+  {id:'haas',   n:'G. Haas',   t:'ZSA2', s:'an', q:['ELEK']},
+  {id:'berg',   n:'I. Berg',   t:'ZSA2', s:'an', q:['MECH']},
+  {id:'horn',   n:'U. Horn',   t:'ZSA2', s:'an', q:['MECH','SCHW']},
+  {id:'pohl',   n:'V. Pohl',   t:'ZSA2', s:'an', q:['MECH']},
+  // ZSA3
+  {id:'frank',  n:'H. Frank',  t:'ZSA3', s:'an', q:['IBN','ELEK']},
+  {id:'jung',   n:'W. Jung',   t:'ZSA3', s:'an', q:['MECH']},
+  {id:'lorenz', n:'S. Lorenz', t:'ZSA3', s:'an', q:['MECH','KRAN','IBN'], lead:1},
+  {id:'seidel', n:'A. Seidel', t:'ZSA3', s:'an', q:['ELEK']},
+  {id:'brandt', n:'K. Brandt', t:'ZSA3', s:'an', q:['MECH']},
+  {id:'winter', n:'T. Winter', t:'ZSA3', s:'sc', q:['ELEK','IBN']},
+  // ZSA4
+  {id:'keller', n:'R. Keller', t:'ZSA4', s:'an', q:['MECH','SCHW'], lead:1},
+  {id:'peters', n:'J. Peters', t:'ZSA4', s:'an', q:['MECH']},
+  {id:'franke', n:'D. Franke', t:'ZSA4', s:'an', q:['ELEK']},
+  {id:'ludwig', n:'L. Ludwig', t:'ZSA4', s:'an', q:['MECH','KRAN']},
+  {id:'boehm',  n:'E. Böhm',   t:'ZSA4', s:'an', q:['IBN']},
+  {id:'sauer',  n:'N. Sauer',  t:'ZSA4', s:'an', q:['MECH']},
+  // ZSAA
+  {id:'voigt',  n:'F. Voigt',  t:'ZSAA', s:'an', q:['MECH']},
+  {id:'huber',  n:'C. Huber',  t:'ZSAA', s:'in', q:['MECH','ELEK']},
+  {id:'mayer',  n:'B. Mayer',  t:'ZSAA', s:'in', q:['IBN']},
+  // ZSY/ZSC
+  {id:'stein',  n:'G. Stein',  t:'ZSY/ZSC', s:'ku', q:['IBN','ELEK','MECH'], lead:1},
+  {id:'dietz',  n:'P. Dietz',  t:'ZSY/ZSC', s:'ku', q:['ELEK']},
+  {id:'arnold', n:'M. Arnold', t:'ZSY/ZSC', s:'ku', q:['IBN','MECH']},
+  // Abwesend
+  {id:'schulz', n:'H. Schulz', t:'ZSA1', s:'ab', q:['MECH','KRAN'], absent:'Urlaub bis 20.11.'},
+];
+const byId = Object.fromEntries(P.map(p=>[p.id,p]));
+const TEAMS = ['ZSA','ZSA1','ZSA2','ZSA3','ZSA4','ZSAA','ZSY/ZSC'];
+
+/* Hallenplan – 24×16-Raster, x/y 0-basiert */
+const Z = [
+  {id:'A1',x:1, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24117',p:['wolf','koch','braun','kraus']},
+  {id:'A2',x:5, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24121',p:['becker','fuchs','haas','berg'],fresh:'becker'},
+  {id:'A3',x:9, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24098',p:['frank','jung']},
+  {id:'A4',x:13,y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24130',p:['lorenz','seidel','brandt'],demoDrop:1},
+  {id:'B1',x:1, y:4,w:4,h:3,t:'mp',cap:6,prj:'P-24117',p:['engel','simon','horn','pohl']},
+  {id:'B2',x:5, y:4,w:4,h:3,t:'mp',cap:4,prj:'P-24105',p:['keller','peters','franke','ludwig','boehm']},
+  {id:'B3',x:9, y:4,w:4,h:3,t:'mp',cap:6,free:'27.11.',next:'P-24141'},
+  {id:'B4',x:13,y:4,w:4,h:3,t:'mp',cap:4,prj:'P-24126',p:['sauer','voigt']},
+  {id:'pol',n:'Polieren',           x:18,y:0, w:6, h:2,t:'fb',p:['busch']},
+  {id:'ibn',n:'IBN',                x:18,y:2, w:6, h:2,t:'fb',p:['hahn'],info:'Prüfplatz 1 belegt'},
+  {id:'qs', n:'QS',                 x:18,y:4, w:6, h:1,t:'fb',p:['lange']},
+  {id:'we', n:'Wareneingang',       x:18,y:5, w:6, h:3,t:'fb',p:[],info:'2 Anlieferungen heute'},
+  {id:'lag',n:'Lager',              x:18,y:8, w:6, h:2,t:'fb',p:[]},
+  {id:'ktf',n:'Kleinteile&shy;fertigung',x:0, y:9, w:4, h:5,t:'fb',p:['otto','kuehn']},
+  {id:'azu',n:'Azubi-Projekt',      x:6, y:9, w:3, h:2,t:'sf',p:['huber']},
+  {id:'tl', n:'Teamleitung',        x:10,y:9, w:4, h:2,t:'sf',p:['weber']},
+  {id:'fww',n:'Versuch FWW',        x:5, y:12,w:2, h:2,t:'sf',p:[]},
+  {id:'swk',n:'Versuch SWK',        x:8, y:12,w:3, h:2,t:'sf',p:['mayer']},
+  {id:'vs', n:'Versand',            x:13,y:11,w:4, h:1,t:'fb',p:[]},
+  {id:'lgm',n:'Lager (Mitte)',      x:13,y:12,w:4, h:2,t:'fb',p:[]},
+  {id:'rd', n:'R&D',                x:4, y:15,w:20,h:1,t:'fb',p:[]},
+  {id:'umk',n:'Umkleide',           x:18,y:11,w:6, h:2,t:'in'},
+  {id:'th1',n:'Treppenhaus',        x:0, y:14,w:4, h:2,t:'in'},
+  {id:'th2',n:'Treppenhaus',        x:18,y:13,w:6, h:2,t:'in'},
+];
+
+/* Projekte – phase: Index in PHASES; amp: [Q,C,D] g/y/r */
+const PHASES = ['Vormontage','Montage','IBN','FAT','Versand','SAT','Abgeschlossen'];
+const PR = [
+  {nr:'P-24117',nm:'Radlager-Linie',       c:'a',cust:'ANTRIEB A',   sec:'in', loc:'A1 · B1', from:'02.11.',to:'18.12.',at:23,ph:1,amp:'ggg',ist:8,soll:8,pct:34,p:['wolf','koch','braun','kraus','engel','simon','horn','pohl']},
+  {nr:'P-24121',nm:'Prüfstand E-Achse',     c:'b',cust:'e-mobil B', sec:'in', loc:'A2',      from:'26.10.',to:'11.12.',at:18,ph:1,amp:'ggg',ist:4,soll:4,pct:45,p:['becker','fuchs','haas','berg']},
+  {nr:'P-24098',nm:'Fügezelle Rotor',       c:'b',cust:'e-mobil B',   sec:'in', loc:'A3',      from:'19.10.',to:'27.11.',at:8, ph:2,amp:'gyr',ist:2,soll:6,pct:78,p:['frank','jung'],under:1},
+  {nr:'P-24130',nm:'Wafer-Handling',        c:'c',cust:'HALBLEITER C',sec:'in', loc:'A4',      from:'09.11.',to:'29.01.',at:53,ph:0,amp:'ggy',ist:3,soll:5,pct:12,p:['lorenz','seidel','brandt'],under:1},
+  {nr:'P-24105',nm:'Laserschweißzelle',     c:'d',cust:'ENERGIE D', sec:'in', loc:'B2',      from:'05.10.',to:'04.12.',at:13,ph:3,amp:'gyg',ist:5,soll:4,pct:88,p:['keller','peters','franke','ludwig','boehm']},
+  {nr:'P-24126',nm:'Stator-Wickler',        c:'a',cust:'ANTRIEB A',sec:'in', loc:'B4',      from:'16.11.',to:'05.02.',at:58,ph:0,amp:'ggg',ist:2,soll:2,pct:4, p:['sauer','voigt']},
+  {nr:'P-23188',nm:'Lager-Automat',  c:'d',cust:'ENERGIE D',   sec:'ku', loc:'vor Ort',  from:'12.10.',to:'27.11.',at:8, ph:5,amp:'ggg',ist:2,soll:2,pct:92,p:['stein','dietz']},
+  {nr:'P-24012',nm:'Getriebeprüfung',   c:'a',cust:'ANTRIEB A',   sec:'ku', loc:'vor Ort',  from:'16.11.',to:'04.12.',at:13,ph:4,amp:'ggg',ist:1,soll:1,pct:70,p:['arnold']},
+  {nr:'I-26003',nm:'Versuchsstand SWK',     c:'i',cust:'SMB INTERN',  sec:'int',loc:'Versuch SWK',from:'01.09.',to:'18.12.',at:23,ph:1,amp:'ggg',ist:1,soll:1,pct:60,p:['mayer']},
+  {nr:'I-26007',nm:'Azubi Linearachse',c:'i',cust:'SMB INTERN',sec:'int',loc:'Azubi-Projekt',from:'05.10.',to:'29.01.',at:53,ph:0,amp:'ggg',ist:1,soll:1,pct:30,p:['huber']},
+];
+const prjByNr = Object.fromEntries(PR.map(p=>[p.nr,p]));
+
+/* =============================================================================
+   Render-Helfer
+   ============================================================================= */
+const h = (html)=>{const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild;};
+const ini = n => n.replace('.','').split(' ').map(s=>s[0]).join('');
+const surname = n => n.split(' ').slice(1).join(' ');
+const dot = p => `<i class="md st-${p.s}"></i>`;
+const av = (p,cls='') => `<span class="av ${p.lead?'lead':''} ${cls}">${ini(p.n)}<i class="sd st-${p.s}"></i></span>`;
+const icoUser = `<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2.5 15c.5-3.2 2.7-5 5.5-5s5 1.8 5.5 5z"/></svg>`;
+
+function pcard(p,extra=''){
+  return `<div class="pcard ${extra}" draggable="true" data-id="${p.id}" title="${p.n} · ${p.q.join(', ')}">
+    ${av(p)}<span class="pn">${p.n}</span>
+    <span class="qb">${p.q.map(q=>`<b>${q}</b>`).join('')}</span></div>`;
+}
+function mcard(p,extra=''){
+  return `<div class="mcard ${p.lead?'lead':''} ${extra}" draggable="true" data-id="${p.id}" title="${p.n}">${dot(p)}<span class="mn">${surname(p.n)}</span></div>`;
+}
+
+/* ---------- B2 Pool ---------- */
+function renderPool(){
+  const box = document.getElementById('poolPresent');
+  const ne = P.filter(p=>p.t==='NE');
+  const neCards = ne.map(p=>{
+    if(p.id==='vogel')  return pcard(p,'selected');   // Zustand: ausgewählt
+    if(p.id==='kaiser') return `<div class="pcard ghost" data-demo></div>`; // Platzhalter der gezogenen Karte
+    return pcard(p);
+  }).join('');
+  box.appendChild(h(`<div class="grp ne"><div class="grp-h">NICHT EINGETEILT <b>${ne.length}</b></div><div class="cards" data-zone="NE">${neCards}</div></div>`));
+  TEAMS.forEach(t=>{
+    const m = P.filter(p=>p.t===t && p.s!=='ab');
+    box.appendChild(h(`<div class="grp"><div class="grp-h">${t} <b>${m.length}</b></div><div class="cards">${m.map(p=>pcard(p)).join('')}</div></div>`));
+  });
+  const abs = P.filter(p=>p.s==='ab');
+  document.getElementById('poolAbsent').appendChild(h(`<div class="grp"><div class="grp-h">ABWESEND <b>${abs.length}</b></div>
+    <div class="cards">${abs.map(p=>pcard(p,'dim')).join('')}</div>
+    <div class="absent-note">${abs.map(p=>`${p.n}: ${p.absent}`).join('<br>')}</div></div>`));
+}
+
+/* ---------- B3 Hallenplan ---------- */
+function renderHall(){
+  const hall = document.getElementById('hall');
+  Z.forEach(z=>{
+    const el = document.createElement('div');
+    el.className = `zone z-${z.t}` + ((z.t!=='mp' && z.h===1)?' row1':'');
+    el.style.gridColumn = `${z.x+1} / span ${z.w}`;
+    el.style.gridRow    = `${z.y+1} / span ${z.h}`;
+    el.dataset.zone = z.id;
+    if(z.t==='in'){
+      el.innerHTML = `<div class="zl">${z.n}</div>`;
+    } else if(z.t==='mp'){
+      const people = z.p||[];
+      const over = people.length > z.cap;
+      if(over) el.classList.add('over');
+      let body;
+      if(z.free){
+        body = `<div class="mp-free"><div><small>Frei</small>frei ab ${z.free}<br><span style="font-size:12px">reserviert ${z.next}</span></div></div>`;
+      } else {
+        const pr = prjByNr[z.prj];
+        const shown = over ? people.slice(0,3) : people;
+        let cards = shown.map(id=>mcard(byId[id], z.fresh===id?'fresh':'')).join('');
+        if(over) cards += `<div class="more">+${people.length-3}</div>`;
+        if(z.demoDrop) cards += `<div class="slot" data-demo></div>`;
+        body = `<div class="mp-proj"><div class="l1"><span class="logo logo-${pr.c}">${pr.cust}</span><span class="prj">${pr.nr}</span></div>
+                <div class="kn">${pr.nm}</div></div><div class="people">${cards}</div>`;
+      }
+      el.innerHTML = `<div class="mp-h"><b>${z.id}</b>${over?'<span class="ob">Überbelegt</span>':''}<span>${icoUser}<em class="cap" style="font-style:normal">${(z.p||[]).length}/${z.cap}</em></span></div><div class="mp-b">${body}</div>`;
+      if(z.demoDrop){
+        el.classList.add('drop-ok');
+        el.appendChild(h(`<div class="drop-hint" data-demo>▼ HIER ABLEGEN · ${people.length+1}/${z.cap}</div>`));
+        // Zustand: angehoben – Karte schwebt über dem freien Slot
+        const lift = h(pcard(byId.kaiser,'lifted'));
+        lift.dataset.demo = '';
+        lift.removeAttribute('draggable');
+        lift.style.right = '-30px'; lift.style.bottom = '14px';
+        el.appendChild(lift);
+        const tp = h(`<span class="touchpoint" data-demo></span>`);
+        tp.style.right = '8px'; tp.style.bottom = '2px';
+        el.appendChild(tp);
+      }
+    } else {
+      const people = z.p||[];
+      el.innerHTML = `<div class="zl">${z.n}${z.h>1?`<em>${people.length||''}</em>`:''}</div>
+        ${z.info?`<div class="zinfo">${z.info}</div>`:''}
+        <div class="people">${people.map(id=>mcard(byId[id])).join('')}</div>`;
+    }
+    hall.appendChild(el);
+  });
+  // Beschriftung der Hauptverkehrswege
+  const a1 = h(`<div class="aisle-label">HAUPTVERKEHRSWEG</div>`);
+  a1.style.cssText += 'left:34%;top:46.4%;transform:translate(-50%,-50%)';
+  hall.appendChild(a1);
+  const a2 = h(`<div class="aisle-label">VERKEHRSWEG</div>`);
+  a2.style.cssText += 'left:47%;top:91.4%;transform:translate(-50%,-50%)';
+  hall.appendChild(a2);
+}
+
+/* ---------- B4 Projekte ---------- */
+function tile(pr){
+  const ratio = pr.ist/pr.soll;
+  const sCls = pr.ist>=pr.soll ? 'f-g' : (ratio<=.5 ? 'f-r' : 'f-y');
+  const fill = Math.min(ratio,1)*100;
+  const vis = pr.p.length>3 ? 2 : 3;
+  const stack = pr.p.slice(0,vis).map(id=>av(byId[id])).join('') + (pr.p.length>vis?`<span class="av plus">+${pr.p.length-vis}</span>`:'');
+  const steps = PHASES.map((_,i)=>`<i class="${i<pr.ph?'done':i===pr.ph?'cur':''}"></i>`).join('');
+  const amp = [...pr.amp].map((c,i)=>`<span class="${c}" title="${['Qualität','Kosten','Termin'][i]}">${'QCD'[i]}</span>`).join('');
+  return `<article class="tile ${pr.under?'under':''}">
+    <div class="t-top"><div><div class="nm">${pr.nm}</div><div class="nr"><b>${pr.nr}</b> · ${pr.loc}</div></div>
+      <div class="rt"><span class="logo logo-${pr.c}">${pr.cust}</span>${pr.under?'<span class="badge-under">Unterbesetzt</span>':''}</div></div>
+    <div class="t-row"><span class="phase">${PHASES[pr.ph]}<span class="steps">${steps}</span></span><span class="qcd">${amp}</span></div>
+    <div class="t-row"><span class="dates">${pr.from}–${pr.to} · <b class="${pr.at<=10?'crit':''}">noch ${pr.at} AT</b></span><span class="stack">${stack}</span></div>
+    <div class="bars">
+      <div class="bar"><div class="bl"><b>Ist ${pr.ist} / Soll ${pr.soll}</b><span>Personal</span></div><div class="track"><i class="${sCls}" style="width:${fill}%"></i></div></div>
+      <div class="bar"><div class="bl"><span>Fortschritt</span><b>${pr.pct} %</b></div><div class="track"><i class="f-n" style="width:${pr.pct}%"></i></div></div>
+    </div></article>`;
+}
+function renderProjects(){
+  const rank = pr => pr.amp.includes('r') ? 0 : pr.amp.includes('y') ? 1 : 2;   // rote Ampel zuerst
+  const box = document.getElementById('proj');
+  [['in','In-House','nach Ampel'],['ku','Beim Kunden',''],['int','Intern','']].forEach(([k,label,hint])=>{
+    const list = PR.filter(p=>p.sec===k).sort((a,b)=>rank(a)-rank(b));
+    box.appendChild(h(`<div class="sec"><div class="sec-h"><h3>${label}</h3><span class="count">${list.length}</span>${hint?`<span class="hint">${hint}</span>`:''}</div>
+      <div class="tiles">${list.map(tile).join('')}</div></div>`));
+  });
+}
+
+renderPool(); renderHall(); renderProjects();
+
+/* =============================================================================
+   Skalierung der 1920×1080-Bühne
+   ============================================================================= */
+function fit(){
+  const s = Math.min(innerWidth/1920, innerHeight/1080);
+  document.getElementById('stage').style.setProperty('--s', s);
+}
+addEventListener('resize', fit); fit();
+
+/* Uhr */
+function tick(){
+  const d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+}
+tick(); setInterval(tick, 10000);
+
+/* =============================================================================
+   Klick-Dummy-Interaktion (nur DOM, ohne Speichern)
+   – Drag & Drop (Maus) und Antippen → Zone antippen (Touch)
+   ============================================================================= */
+const stage = document.getElementById('stage');
+const snack = document.getElementById('snack');
+let selected = document.querySelector('.pcard.selected');
+let dragEl = null, lastMove = null, snackTimer = null;
+
+function clearDemo(){
+  document.querySelectorAll('[data-demo]').forEach(e=>e.remove());
+  document.querySelectorAll('.drop-ok').forEach(e=>e.classList.remove('drop-ok'));
+}
+function zoneOf(el){ return el.closest('.zone[data-zone]'); }
+function updateCap(zone){
+  if(!zone || !zone.classList.contains('z-mp')) return;
+  const z = Z.find(x=>x.id===zone.dataset.zone);
+  const more = zone.querySelector('.more');
+  const n = zone.querySelectorAll('.mcard').length + (more ? parseInt(more.textContent.slice(1)) : 0);
+  const cap = zone.querySelector('.cap'); if(cap) cap.textContent = `${n}/${z.cap}`;
+  zone.classList.toggle('over', n > z.cap);
+}
+function canTake(zone){
+  if(zone.classList.contains('z-in')) return false;
+  if(zone.querySelector('.mp-free')) return false;
+  return true;
+}
+function place(card, zone){
+  const p = byId[card.dataset.id]; if(!p) return;
+  const fromZone = zoneOf(card);
+  const fromParent = card.parentElement, fromNext = card.nextSibling;
+  const target = zone.querySelector('.people');
+  const m = h(mcard(p,'fresh'));
+  const more = target.querySelector('.more');
+  target.insertBefore(m, more || null);
+  card.remove();
+  updateCap(zone); updateCap(fromZone);
+  lastMove = {card, fromParent, fromNext, fromZone, placed:m, zone};
+  const zd = Z.find(z=>z.id===zone.dataset.zone);
+  showSnack(p.n, zd.n ? zd.n.replace('&shy;','') : zd.id);
+}
+function showSnack(name, where){
+  document.getElementById('snackMsg').innerHTML = `<b>${name}</b> → ${where} eingeteilt`;
+  snack.classList.remove('hide');
+  const t = snack.querySelector('.timer');
+  t.style.transition='none'; t.style.width='100%';
+  requestAnimationFrame(()=>{ t.style.transition='width 6s linear'; t.style.width='0%'; });
+  clearTimeout(snackTimer); snackTimer = setTimeout(()=>snack.classList.add('hide'), 6000);
+}
+document.getElementById('undo').addEventListener('click', ()=>{
+  if(lastMove){
+    const {card, fromParent, fromNext, fromZone, placed, zone} = lastMove;
+    placed.remove();
+    fromParent.insertBefore(card, fromNext && fromNext.parentNode===fromParent ? fromNext : null);
+    updateCap(zone); updateCap(fromZone); lastMove = null;
+  }
+  snack.classList.add('hide');
+});
+
+/* Drag & Drop */
+stage.addEventListener('dragstart', e=>{
+  const c = e.target.closest('.pcard,.mcard'); if(!c || c.classList.contains('ghost')) return;
+  clearDemo(); dragEl = c; c.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', c.dataset.id);
+});
+stage.addEventListener('dragend', ()=>{
+  if(dragEl) dragEl.classList.remove('dragging'); dragEl = null;
+  document.querySelectorAll('.drop-ok').forEach(e=>e.classList.remove('drop-ok'));
+});
+stage.addEventListener('dragover', e=>{
+  const z = e.target.closest('.zone'); if(!z || !dragEl || !canTake(z)) return;
+  e.preventDefault();
+  document.querySelectorAll('.drop-ok').forEach(x=>x!==z && x.classList.remove('drop-ok'));
+  z.classList.add('drop-ok');
+});
+stage.addEventListener('drop', e=>{
+  const z = e.target.closest('.zone'); if(!z || !dragEl || !canTake(z)) return;
+  e.preventDefault(); z.classList.remove('drop-ok');
+  if(zoneOf(dragEl)!==z) place(dragEl, z);
+});
+
+/* Antippen: Karte wählen → Zone antippen */
+stage.addEventListener('click', e=>{
+  const c = e.target.closest('.pcard,.mcard');
+  if(c && !c.classList.contains('ghost')){
+    if(selected) selected.classList.remove('selected');
+    selected = (selected===c) ? null : c;
+    if(selected) selected.classList.add('selected');
+    return;
+  }
+  const z = e.target.closest('.zone');
+  if(z && selected && canTake(z) && zoneOf(selected)!==z){
+    clearDemo(); selected.classList.remove('selected');
+    place(selected, z); selected = null;
+  }
+});
+
+/* Reiter & Umschalter (rein optisch) */
+document.querySelectorAll('[data-pooltabs] button').forEach(b=>b.addEventListener('click',()=>{
+  b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
+  document.getElementById('pool').classList.toggle('show-absent', b.dataset.v==='absent');
+}));
+document.querySelectorAll('[data-seg], [data-tabs]').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  g.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
+})));
+</script>
+</body>
+</html>

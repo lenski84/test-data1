@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Montageplanung SMB</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ======================= Kopfzeile ======================= -->
+  <header class="kopf">
+    <div class="marke" id="logo" title="Doppeltippen = Vollbild">SCHAEFFLER</div>
+    <span class="trenn"></span>
+    <div class="titel">Montageplanung SMB</div>
+
+    <div class="kw-nav">
+      <button type="button" class="ibtn hell" id="btnKwZurueck" aria-label="Vorherige Woche"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="kw-text" id="kwText">KW</span>
+      <button type="button" class="ibtn hell" id="btnKwVor" aria-label="Nächste Woche"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      <span class="kw-zeit" id="kwZeit"></span>
+      <button type="button" class="kbtn-hell" id="btnHeute">Heute</button>
+      <div class="seg hell" id="segAnsicht"><button type="button" data-ansicht="tag">Tag</button><button type="button" class="aktiv" data-ansicht="woche">Woche</button></div>
+    </div>
+
+    <div class="kopf-rechts">
+      <button type="button" class="ibtn hell" id="btnFilter" data-dropdown aria-label="Filter"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/></svg></button>
+      <nav class="tabs" id="tabs">
+        <button type="button" data-tab="board">Board</button>
+        <button type="button" data-tab="forecast">Forecast</button>
+        <button type="button" data-tab="massnahmen">Maßnahmen</button>
+        <button type="button" data-tab="auswertung">Auswertung</button>
+        <button type="button" data-tab="stammdaten">Stammdaten</button>
+      </nav>
+      <button type="button" class="sync ok" id="syncPunkt" aria-label="Speicherstatus"><i></i><span id="syncText">gespeichert</span></button>
+      <button type="button" class="ibtn hell glocke" id="btnGlocke" data-dropdown aria-label="Meldungen"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><b id="bellZahl" hidden>0</b></button>
+      <span class="uhr" id="uhr">--:--</span>
+      <span class="rolle"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7"/></svg>MEISTER</span>
+      <button type="button" class="ibtn hell" id="btnMenue" data-dropdown aria-label="Menü"><svg class="ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></button>
+    </div>
+  </header>
+
+  <!-- ======================= Hauptbereich ======================= -->
+  <main class="haupt" id="haupt">
+    <section class="panel">
+      <div class="panel-kopf"><h2>Personal</h2></div>
+      <div class="panel-inhalt" id="personal"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-kopf">
+        <h2>Hallenplan</h2>
+        <div class="werkzeuge">
+          <div class="seg" id="modus">
+            <button type="button" data-modus="auswahl" title="Auswählen (V)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 3l14 7-6 2-2 6z"/></svg>Auswählen</button>
+            <button type="button" data-modus="aufziehen" title="Fläche aufziehen (R)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="6" width="16" height="12" rx="1.5" stroke-dasharray="3 2"/><path d="M12 9v6M9 12h6"/></svg>Fläche aufziehen</button>
+          </div>
+          <button type="button" class="tbtn" id="btnRaster" title="Rasterfang 0,5 m"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>Raster</button>
+          <button type="button" class="tbtn" id="btnLeeren">Flächen leeren</button>
+        </div>
+      </div>
+      <div class="hall-wrap" id="hallWrap">
+        <div class="hall-stage" id="hallStage">
+          <svg id="hallBg" class="hall-bg" preserveAspectRatio="none"></svg>
+          <div id="hallLayer" class="hall-layer"></div>
+          <svg id="hallFx" class="hall-fx" preserveAspectRatio="none"></svg>
+          <div id="hallChip" class="hall-chip" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-kopf"><h2>Projekte</h2>
+        <button type="button" class="tbtn" id="btnNeuesProjekt"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Projekt</button>
+      </div>
+      <div class="panel-inhalt" id="projekte"></div>
+    </section>
+  </main>
+
+  <section class="platzhalter" id="platzhalter" hidden></section>
+
+  <!-- ======================= Statusleiste ======================= -->
+  <footer class="statusleiste" id="statusleiste"></footer>
+</div>
+
+<!-- Überlagerungen -->
+<div id="popover"></div>
+<div id="dialoge"></div>
+<div id="toasts" aria-live="polite"></div>
+<div id="snackbar" class="snackbar" role="status"></div>
+<div id="dndLayer"></div>
+<input type="file" id="importDatei" accept="application/json,.json" hidden>
+
+<!-- Skripte in fester Reihenfolge (keine ES-Module, gemeinsamer Namespace window.Board) -->
+<script src="js/data.js"></script>
+<script src="js/util.js"></script>
+<script src="js/state.js"></script>
+<script src="js/render.js"></script>
+<script src="js/hallmap.js"></script>
+<script src="js/dnd.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

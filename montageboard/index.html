@@ -469,6 +469,135 @@ input{font:inherit}
 
 /* Tabellenziffern nur für Zahlen – Namen und Wortmarken proportional */
 .kn,.t-top .nm,.logo,.pn,.mn,.zl,.app-title,.fc-p .nm,.pop-h .nm,.einsatz .nm2,.preview .nm{font-variant-numeric:normal}
+/* =====================================================================
+   DESIGN-ÜBERARBEITUNG – ruhiger, kartenbasiert, mehr Weißraum
+   ===================================================================== */
+:root{--bg:#EDEFF1;--card:#FFFFFF;--shadow:0 1px 2px rgba(31,35,40,.05),0 6px 18px rgba(31,35,40,.06);--r2:14px;--hair:#E6E8EB}
+#stage{background:var(--bg)}
+.hdr{border-bottom:0;box-shadow:inset 0 -3px 0 var(--green),0 1px 0 var(--line)}
+.ftr{border-top:0;box-shadow:0 -1px 0 var(--line)}
+
+/* Hauptraster & Karten */
+.main{grid-template-columns:372px minmax(0,1fr) 500px;gap:16px;padding:16px 20px}
+#v-board > .panel{background:var(--card);border-radius:var(--r2);box-shadow:var(--shadow);padding:14px 16px 16px}
+.ph{height:32px;margin-bottom:12px}
+.ph h2{font-size:15px;letter-spacing:.12em}
+.ph .sub{font-weight:500;color:var(--text-3)}
+.btn{border-color:var(--hair);border-radius:10px}
+.btn.sm{height:34px}
+
+/* ---------- Personal-Tabelle ---------- */
+.pool{gap:12px}
+.ptab{border:0;border-radius:12px;background:transparent;overflow:visible}
+.pt-h,.prow{grid-template-columns:44px minmax(0,1fr) 112px}
+.pt-h{height:38px;background:transparent;border-bottom:1px solid var(--hair);font-size:12px;letter-spacing:.08em}
+.pt-h > span{padding:0 8px}
+.pt-h > span:first-child{color:var(--text-3)}
+.pt-h .c-ab{border-left:0;background:#F6F7F8;border-radius:10px 10px 0 0}
+.pt-h .count{background:var(--white);border-color:var(--hair)}
+.prow{border-bottom:1px solid var(--hair)}
+.prow .dl{border-right:0;background:transparent;padding:12px 0 0 0;display:flex;justify-content:flex-start}
+.prow .dl{font-size:11.5px;color:var(--text-2);letter-spacing:.04em}
+.prow .c-an,.prow .c-ab{padding:7px 4px;gap:5px 4px;min-height:0}
+.prow .c-ab{border-left:0;background:#F6F7F8}
+.prow:last-child .c-ab{border-radius:0 0 10px 10px}
+.prow .none{padding:16px 0 0 42px;color:#B8BEC4}
+.pt{width:40px}
+.pt .ph-img{width:40px;height:40px;border-radius:50%}
+.ph-img .sd{right:-1px;bottom:-1px;width:12px;height:12px}
+.ph-img .sd.st-an{display:none}
+.ph-img.lead::after{display:none}
+.ph-img.lead{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--green)}
+.pt .cap{font-size:10.5px;font-weight:600;color:var(--text-2);margin-top:2px}
+.pt.abs .ph-img{filter:grayscale(1);opacity:.55}
+.pt .why,.pt .svc{top:30px;left:50%;right:auto;transform:translateX(-50%);height:14px;padding:0 5px;border-radius:7px;font-size:8px;letter-spacing:.02em;box-shadow:0 0 0 2px var(--white);white-space:nowrap}
+.pt.sel .ph-img{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--green)}
+.pt.sel{animation:none}
+.dim .pt:not(.hit){opacity:.25}
+.drop-note{border:0;background:#F6F7F8;border-radius:10px;color:var(--text-3);font-weight:500}
+.drop-note b{color:var(--text-2)}
+.c-an.drop-ok{background:var(--green-lt)!important;box-shadow:inset 0 0 0 2px var(--green);border-radius:8px}
+.c-ab.drop-ok{background:#FDECEE!important;box-shadow:inset 0 0 0 2px var(--st-ab);border-radius:8px}
+
+/* ---------- Hallenplan ---------- */
+.legend-mini{gap:16px;color:var(--text-3);font-weight:500}
+.legend-mini i{width:20px;height:13px;border-radius:4px}
+.sw-fl{background:#F2F8F4;border:1px solid #CFE3D6}
+.sw-ex{background:var(--white);border:1px solid var(--line);box-shadow:inset 4px 0 0 var(--green)}
+.sw-in{background:var(--white);border:1px solid var(--line);box-shadow:inset 4px 0 0 #8A939B}
+.map{background:#F7F8F9;border:6px solid #3A4148;border-radius:12px}
+.gate{background:var(--card)}
+.gate-l{font-size:11px;color:var(--text-3);letter-spacing:.16em}
+.aisle{background-image:repeating-linear-gradient(90deg,#C9CED3 0 18px,transparent 18px 32px);background-size:100% 2px;background-position:center;background-repeat:no-repeat}
+.aisle span{background:#F7F8F9;padding:0 14px;color:var(--text-3);font-size:11px;letter-spacing:.45em}
+.fl{background-color:#F2F8F4;border:1px solid #CFE3D6;border-radius:12px;background-image:radial-gradient(circle,#BFD9C8 1px,transparent 1.4px)!important;background-size:calc(100% / 27) calc(100% / 10)!important;background-position:0 0}
+.fl-l{top:-24px;left:4px;font-size:12px;color:var(--text);letter-spacing:.1em;display:flex;align-items:center;gap:6px}
+.fl-l::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--green)}
+.fl-l small{color:var(--text-3);font-weight:500}
+.fl.drop-ok{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,137,61,.25)}
+.fl-hint{color:#7FA58C;font-weight:600;font-size:13px}
+.fl-hint svg{width:40px;height:40px;opacity:.8}
+.ghost{border-radius:10px}
+.pr{background:var(--white);border:1px solid #DDE1E4;border-left:5px solid var(--green);border-radius:10px;box-shadow:0 2px 6px rgba(31,35,40,.08),0 8px 20px rgba(31,35,40,.05);padding:10px 12px 10px 12px;gap:3px}
+.pr.in{border-style:solid;border-left-color:#8A939B;background:var(--white)}
+.pr .co{gap:9px;margin-bottom:4px}
+.pr .co .mk{width:34px;height:34px;padding:7px;border-radius:9px;background:#F1F3F4}
+.pr .co b{font-size:13.5px;letter-spacing:.06em}
+.pr .pn{font-size:15px}
+.pr .nr2{font-size:11.5px;color:var(--text-3);font-weight:500}
+.pr .cnt,.cnt{border-radius:999px;padding:2px 8px;font-size:11.5px;background:#F1F3F4;color:var(--text-2)}
+.pr .stk .av{width:24px;height:24px}
+.pr.sel{box-shadow:0 0 0 3px rgba(0,137,61,.3),0 12px 28px rgba(31,35,40,.16)}
+.pr.focus{box-shadow:0 0 0 3px var(--green),0 12px 28px rgba(31,35,40,.12)}
+.pr .del{border-radius:8px;border-color:var(--hair)}
+.pr .rz{border-radius:0 0 9px 0}
+
+/* ---------- Projekte ---------- */
+.proj{gap:14px}
+.sec{gap:8px}
+.sec-h{border-bottom:0;height:22px;padding:0}
+.sec-h h3{font-size:12px;color:var(--text-2);letter-spacing:.14em}
+.sec-h .hint{color:var(--text-3);font-weight:500}
+.plist2{gap:8px}
+.pc2{height:60px;border:1px solid var(--hair);border-radius:12px;padding:0 14px 0 10px;gap:12px;transition:border-color .15s,box-shadow .15s}
+.pc2:hover{border-color:#C9CED3;box-shadow:0 2px 8px rgba(31,35,40,.06)}
+.pc2 > .mk{width:40px;height:40px;padding:8px;border-radius:10px;background:#F1F3F4}
+.pc2 .tx b{font-size:13.5px;letter-spacing:.06em}
+.pc2 .tx span{color:var(--text-3);font-weight:500;margin-top:1px}
+.stat{border:0;height:28px;padding:0 12px 0 10px;border-radius:999px;font-weight:600}
+.stat.g{background:#EAF5EE;color:#1E6B37}
+.stat.y{background:#FDF3D4;color:#6B4E00}
+.stat.r{background:#FCE6E9;color:#9E1528}
+.tag.plan{border-style:dashed;border-width:1px}
+.ohne{border:0;background:#F6F7F8;border-radius:12px;min-height:44px;padding:6px 12px}
+.ohne.has{background:#FFF4EA;box-shadow:inset 0 0 0 1px #F5C9A3}
+.ohne .l{color:var(--text-3);font-size:11px}
+.ohne .t{color:#A2A9AF;font-weight:500}
+.ohne .ph-img{border-radius:50%}
+.svcbox{border:0;background:#F6F7F8;border-radius:12px;padding:12px;gap:14px}
+.svcbox.drop-ok{background:#EAF1FB;box-shadow:inset 0 0 0 2px var(--st-ex)}
+.pt.svcp{width:70px}
+.pt.svcp .ph-img{width:48px;height:48px}
+.pt .cu{font-size:9.5px;color:var(--text-3);font-weight:600}
+
+/* ---------- Fußleiste ---------- */
+.kpi{border-color:var(--hair);border-radius:10px}
+.lg{color:var(--text-3);font-weight:500}
+
+
+.prow .c-an,.prow .c-ab{padding:6px 4px}
+.ph-img.lead{box-shadow:0 0 0 2px var(--green)}
+.pt.sel .ph-img{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--green-dk)}
+.ph-img .sd{width:13px;height:13px;border-width:2.5px}
+.pt.abs .cap{color:var(--text-3)}
+.np{font-style:normal;font-size:10.5px;font-weight:700;color:var(--green-dk);background:var(--green-lt);border:1px dashed var(--green-dk);border-radius:6px;padding:0 5px;margin-right:6px}
+.map{border-width:5px;border-color:#4A525A}
+.gate-l{background:#F7F8F9;padding:0 6px}
+.pt-h > span.c-ab{padding:0 6px;gap:4px;letter-spacing:0}
+.pt-h .c-ab .count{min-width:18px;padding:0 4px}
+.pt.abs .ph-img{filter:none;opacity:1}
+.pt.abs .ph-img::before{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(246,247,248,.45);-webkit-backdrop-filter:grayscale(1);backdrop-filter:grayscale(1)}
+.ph-img .sd{z-index:1}
 @media (prefers-reduced-motion:reduce){.pt.sel,.flash{animation:none}}
 </style>
 </head>
@@ -802,14 +931,14 @@ function renderPool(){
   const an = MITARBEITER.filter(istAnw), ab = MITARBEITER.filter(p=>!istAnw(p));
   const fokus = S.focus ? new Set(leute(S.focus).map(p=>p.id)) : null;
   const pt = p => `<div class="pt ${istAnw(p)?'':'abs'} ${S.sel===p.id?'sel':''} ${fokus&&fokus.has(p.id)?'hit':''}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}">
-      ${foto(p)}${p.s==='ex'?'<span class="svc">SERVICE</span>':''}${istAnw(p)?'':`<span class="why ${STATUS[p.s].c}">${why(p)}</span>`}<span class="cap">${surname(p.n)}</span></div>`;
+      ${foto(p)}<span class="cap">${surname(p.n)}</span></div>`;
   $('#poolSub').textContent = `${MITARBEITER.length} Mitarbeitende · ${TEAMS.length} Abteilungen`;
   pool.innerHTML = `<div class="ptab ${fokus?'dim':''}">
-    <div class="pt-h"><span>Abt.</span><span class="c-an" data-drop="an"><i class="st-an"></i>Anwesend<b class="count">${an.length}</b></span><span class="c-ab" data-drop="ab"><i class="st-ab"></i>Abwesend<b class="count">${ab.length}</b></span></div>
+    <div class="pt-h"><span>Abt.</span><span class="c-an" data-drop="an"><i class="st-an"></i>Anwesend<b class="count">${an.length}</b></span><span class="c-ab" data-drop="ab" data-tip="Bild hierher ziehen = abwesend melden (Grund wählen)\nZurück in „Anwesend“ ziehen = wieder da"><i class="st-ab"></i>Abwesend<b class="count">${ab.length}</b></span></div>
     ${TEAMS.map(t=>{ const a=an.filter(p=>p.t===t), b=ab.filter(p=>p.t===t);
       return `<div class="prow"><span class="dl">${t.replace("/","/<br>")}</span><div class="c-an" data-drop="an">${a.map(pt).join('')}</div><div class="c-ab" data-drop="ab">${b.map(pt).join('')||'<span class="none">–</span>'}</div></div>`; }).join('')}
     </div>
-    <div class="drop-note">Bild in die Spalte <b>Abwesend</b> ziehen = abwesend melden · zurück in <b>Anwesend</b> = wieder da</div>`;
+`;
 }
 
 /* =============================================================================
@@ -832,7 +961,7 @@ function renderMap(){
   if(hz) html += `<div class="fl-hint" style="${box(hz)}">${ICO.draw}Rechteck aufziehen<br><span style="font-weight:600">oder Projektkarte von rechts hierher ziehen</span></div>`;
   Object.entries(PLAN).forEach(([nr,r])=>{
     const pr = PR(nr); if(!pr) return;
-    const ppl = leute(nr), n = ppl.length, maxAv = Math.max(1, Math.floor((r.w*16.4-80)/18));
+    const ppl = leute(nr), n = ppl.length, maxAv = Math.max(1, Math.floor((r.w*15.5-100)/20));
     const vis = ppl.length>maxAv ? maxAv-1 : maxAv;
     const stk = ppl.slice(0,vis).map(p=>`<span class="av ph-${p.id}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"></span>`).join('') + (ppl.length>vis?`<span class="more">+${ppl.length-vis}</span>`:'');
     html += `<div class="pr ${pr.kl==='intern'?'in':''} ${S.selRect===nr?'sel':''} ${S.focus===nr?'focus':''}" data-nr="${nr}" style="${box(r)}" data-tip="${pr.nr} ${pr.nm} · ${LOGO[pr.c].n}\nFläche ${r.w} × ${r.h} m · Personal ${n}/${pr.soll}">
@@ -871,8 +1000,7 @@ function zeile(pr){
   const st = d==='g' ? 'Im Zeitrahmen' : d==='y' ? `Verzug Prognose +${pr.verzug.at} AT` : `Verzug +${pr.verzug.at} AT`;
   return `<article class="pc2 ${S.focus===pr.nr?'focus':''}" data-nr="${pr.nr}" draggable="true" data-tip="${pr.nr} ${pr.nm} · Phase ${pr.cur} · bis ${pr.to}\nPersonal Ist ${ist(pr)} / Soll ${pr.soll}${imPlan(pr)?'':'\nNoch nicht im Hallenplan – auf eine Montagefläche ziehen'}">
     <span class="mk">${LOGO[pr.c].svg}</span>
-    <div class="tx"><b>${LOGO[pr.c].n}</b><span>${pr.nm} · ${pr.nr}</span></div>
-    ${imPlan(pr)?'':`<span class="tag plan">${ICO.pin}nicht im Plan</span>`}
+    <div class="tx"><b>${LOGO[pr.c].n}</b><span>${imPlan(pr)?'':'<em class="np">nicht im Plan</em>'}${pr.nm} · ${pr.nr}</span></div>
     <span class="stat ${d}"><i></i>${st}</span></article>`;
 }
 
@@ -1384,7 +1512,7 @@ function kpiClick(k){
   if(k==='an') flash($('.ptab'));
   if(k==='ohne') flash($('#ohne'));
   if(k==='under') document.querySelectorAll('.pr .cnt.under').forEach(c=>flash(c.closest('.pr')));
-  if(k==='plan') document.querySelectorAll('.pc2 .tag.plan').forEach(t=>flash(t.closest('.pc2')));
+  if(k==='plan') document.querySelectorAll('.pc2 .np').forEach(t=>flash(t.closest('.pc2')));
   if(k==='rot'){ S.hl = (PROJEKTE.find(p=>forecast(p).amp.includes('r'))||{}).nr; setView('forecast'); }
   if(k==='mn') toast('3 Maßnahmen überfällig – Ansicht „Maßnahmen“ folgt');
 }

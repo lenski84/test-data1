@@ -6,176 +6,180 @@
 <title>Montageplanung SMB</title>
 <style>
 /* ==========================================================================
-   Montageplanung SMB – Look-Prototyp (Klick-Dummy)
-   Gestaltet für eine 1920×1080-Bühne; wird per transform: scale auf jede
-   16:9-Auflösung (z. B. 3840×2160 → Faktor 2) skaliert. Alle Daten fiktiv.
+   Montageplanung SMB – Klick-Prototyp
+   1920×1080-Bühne, per transform: scale auf jede 16:9-Auflösung skaliert
+   (3840×2160 → Faktor 2). Alle Daten fiktiv, Änderungen nur im Browser.
+   Farbwelt: Schaeffler-Grün + Weiß + Grautöne; Status-/Ampelfarben nur als Signal.
    ========================================================================== */
 :root{
-  --green:#00893D; --green-dk:#006B2F; --green-lt:#E6F3EC;
-  --surface:#F4F5F6; --line:#D9DCDF; --text-2:#5F6870; --text:#1F2328; --white:#FFFFFF;
-  --st-an:#2E9E4F; --st-sc:#F2A900; --st-ku:#1F6FD1; --st-in:#8A3FD1; --st-ab:#D7263D;
+  --green:#00893D; --green-dk:#006B2F; --green-lt:#E6F3EC; --green-ln:#C9E2D3;
+  --surface:#F4F5F6; --surface-2:#ECEEF0; --line:#D9DCDF; --line-2:#C5CACF;
+  --text-2:#5F6870; --text-3:#7A838B; --text:#1F2328; --white:#FFFFFF;
+  --st-an:#2E9E4F; --st-sc:#F2A900; --st-ex:#1F6FD1; --st-dr:#8A3FD1; --st-ab:#D7263D;
   --amp-g:#2E9E4F; --amp-y:#F2C94C; --amp-r:#D7263D;
   --warn:#E8710A;
-  --aisle:rgba(242,201,76,.4);
+  --ph1:#7FBF97; --ph2:#58A877; --ph3:#2E8655; --ph4:#167340; --ph5:#005A2E; --ph6:#003D1E;
   --r:8px;
   --font:"Barlow","Segoe UI",Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#E3E6E9}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;background:#DDE1E4}
 body{font-family:var(--font);color:var(--text);-webkit-font-smoothing:antialiased;
   font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent;user-select:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input{font:inherit}
 
-/* ---------- Bühne 1920×1080 ---------- */
+/* ---------- Bühne ---------- */
 #stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;background:var(--white);
   transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center center;
   display:grid;grid-template-rows:64px minmax(0,1fr) 52px;grid-template-columns:minmax(0,1fr);overflow:hidden}
 
 /* ---------- B1 Kopfzeile ---------- */
-.hdr{display:flex;align-items:center;gap:20px;padding:0 20px 0 24px;white-space:nowrap;border-bottom:3px solid var(--green);background:var(--white)}
+.hdr{display:flex;align-items:center;gap:16px;padding:0 20px 0 24px;border-bottom:3px solid var(--green);background:var(--white);white-space:nowrap}
 .brand{display:flex;align-items:center;gap:14px;flex:none}
 .wordmark{font-weight:800;font-size:24px;letter-spacing:.06em;color:var(--green);line-height:1}
 .brand .sep{width:1px;height:28px;background:var(--line)}
-.app-title{font-size:19px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.app-title{font-size:18px;font-weight:600}
 .app-title small{display:block;font-size:12px;font-weight:600;color:var(--text-2);letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
-.hdr-center{display:flex;align-items:center;gap:12px;margin-left:auto;flex:none}
+.hdr-center{display:flex;align-items:center;gap:10px;margin-left:auto;flex:none}
 .kw{display:flex;align-items:center;gap:4px}
-.icon-btn{width:36px;height:36px;display:grid;place-items:center;border-radius:var(--r);border:1px solid var(--line);background:var(--white)}
-.icon-btn:active,.btn:active{background:var(--surface)}
+.icon-btn{position:relative;width:36px;height:36px;flex:none;display:grid;place-items:center;border-radius:var(--r);border:1px solid var(--line);background:var(--white)}
 .icon-btn svg{width:16px;height:16px}
-.kw-label{font-size:22px;font-weight:700;padding:0 8px;min-width:86px;white-space:nowrap;text-align:center}
-.kw-range{font-size:16px;font-weight:600;color:var(--text-2);margin-left:6px;white-space:nowrap}
+.kw-label{font-size:22px;font-weight:700;padding:0 6px;min-width:84px;text-align:center}
+.kw-range{font-size:15px;font-weight:600;color:var(--text-2);margin-left:6px}
 .btn{height:36px;padding:0 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);
-  font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+  font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
 .btn svg{width:16px;height:16px}
+.btn.pri{background:var(--green-dk);border-color:var(--green-dk);color:var(--white)}
+.btn.pri:disabled{background:#AEB5BB;border-color:#AEB5BB;cursor:default}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.sm{height:32px;padding:0 10px;font-size:13px}
 .seg{display:inline-flex;height:36px;border:1px solid var(--line);border-radius:var(--r);padding:2px;background:var(--surface)}
-.seg button{min-width:72px;padding:0 14px;border-radius:6px;font-size:14px;font-weight:600;color:var(--text-2)}
+.seg button{min-width:58px;padding:0 12px;border-radius:6px;font-size:14px;font-weight:600;color:var(--text-2)}
 .seg button.on{background:var(--white);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
-.hdr-right{margin-left:auto;display:flex;align-items:center;gap:16px;flex:none}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:12px;flex:none}
 .tabs{display:flex;align-self:stretch}
-.tabs button{position:relative;padding:0 12px;font-size:15px;font-weight:600;color:var(--text-2);letter-spacing:.01em}
+.tabs button{position:relative;padding:0 11px;font-size:15px;font-weight:600;color:var(--text-2)}
 .tabs button.on{color:var(--text)}
-.tabs button.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-3px;height:3px;background:var(--text)}
-.sync{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text-2)}
+.tabs button.on::after{content:"";position:absolute;left:8px;right:8px;bottom:-3px;height:3px;background:var(--green-dk)}
+.badge-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--st-ab);color:var(--white);
+  font-size:11px;font-weight:800;display:grid;place-items:center;border:2px solid var(--white);box-sizing:content-box}
+.sync{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text-2)}
 .sync i{width:10px;height:10px;border-radius:50%;background:var(--st-an);box-shadow:0 0 0 3px rgba(46,158,79,.18)}
-.clock{font-size:22px;font-weight:700;min-width:60px;text-align:right}
-.role{height:36px;padding:0 14px 0 8px;border-radius:18px;background:var(--surface);border:1px solid var(--line);
+.clock{font-size:22px;font-weight:700;min-width:58px;text-align:right}
+.role{height:36px;padding:0 12px 0 6px;border-radius:18px;background:var(--surface);border:1px solid var(--line);
   display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .role span{width:24px;height:24px;border-radius:50%;background:var(--text);display:grid;place-items:center}
 .role svg{width:14px;height:14px}
-.vsep{width:1px;height:28px;background:var(--line)}
+.vsep{width:1px;height:28px;background:var(--line);flex:none}
 
-/* ---------- Hauptbereich ---------- */
-.main{display:grid;grid-template-columns:352px minmax(0,1fr) 528px;gap:12px;padding:12px 16px;min-height:0}
+/* ---------- Ansichten ---------- */
+.views{min-height:0;position:relative}
+.view{height:100%}
+.main{display:grid;grid-template-columns:352px minmax(0,1fr) 528px;gap:12px;padding:12px 16px}
 .panel{display:flex;flex-direction:column;min-height:0;min-width:0}
 .ph{height:36px;flex:none;display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.ph h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.ph h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
 .ph .sub{font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap}
 .ph .right{margin-left:auto;display:flex;align-items:center;gap:12px}
 .count{min-width:24px;height:20px;padding:0 6px;border-radius:10px;background:var(--surface);border:1px solid var(--line);
   font-size:12px;font-weight:700;display:inline-grid;place-items:center}
 
-/* ---------- Avatare & Statuspunkte ---------- */
+/* ---------- Avatare / Status ---------- */
 .av{position:relative;flex:none;width:22px;height:22px;border-radius:50%;background:#E3E6E9;color:var(--text);
   display:grid;place-items:center;font-size:10px;font-weight:700;letter-spacing:.02em}
 .av.lead{background:var(--green-dk);color:var(--white)}
 .sd{position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;border:2px solid var(--white)}
-.st-an{background:var(--st-an)} .st-sc{background:var(--st-sc)} .st-ku{background:var(--st-ku)}
-.st-in{background:var(--st-in)} .st-ab{background:var(--st-ab)}
+.st-an{background:var(--st-an)} .st-sc{background:var(--st-sc)} .st-ex{background:var(--st-ex)}
+.st-dr{background:var(--st-dr)} .st-ab{background:var(--st-ab)}
 
-/* ---------- B2 Personal-Pool ---------- */
-.pool{background:var(--surface);border-radius:var(--r);padding:8px;flex:1;min-height:0;display:flex;flex-direction:column}
-.pool-tabs{display:flex;height:36px;width:250px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:2px;flex:none}
-.pool-tabs button{flex:1;border-radius:6px;font-size:13px;font-weight:700;color:var(--text-2);display:flex;align-items:center;justify-content:center;gap:8px}
+/* ---------- B2 Personal ---------- */
+.pool-tabs{display:flex;height:36px;width:252px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:2px;flex:none}
+.pool-tabs button{flex:1;border-radius:6px;font-size:13px;font-weight:700;color:var(--text-2);display:flex;align-items:center;justify-content:center;gap:7px}
 .pool-tabs button.on{background:var(--text);color:var(--white)}
 .pool-tabs button .count{background:transparent;border-color:currentColor;height:18px}
-.pool-body{display:flex;flex-direction:column;gap:6px;min-height:0}
-.grp{border-radius:var(--r);background:var(--white);border:1px solid var(--line);overflow:visible}
-.grp-h{height:18px;padding:0 8px;display:flex;align-items:center;justify-content:space-between;background:var(--green-dk);color:var(--white);
+.pool-tabs button.drop-tab{background:var(--green-lt);color:var(--green-dk);box-shadow:inset 0 0 0 2px var(--green)}
+.pool{background:var(--surface);border-radius:var(--r);padding:8px;flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
+.grp{border-radius:var(--r);background:var(--white);border:1px solid var(--line)}
+.grp-h{height:18px;padding:0 8px;display:flex;align-items:center;gap:6px;background:var(--green-dk);color:var(--white);
   font-size:11px;font-weight:700;letter-spacing:.1em;border-radius:7px 7px 0 0}
-.grp-h b{font-weight:600;opacity:.85;letter-spacing:0}
+.grp-h b{margin-left:auto;font-weight:600;opacity:.85;letter-spacing:0}
+.grp-h i{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 1.5px var(--white)}
+.grp.abs .grp-h{background:var(--surface-2);color:var(--text)}
+.grp.abs .grp-h b{opacity:1;color:var(--text-2)}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:3px}
+.grp-empty{font-size:12px;font-weight:600;color:var(--text-2);padding:6px 8px}
 .grp.ne{background:var(--green-lt);border:1.5px solid var(--green)}
-.grp.ne .grp-h{background:transparent;color:var(--green-dk);height:22px;padding:0 8px;border-radius:0}
+.grp.ne .grp-h{background:transparent;color:var(--green-dk);height:22px;border-radius:0}
 .grp.ne .grp-h b{opacity:1;background:var(--green-dk);color:var(--white);border-radius:9px;padding:0 7px;line-height:18px;font-weight:700}
 .grp.ne .cards{padding-top:0}
+.grp.ne.drop-ok{box-shadow:0 0 0 3px rgba(0,137,61,.35)}
+.grp.flash,.tile.flash{animation:flash 1.4s ease-out 2}
+@keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(0,137,61,0)}30%{box-shadow:0 0 0 4px rgba(0,137,61,.55)}}
 
-.pcard{position:relative;height:42px;min-width:0;padding:2px 4px 0 4px;border-radius:var(--r);background:var(--white);border:1px solid var(--line);
-  display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:22px 13px;column-gap:4px;row-gap:1px;align-items:center;cursor:grab;touch-action:none}
-.pcard .pn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
-.qb{grid-column:1 / -1;display:flex;gap:2px;overflow:hidden}
+.pcard{position:relative;height:42px;min-width:0;padding:2px 4px 0;border-radius:var(--r);background:var(--white);border:1px solid var(--line);
+  display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:22px 13px;column-gap:4px;row-gap:1px;align-items:center;cursor:grab;touch-action:manipulation}
+.pcard .pn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qb{grid-column:1 / -1;display:flex;gap:2px;overflow:hidden;white-space:nowrap}
 .qb b{height:12px;padding:0 3px;border-radius:3px;background:var(--surface);border:1px solid var(--line);
   font-size:8.5px;font-weight:700;letter-spacing:.03em;line-height:10px;color:#3A4148}
-.pcard.dim{opacity:.92}
+.qb em{font-style:normal;font-size:10.5px;font-weight:600;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;line-height:12px}
 .pcard.ghost{background:transparent;border:1.5px dashed #9AA3AB;cursor:default}
 .pcard.ghost::after{content:"wird gezogen";position:absolute;inset:0;display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--text-2)}
-
-/* Zustand: ausgewählt */
-.selected{border-color:var(--green)!important;box-shadow:0 0 0 2px var(--green),0 0 0 6px rgba(0,137,61,.22);animation:pulse 1.6s ease-in-out infinite;z-index:2}
+.selected{border-color:var(--green)!important;animation:pulse 1.6s ease-in-out infinite;z-index:2}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 2px var(--green),0 0 0 3px rgba(0,137,61,.28)}50%{box-shadow:0 0 0 2px var(--green),0 0 0 8px rgba(0,137,61,0)}}
-/* Zustand: angehoben (beim Ziehen) */
-.lifted{position:absolute;z-index:30;width:108px;transform:rotate(2deg) scale(1.08);box-shadow:0 14px 28px rgba(31,35,40,.28),0 3px 8px rgba(31,35,40,.18);
-  border-color:#B8BEC4;pointer-events:none}
-.touchpoint{position:absolute;z-index:31;width:34px;height:34px;border-radius:50%;background:rgba(31,35,40,.14);border:2px solid rgba(255,255,255,.9);
-  box-shadow:0 0 0 1px rgba(31,35,40,.18);pointer-events:none}
-
-.absent-list{display:none}
-.pool.show-absent .present-list{display:none}
-.pool.show-absent .absent-list{display:flex}
-.absent-note{font-size:13px;color:var(--text-2);padding:4px 8px 8px}
+.lifted{position:absolute;z-index:30;width:108px;transform:rotate(2deg) scale(1.08);box-shadow:0 14px 28px rgba(31,35,40,.28),0 3px 8px rgba(31,35,40,.18);pointer-events:none}
+.touchpoint{position:absolute;z-index:31;width:34px;height:34px;border-radius:50%;background:rgba(31,35,40,.14);border:2px solid rgba(255,255,255,.9);pointer-events:none}
+.dragging{opacity:.35}
 
 /* ---------- B3 Hallenplan ---------- */
-.legend-mini{display:flex;gap:14px;font-size:12px;font-weight:600;color:var(--text-2)}
+.legend-mini{display:flex;gap:12px;font-size:12px;font-weight:600;color:var(--text-2)}
 .legend-mini span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .legend-mini i{width:16px;height:12px;border-radius:3px;display:inline-block}
 .sw-mp{background:var(--white);border:1px solid var(--line);box-shadow:inset 0 3px 0 var(--green-dk)}
-.sw-fb{background:var(--green-lt);border:1px solid #BFDCCB}
+.sw-fb{background:var(--green-lt);border:1px solid var(--green-ln)}
 .sw-sf{background:var(--white);border:1.5px dashed var(--green)}
-.sw-in{background:repeating-linear-gradient(45deg,#E8EAEC 0 3px,#F7F8F9 3px 6px);border:1px solid var(--line)}
-.sw-vw{background:var(--aisle);border:1px solid rgba(242,201,76,.9)}
+.sw-in{background:repeating-linear-gradient(45deg,#D5DADE 0 3px,#F4F5F6 3px 6px);border:1px solid var(--line)}
+.sw-vw{background:var(--surface-2);border:1px solid var(--line-2)}
+.layout-hint{font-size:13px;font-weight:600;color:var(--text-2);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.layout-hint b{color:var(--text)}
 
-.hall{flex:1;min-height:0;position:relative;border:2px solid #9AA3AB;border-radius:var(--r);background:var(--aisle);padding:4px;
+.hall{flex:1;min-height:0;position:relative;border:2px solid var(--line-2);border-radius:var(--r);background:var(--surface-2);padding:4px;
   display:grid;grid-template-columns:repeat(24,minmax(0,1fr));grid-template-rows:repeat(16,minmax(0,1fr));gap:4px}
-.aisle-label{position:absolute;font-size:11px;font-weight:700;letter-spacing:.32em;color:rgba(122,92,0,.62);white-space:nowrap;pointer-events:none}
+.aisle-label{position:absolute;font-size:11px;font-weight:700;letter-spacing:.32em;color:#8F989F;white-space:nowrap;pointer-events:none}
 .zone{position:relative;min-width:0;min-height:0;border-radius:var(--r);display:flex;flex-direction:column}
-.zone .zl{font-size:11px;font-weight:700;letter-spacing:.06em;hyphens:manual;text-transform:uppercase;color:var(--green-dk);
+.zone .zl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-dk);hyphens:manual;
   display:flex;align-items:center;justify-content:space-between;gap:6px;line-height:13px}
 .zone .zl em{font-style:normal;font-weight:600;color:var(--text-2);letter-spacing:0}
-.zone .zinfo{font-size:11px;font-weight:600;color:var(--text-2);margin-top:2px}
+.zone .zinfo{font-size:11px;font-weight:600;color:var(--text-2)}
 .people{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
-
-/* Montageplatz */
 .z-mp{background:var(--white);border:1px solid var(--line)}
-.mp-h{height:26px;flex:none;background:var(--green-dk);color:var(--white);border-radius:7px 7px 0 0;padding:0 8px;
-  display:flex;align-items:center;justify-content:space-between}
+.mp-h{height:26px;flex:none;background:var(--green-dk);color:var(--white);border-radius:7px 7px 0 0;padding:0 8px;display:flex;align-items:center;justify-content:space-between}
 .mp-h b{font-size:15px;font-weight:800;letter-spacing:.04em}
-.mp-h span{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
-.mp-h span svg{width:12px;height:12px;opacity:.85}
-.mp-b{flex:1;min-height:0;padding:5px 4px 4px;display:flex;flex-direction:column;gap:5px}
+.mp-h > span:last-child{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+.mp-h svg{width:12px;height:12px;opacity:.85}
+.mp-h .ob{margin-left:6px;margin-right:auto;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#FFD3B0}
+.mp-b{flex:1;min-height:0;padding:5px 4px 4px;display:flex;flex-direction:column;gap:5px;position:relative}
 .mp-proj{display:flex;flex-direction:column;gap:2px;padding:0 2px 5px;border-bottom:1px solid #ECEEF0}
 .mp-proj .l1{display:flex;align-items:center;justify-content:space-between;gap:4px}
 .mp-proj .prj{font-size:11px;font-weight:700;color:var(--text-2)}
 .mp-proj .kn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:16px}
 .z-mp .people{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:36px;gap:4px}
-.mp-free{flex:1;display:grid;place-items:center;border:1.5px dashed var(--line);border-radius:6px;color:var(--text-2);
-  font-size:14px;font-weight:600;text-align:center;line-height:1.35}
-.mp-free small{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7A838B}
+.mp-free{flex:1;display:grid;place-items:center;border:1.5px dashed var(--line);border-radius:6px;color:var(--text-2);font-size:14px;font-weight:600;text-align:center;line-height:1.35}
+.mp-free small{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+.mp-free .res{display:inline-block;margin-top:4px;font-size:12px;font-weight:700;color:var(--green-dk);background:var(--green-lt);border-radius:4px;padding:1px 6px}
 .more{height:36px;border-radius:6px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:14px;font-weight:700;color:var(--text-2)}
 .slot{height:36px;border-radius:6px;border:1.5px dashed var(--green);background:rgba(0,137,61,.06)}
-
-/* Funktionsbereich / Sonderfläche / Infrastruktur */
-.z-fb{background:var(--green-lt);border:1px solid #C9E2D3;padding:6px 8px;gap:5px}
+.z-fb{background:var(--green-lt);border:1px solid var(--green-ln);padding:6px 8px;gap:5px}
 .z-sf{background:var(--white);border:1.5px dashed var(--green);padding:6px 8px;gap:5px}
-.z-in{background:repeating-linear-gradient(45deg,#E6E8EA 0 6px,#F4F5F6 6px 12px);border:1px solid var(--line);padding:6px 8px;
-  justify-content:center;align-items:center}
-.z-in .zl{color:#6B747C;letter-spacing:.1em}
+.z-in{background:repeating-linear-gradient(45deg,#DDE1E4 0 6px,#F4F5F6 6px 12px);border:1px solid var(--line);padding:6px 8px;justify-content:center;align-items:center}
+.z-in .zl{color:var(--text-2);letter-spacing:.1em}
 .zone.row1{flex-direction:row;align-items:center;gap:10px;padding-top:0;padding-bottom:0}
 .zone.row1 .zl{flex:none}
 .zone.row1 .people{flex-wrap:nowrap}
-
-/* Mini-Personenkarte */
 .mcard{position:relative;height:36px;min-width:60px;padding:0 4px 0 6px;border-radius:6px;background:var(--white);border:1px solid var(--line);
-  display:flex;align-items:center;gap:5px;cursor:grab;touch-action:none}
+  display:flex;align-items:center;gap:5px;cursor:grab;touch-action:manipulation}
 .mcard .md{flex:none;width:10px;height:10px;border-radius:50%}
 .mcard .mn{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .z-mp .mcard{min-width:0}
@@ -183,18 +187,29 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .mcard.fresh{animation:fresh 2.4s ease-out 1}
 @keyframes fresh{0%{background:#CFE9D9}100%{background:var(--white)}}
 .mcard.fresh::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;border-radius:6px 0 0 6px;background:var(--green)}
-
-/* Zonen-Zustände */
 .drop-ok{border-color:var(--green)!important;box-shadow:0 0 0 2px var(--green),0 0 0 6px rgba(0,137,61,.18),0 0 22px rgba(0,137,61,.45);z-index:5}
+.drop-over{border-color:var(--warn)!important;box-shadow:0 0 0 2px var(--warn),0 0 18px rgba(232,113,10,.45);z-index:5}
 .drop-hint{position:absolute;left:50%;top:-30px;transform:translateX(-50%);z-index:6;height:22px;padding:0 9px;border-radius:11px;background:var(--green);color:var(--white);
-  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;gap:5px;white-space:nowrap}
+  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;white-space:nowrap}
 .over{border-color:var(--warn)!important;box-shadow:0 0 0 2px var(--warn);z-index:4}
 .over .mp-h svg{display:none}
 .over .mp-h > span:last-child{background:var(--warn);color:var(--text);border-radius:4px;padding:1px 6px}
-.mp-h .ob{margin-left:6px;margin-right:auto;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#FFD3B0}
-.over-hint{position:absolute;right:6px;top:-11px;z-index:6;height:20px;padding:0 8px;border-radius:10px;background:var(--warn);color:var(--text);
-  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;white-space:nowrap}
-.dragging{opacity:.35}
+
+/* Layout-Modus */
+.hall .cell{border:1px dashed #CDD2D6;border-radius:3px;pointer-events:none}
+.hall.layout .zone{cursor:move;touch-action:none;z-index:2}
+.hall.layout .zone.moving{box-shadow:0 10px 24px rgba(31,35,40,.25);z-index:20;opacity:.95}
+.hall.layout .zone.collide{outline:3px solid var(--st-ab);outline-offset:1px}
+.rz{position:absolute;right:-1px;bottom:-1px;width:22px;height:22px;border-radius:0 0 8px 0;cursor:nwse-resize;z-index:3;
+  background:linear-gradient(135deg,transparent 50%,var(--green-dk) 50%)}
+.grip{position:absolute;right:6px;top:5px;width:16px;height:16px;color:var(--text-2);opacity:.8}
+.fp{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);border:2px solid var(--text-2);border-radius:4px;
+  background:repeating-linear-gradient(135deg,rgba(95,104,112,.10) 0 6px,rgba(95,104,112,.02) 6px 12px);display:grid;place-items:center;text-align:center;
+  font-size:11px;font-weight:700;color:var(--text);line-height:1.3;padding:2px}
+.fp small{display:block;font-size:10px;font-weight:600;color:var(--text-2)}
+.fp.res{border-style:dashed;border-color:var(--green)}
+.dim-lbl{font-size:10.5px;font-weight:600;color:var(--text-2)}
+.hall.layout .zl{padding-right:18px}
 
 /* ---------- B4 Projekte ---------- */
 .proj{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}
@@ -202,61 +217,59 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .sec-h h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 .sec-h .hint{margin-left:auto;font-size:12px;font-weight:600;color:var(--text-2)}
 .sec{display:flex;flex-direction:column;gap:8px}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .tile{position:relative;height:150px;padding:10px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);
   display:grid;grid-template-rows:36px 22px 22px 26px;row-gap:8px;min-width:0;cursor:pointer}
 .tile.under{border-left:4px solid var(--st-ab);padding-left:7px}
 .t-top{display:flex;justify-content:space-between;gap:8px;min-width:0}
-.t-top .nm{font-size:15px;font-weight:700;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.t-top .nr{font-size:12px;font-weight:600;color:var(--text-2);line-height:16px;white-space:nowrap}
-.t-top .nr b{color:var(--text);font-weight:700}
 .t-top > div:first-child{min-width:0}
+.t-top .nm{font-size:15px;font-weight:700;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-top .nr{font-size:12px;font-weight:600;color:var(--text-2);line-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-top .nr b{color:var(--text);font-weight:700}
 .t-top .rt{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
-.badge-under{height:16px;padding:0 6px;border-radius:4px;background:var(--st-ab);color:var(--white);font-size:10px;font-weight:700;letter-spacing:.06em;
-  display:flex;align-items:center;text-transform:uppercase}
+.badge-under{height:16px;padding:0 6px;border-radius:4px;background:var(--st-ab);color:var(--white);font-size:10px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;text-transform:uppercase}
 .t-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
-.phase{height:22px;padding:0 6px 0 7px;border-radius:4px;background:var(--surface);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;
+.t-row .l{display:flex;align-items:center;gap:6px;min-width:0}
+.phase{height:22px;padding:0 8px;border-radius:4px;background:var(--surface);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;
   font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.steps{display:inline-flex;gap:2px}
-.steps i{width:4px;height:8px;border-radius:1px;background:#CDD1D5}
-.steps i.done{background:#5F6870}
-.steps i.cur{background:var(--text);height:10px}
+.phase i{width:8px;height:8px;border-radius:2px}
+.dl{height:20px;padding:0 6px;border-radius:4px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.dl.y{background:#FCF1CC;color:#6B4E00;border:1px solid #E9C65A}
+.dl.r{background:#FBE3E6;color:#9E1528;border:1px solid #E9A3AC}
 .qcd{display:flex;gap:4px}
 .qcd span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--text)}
 .qcd .g{background:var(--amp-g)} .qcd .y{background:var(--amp-y)} .qcd .r{background:var(--amp-r);color:var(--white)}
 .dates{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap}
 .dates b{color:var(--text);font-weight:700}
 .dates b.crit{color:#B3182C}
-.stack{display:flex;padding-left:5px}
+.stack{display:flex;padding-left:6px}
 .stack .av{width:20px;height:20px;margin-left:-6px;border:2px solid var(--white);font-size:9px;box-sizing:content-box}
-.stack .av.plus{background:var(--surface);color:var(--text-2);border-color:var(--white);font-size:10px}
+.stack .av.plus{background:var(--surface);color:var(--text-2);font-size:10px}
 .stack .none{font-size:12px;color:var(--text-2);font-weight:600}
-.bars{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
 .bar .bl{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:600;color:var(--text-2);line-height:14px;margin-bottom:4px;white-space:nowrap}
 .bar .bl b{color:var(--text);font-weight:700;font-size:12px}
-.track{position:relative;height:8px;border-radius:4px;background:#E6E8EA;overflow:hidden}
-.track i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
-.track .soll{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--text)}
-.f-g{background:var(--amp-g)} .f-y{background:var(--amp-y)} .f-r{background:var(--amp-r)} .f-n{background:#5F6870}
+.bar .bl .late{color:#8A5A00;font-weight:700}
+.bar .bl .sm{font-size:10.5px}
+.track{position:relative;height:8px;border-radius:4px;background:#E6E8EA}
+.track > i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.track .tick{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--text);border-radius:1px}
+.f-g{background:var(--amp-g)} .f-y{background:var(--amp-y)} .f-r{background:var(--amp-r)} .f-n{background:var(--text-2)}
 .logo{flex:none;font-size:10px;line-height:14px;color:var(--text);white-space:nowrap}
 .logo-a{font-weight:800;font-style:italic;letter-spacing:.02em;font-size:11px}
-.logo-a::before{content:"";display:inline-block;width:8px;height:8px;background:var(--text);transform:skewX(-14deg);margin-right:4px;vertical-align:0}
+.logo-a::before{content:"";display:inline-block;width:8px;height:8px;background:var(--text);transform:skewX(-14deg);margin-right:4px}
 .logo-b{font-weight:700;letter-spacing:.02em;border:1.5px solid var(--text);border-radius:8px;padding:0 5px;line-height:12px}
 .logo-c{font-weight:600;letter-spacing:.1em;font-size:9px;border-top:1.5px solid var(--text);border-bottom:1.5px solid var(--text);line-height:11px}
 .logo-d{font-weight:800;letter-spacing:.06em;background:var(--text);color:var(--white);padding:0 5px;border-radius:2px}
 .logo-i{font-weight:700;letter-spacing:.1em;color:var(--text-2);border:1px dashed #8C959D;padding:0 4px;border-radius:3px;font-size:9.5px;line-height:12px}
 
 /* ---------- B5 Fußleiste ---------- */
-.ftr{display:flex;align-items:center;gap:16px;padding:0 16px 0 24px;border-top:1px solid var(--line);background:var(--white)}
+.ftr{display:flex;align-items:center;gap:14px;padding:0 16px 0 24px;border-top:1px solid var(--line);background:var(--white)}
 .lg{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap}
 .lg .t{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--text);text-transform:uppercase}
 .lg span{display:inline-flex;align-items:center;gap:6px}
 .lg span > i{width:12px;height:12px;border-radius:50%;display:inline-block}
 .lg .amp{width:20px;height:20px;border-radius:50%;border:1.5px solid #8C959D;display:inline-grid;place-items:center;font-size:10px;font-weight:800;color:var(--text)}
-.lg .ampc{gap:3px}
-.lg .ampc i{width:12px;height:12px;border-radius:50%}
-.lg .ampc i.g{background:var(--amp-g)} .lg .ampc i.y{background:var(--amp-y)} .lg .ampc i.r{background:var(--amp-r);margin-right:5px}
-.lg .avx{width:16px;height:16px;border-radius:50%;background:var(--green-dk);display:inline-block}
 .kpis{margin-left:auto;display:flex;gap:6px}
 .kpi{height:40px;padding:0 8px 0 12px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
 .kpi .k{font-size:13px;font-weight:600;color:var(--text-2)}
@@ -267,493 +280,1116 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .kpi.alert{border-color:var(--st-ab);background:#FDECEE}
 .kpi.alert .k{color:#8E1424} .kpi.alert .v{color:#B3182C} .kpi.alert svg{color:#B3182C}
 
-/* ---------- Undo-Snackbar ---------- */
-.snack{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);z-index:50;height:52px;padding:0 8px 0 18px;border-radius:var(--r);
-  background:var(--text);color:var(--white);display:flex;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(31,35,40,.3);overflow:hidden;
-  transition:opacity .2s, transform .2s}
+/* ---------- Snackbar / Toast ---------- */
+.snack{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);z-index:70;height:52px;padding:0 8px 0 18px;border-radius:var(--r);
+  background:var(--text);color:var(--white);display:flex;align-items:center;gap:14px;box-shadow:0 8px 24px rgba(31,35,40,.3);overflow:hidden;transition:opacity .2s,transform .2s}
 .snack.hide{opacity:0;transform:translate(-50%,12px);pointer-events:none}
-.snack .ok{width:22px;height:22px;border-radius:50%;background:var(--st-an);display:grid;place-items:center}
+.snack .ok{width:22px;height:22px;border-radius:50%;background:var(--st-an);display:grid;place-items:center;flex:none}
+.snack .ok.warn{background:var(--st-ab)}
 .snack .ok svg{width:13px;height:13px}
 .snack .msg{font-size:16px;font-weight:600;white-space:nowrap}
 .snack .msg b{font-weight:800}
+.snack .msg .mail{color:#B9C1C8;font-weight:600;font-size:14px;margin-left:4px}
 .snack .div{width:1px;height:24px;background:rgba(255,255,255,.22)}
 .snack .undo{height:40px;padding:0 14px;border-radius:6px;color:#7FD9A3;font-size:14px;font-weight:800;letter-spacing:.1em;display:inline-flex;align-items:center;gap:8px}
-.snack .undo:active{background:rgba(255,255,255,.08)}
 .snack .undo svg{width:16px;height:16px}
 .snack .timer{position:absolute;left:0;bottom:0;height:3px;width:62%;background:#7FD9A3;opacity:.7}
 
+/* ---------- Pop-ups ---------- */
+.pop{position:absolute;z-index:75;width:388px;background:var(--white);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 18px 44px rgba(31,35,40,.24),0 2px 6px rgba(31,35,40,.12);padding:16px;display:flex;flex-direction:column;gap:14px}
+.pop-h{display:flex;align-items:center;gap:12px}
+.pop-h .av{width:44px;height:44px;font-size:15px}
+.pop-h .av .sd{width:14px;height:14px;right:-1px;bottom:-1px;border-width:3px}
+.pop-h .nm{font-size:20px;font-weight:700;line-height:24px}
+.pop-h .meta{font-size:13px;font-weight:600;color:var(--text-2)}
+.pop-h .x{margin-left:auto;align-self:flex-start}
+.pl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);margin-bottom:6px;display:flex;justify-content:space-between}
+.pl span{letter-spacing:0;text-transform:none;font-weight:600}
+.statline{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.statline i{width:12px;height:12px;border-radius:50%}
+.statline span{font-weight:600;color:var(--text-2)}
+.einsatz{border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:6px}
+.einsatz .r1{display:flex;align-items:center;gap:8px}
+.zchip{height:24px;min-width:34px;padding:0 7px;border-radius:4px;background:var(--green-dk);color:var(--white);font-size:13px;font-weight:800;display:inline-grid;place-items:center}
+.zchip.fb{background:var(--green-lt);color:var(--green-dk);border:1px solid var(--green-ln)}
+.kl{height:18px;padding:0 6px;border-radius:9px;border:1px solid var(--line-2);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);display:inline-flex;align-items:center}
+.einsatz .nm2{font-size:15px;font-weight:700}
+.einsatz .r2{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--text-2)}
+.sugg{display:flex;flex-wrap:wrap;gap:6px}
+.sugg button{height:36px;padding:0 10px;border-radius:var(--r);border:1px solid var(--green);background:var(--green-lt);color:var(--green-dk);font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.ausl{display:flex;align-items:center;gap:12px}
+.ausl .big{font-size:28px;font-weight:800;line-height:1}
+.ausl .big small{font-size:15px}
+.ausl .tr{flex:1}
+.ausl .tr .track{height:10px}
+.ausl .tr div{font-size:12px;font-weight:600;color:var(--text-2);margin-top:5px;display:flex;justify-content:space-between}
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:10px}
+.day{height:52px;border-radius:6px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.day .d{font-size:10.5px;font-weight:700;color:var(--text-2);letter-spacing:.04em}
+.day .c{font-size:13px;font-weight:800}
+.day .h{font-size:10.5px;font-weight:600;color:var(--text-2)}
+.day.today{border:2px solid var(--green);background:var(--white)}
+.day.plan{background:var(--white);border-style:dashed}
+.day.free .c{color:var(--text-3)}
+.day.off .c{font-size:11px;letter-spacing:.04em}
+.stbtns{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.stbtns button{height:52px;border-radius:6px;border:1px solid var(--line);background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  font-size:11.5px;font-weight:700;color:var(--text);line-height:1.1;text-align:center;padding:0 2px}
+.stbtns button i{width:12px;height:12px;border-radius:50%;flex:none}
+.stbtns button.cur{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line-2)}
+.stbtns button.pend{border:2px solid var(--green-dk);background:var(--green-lt)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--line-2);background:var(--white);font-size:12.5px;font-weight:700;color:var(--text)}
+.chips button.on{background:var(--text);color:var(--white);border-color:var(--text)}
+.conseq{border-radius:var(--r);background:var(--surface);border:1px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--text)}
+.conseq ul{margin:0;padding-left:18px;color:var(--text-2);font-weight:600}
+.conseq ul b{color:var(--text)}
+.conseq li{margin:2px 0}
+.pop-f{display:flex;gap:8px;justify-content:flex-end}
+.pop-f .btn{height:40px}
+.pop-f .lft{margin-right:auto}
+
+.menu{position:absolute;z-index:65;width:420px;background:var(--white);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 18px 44px rgba(31,35,40,.24);overflow:hidden}
+.menu-h{height:48px;padding:0 8px 0 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.menu-h h4{margin:0;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.nt{display:grid;grid-template-columns:28px 1fr auto;gap:10px;padding:12px 16px;border-bottom:1px solid #EEF0F2;align-items:start}
+.nt.unread{background:#F7FBF8}
+.nt .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface)}
+.nt .ic svg{width:15px;height:15px}
+.nt .ic.alert{background:#FBE3E6;color:#B3182C} .nt .ic.warn{background:#FCF1CC;color:#6B4E00} .nt .ic.mail{background:var(--green-lt);color:var(--green-dk)}
+.nt .tt{font-size:14px;font-weight:700}
+.nt .tx{font-size:12.5px;font-weight:600;color:var(--text-2);margin-top:2px}
+.nt .tm{font-size:12px;font-weight:600;color:var(--text-3)}
+.menu-f{padding:10px 16px;font-size:12px;font-weight:600;color:var(--text-2);display:flex;align-items:center;gap:8px}
+.menu-f svg{width:14px;height:14px}
+
+.backdrop{position:absolute;inset:0;z-index:80;background:rgba(31,35,40,.35);display:grid;place-items:center}
+.modal{width:560px;background:var(--white);border-radius:var(--r);box-shadow:0 24px 60px rgba(31,35,40,.3);padding:24px;display:flex;flex-direction:column;gap:16px}
+.modal h3{margin:0;font-size:18px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.modal p{margin:0;font-size:14px;color:var(--text-2);font-weight:500}
+.field{display:flex;gap:8px}
+.field input{flex:1;height:44px;border:1.5px solid var(--line-2);border-radius:var(--r);padding:0 14px;font-size:18px;font-weight:700;letter-spacing:.04em;color:var(--text);outline:none}
+.field input:focus{border-color:var(--green)}
+.field .btn{height:44px}
+.preview{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.preview .full{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}
+.preview .k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2)}
+.preview .v{font-size:15px;font-weight:700}
+.preview .nm{font-size:18px;font-weight:700}
+.nf{font-size:14px;font-weight:600;color:#B3182C}
+
+.toast{position:absolute;left:50%;top:76px;transform:translateX(-50%);z-index:90;height:40px;padding:0 16px;border-radius:20px;background:var(--text);color:var(--white);
+  font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;transition:opacity .2s;white-space:nowrap}
+.toast.hide{opacity:0;pointer-events:none}
+.tip{position:absolute;z-index:95;max-width:300px;padding:7px 10px;border-radius:6px;background:var(--text);color:var(--white);font-size:12.5px;font-weight:600;line-height:1.35;pointer-events:none;white-space:pre-line}
+
+/* ---------- Forecast ---------- */
+.vpad{padding:12px 16px;display:flex;flex-direction:column;gap:12px}
+.ktiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:none}
+.ktile{height:104px;border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;display:flex;flex-direction:column;justify-content:space-between;background:var(--white);min-width:0}
+.ktile .k{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);display:flex;justify-content:space-between;gap:8px}
+.ktile .v{font-size:32px;font-weight:800;line-height:1;display:flex;align-items:baseline;gap:8px}
+.ktile .v small{font-size:15px;font-weight:700;color:var(--text-2)}
+.ktile .s{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ktile .f{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0;text-transform:none;white-space:nowrap}
+.fc{flex:1;min-height:0;border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden}
+.fc-row{display:grid;grid-template-columns:232px 220px 164px 140px 168px minmax(0,1fr);align-items:center;border-bottom:1px solid #EEF0F2}
+.fc-row > div{padding:0 12px;min-width:0}
+.fc-head{height:48px;flex:none;background:var(--surface);border-bottom:1px solid var(--line);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2)}
+.fc-head > div small{display:block;font-size:10.5px;letter-spacing:0;text-transform:none;font-weight:600;color:var(--text-3)}
+.fc-sec{height:26px;flex:none;padding:0 12px;display:flex;align-items:center;gap:8px;background:#FAFBFB;border-bottom:1px solid #EEF0F2;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.fc-row.r{height:62px;flex:none;cursor:pointer}
+.fc-row.r:hover{background:#FAFBFB}
+.fc-row.hl{background:var(--green-lt)!important;box-shadow:inset 4px 0 0 var(--green)}
+.fc-p .nm{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc-p .nr{font-size:12px;font-weight:600;color:var(--text-2);display:flex;gap:6px;align-items:center;margin-top:3px}
+.l1{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.l1 em{font-style:normal;font-weight:600;color:var(--text-2)}
+.l2{font-size:11.5px;font-weight:600;color:var(--text-2);margin-top:4px;white-space:nowrap}
+.hbar{position:relative;height:10px;border-radius:5px;background:#E6E8EA;margin-top:6px}
+.hbar .ist{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--text-2)}
+.hbar .ext{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,var(--text) 0 2px,transparent 2px 5px);border-radius:0 5px 5px 0;opacity:.55}
+.hbar .plan{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--green-dk)}
+.amp1{width:14px;height:14px;border-radius:50%;display:inline-block;flex:none}
+.amp1.g{background:var(--amp-g)} .amp1.y{background:var(--amp-y)} .amp1.r{background:var(--amp-r)}
+.fc-g{position:relative;align-self:stretch;padding:0!important;border-left:1px solid #EEF0F2}
+.gscale{position:absolute;inset:0 16px 0 8px}
+.gscale .m{position:absolute;top:7px;font-size:11px;font-weight:700;color:var(--text);letter-spacing:.06em}
+.gscale .w{position:absolute;bottom:6px;font-size:10px;font-weight:600;color:var(--text-3);transform:translateX(-50%);letter-spacing:0}
+.gscale .w.now{color:var(--green-dk);font-weight:800}
+.gline{position:absolute;top:0;bottom:0;width:1px;background:#F0F2F3}
+.gline.mo{background:#DDE1E4}
+.gtoday{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--green);z-index:2}
+.gbar{position:absolute;top:50%;height:20px;transform:translateY(-50%);display:flex}
+.gseg{height:100%;display:grid;place-items:center;font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--white);overflow:hidden;border-right:2px solid var(--white)}
+.gseg:first-child{border-radius:4px 0 0 4px}
+.gseg:last-child{border-radius:0 4px 4px 0;border-right:0}
+.gseg.dk{color:var(--text)}
+.gseg.cur{box-shadow:inset 0 0 0 2px var(--text)}
+.gseg.overdue{box-shadow:inset 0 0 0 2px var(--st-ab)}
+.gext{position:absolute;top:50%;height:20px;transform:translateY(-50%);border-radius:0 4px 4px 0;z-index:1}
+.gext.y{background:repeating-linear-gradient(135deg,#E9B82E 0 3px,#FCF1CC 3px 7px);border:1px solid #D9A92A}
+.gext.r{background:repeating-linear-gradient(135deg,#D7263D 0 3px,#FBE3E6 3px 7px);border:1px solid #C21F35}
+.glbl{position:absolute;top:50%;transform:translateY(-50%);font-size:11px;font-weight:800;white-space:nowrap;z-index:3}
+.fc-foot{height:40px;flex:none;margin-top:auto;padding:0 12px;display:flex;align-items:center;gap:16px;font-size:12px;font-weight:600;color:var(--text-2);border-top:1px solid var(--line);background:var(--surface)}
+.fc-foot span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.fc-foot .sw{width:14px;height:10px;border-radius:2px;display:inline-block}
+.fc-foot b{color:var(--text)}
+
+/* ---------- Auswertung ---------- */
+.agrid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.chart{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px 10px;display:flex;flex-direction:column;min-height:0}
+.chart h4{margin:0;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline}
+.chart h4 span{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--text-2)}
+.chart .cs{font-size:12.5px;font-weight:600;color:var(--text-2);margin:3px 0 6px}
+.chart svg{flex:1;min-height:0;width:100%;display:block}
+.chart svg text{font-family:var(--font);font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#fff;stroke-width:7px;stroke-linejoin:round}
+.chart .hit{fill:transparent}
+.chart .hit:hover{fill:rgba(31,35,40,.04)}
+.stackbar{display:flex;height:14px;border-radius:4px;overflow:hidden;gap:2px}
+.stackbar i{height:100%}
+
 /* Tabellenziffern nur für Zahlen – Namen und Wortmarken proportional */
-.kn,.t-top .nm,.logo,.pn,.mn,.zl,.app-title{font-variant-numeric:normal}
-@media (prefers-reduced-motion:reduce){.selected,.mcard.fresh{animation:none}}
+.kn,.t-top .nm,.logo,.pn,.mn,.zl,.app-title,.fc-p .nm,.pop-h .nm,.einsatz .nm2,.preview .nm{font-variant-numeric:normal}
+@media (prefers-reduced-motion:reduce){.selected,.mcard.fresh,.grp.flash,.tile.flash{animation:none}}
 </style>
 </head>
 <body>
 <div id="stage">
 
-  <!-- =============================== B1 KOPFZEILE =============================== -->
+  <!-- ============================== B1 KOPFZEILE ============================== -->
   <header class="hdr">
     <div class="brand">
-      <span class="wordmark">SCHAEFFLER</span>
-      <span class="sep"></span>
+      <span class="wordmark">SCHAEFFLER</span><span class="sep"></span>
       <div class="app-title">Montageplanung SMB<small>Halle 3 · Montage</small></div>
     </div>
-
     <div class="hdr-center">
       <div class="kw">
-        <button class="icon-btn" aria-label="Vorherige Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></button>
-        <span class="kw-label">KW 47</span>
-        <button class="icon-btn" aria-label="Nächste Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-        <span class="kw-range">16.11.–22.11.2026</span>
+        <button class="icon-btn" data-kw="-1" aria-label="Vorherige Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></button>
+        <span class="kw-label" id="kwLabel">KW 47</span>
+        <button class="icon-btn" data-kw="1" aria-label="Nächste Woche"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
+        <span class="kw-range" id="kwRange">16.11.–22.11.2026</span>
       </div>
-      <button class="btn">Heute</button>
-      <div class="seg" data-seg>
-        <button>Tag</button><button class="on">Woche</button>
-      </div>
+      <button class="btn" data-kw="0">Heute</button>
+      <div class="seg" data-seg><button>Tag</button><button class="on">Woche</button></div>
     </div>
-
     <div class="hdr-right">
-      <button class="btn"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z"/></svg>Filter</button>
-      <nav class="tabs" data-tabs>
-        <button class="on">Board</button><button>Maßnahmen</button><button>Auswertung</button><button>Stammdaten</button>
+      <button class="icon-btn" data-tip="Filter: Team, Qualifikation, Projektklasse" aria-label="Filter"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z"/></svg></button>
+      <nav class="tabs" id="tabs">
+        <button class="on" data-view="board">Board</button><button data-view="forecast">Forecast</button><button data-view="massn">Maßnahmen</button><button data-view="auswertung">Auswertung</button><button data-view="stamm">Stammdaten</button>
       </nav>
       <span class="vsep"></span>
+      <button class="icon-btn" id="bell" aria-label="Benachrichtigungen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.2 1.5H2.8z"/><path d="M6.5 14a1.6 1.6 0 0 0 3 0"/></svg><span class="badge-n" id="bellN">3</span></button>
       <span class="sync"><i></i>aktuell</span>
       <span class="clock" id="clock">10:42</span>
       <span class="role"><span><svg viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14.5c.6-3 2.8-4.5 5.5-4.5s4.9 1.5 5.5 4.5z"/></svg></span>Meister</span>
     </div>
   </header>
 
-  <!-- =============================== HAUPTBEREICH =============================== -->
-  <main class="main">
-
-    <!-- B2 PERSONAL -->
-    <section class="panel">
-      <div class="ph"><h2>Personal</h2>
-        <div class="right pool-tabs" data-pooltabs>
-          <button class="on" data-v="present">Anwesend <span class="count">40</span></button>
-          <button data-v="absent">Abwesend <span class="count">1</span></button>
+  <div class="views">
+    <!-- ============================== BOARD ============================== -->
+    <main class="view main" id="v-board">
+      <section class="panel">
+        <div class="ph"><h2>Personal</h2>
+          <div class="right pool-tabs" id="poolTabs">
+            <button class="on" data-v="an">Anwesend <span class="count" id="nAn">34</span></button>
+            <button data-v="abs">Abwesend <span class="count" id="nAbs">7</span></button>
+          </div>
         </div>
-      </div>
-      <div class="pool" id="pool">
-        <div class="pool-body present-list" id="poolPresent"></div>
-        <div class="pool-body absent-list" id="poolAbsent"></div>
-      </div>
-    </section>
+        <div class="pool" id="pool"></div>
+      </section>
 
-    <!-- B3 HALLENPLAN -->
-    <section class="panel">
-      <div class="ph">
-        <h2>Hallenplan</h2><span class="sub">Halle 3 · Mi 18.11.</span>
-        <div class="right legend-mini">
-          <span><i class="sw-mp"></i>Montageplatz</span>
-          <span><i class="sw-fb"></i>Funktionsbereich</span>
-          <span><i class="sw-sf"></i>Sonderfläche</span>
-          <span><i class="sw-in"></i>Infrastruktur</span>
-          <span><i class="sw-vw"></i>Verkehrsweg</span>
+      <section class="panel">
+        <div class="ph">
+          <h2>Hallenplan</h2>
+          <div class="legend-mini" id="hallLegend">
+            <span><i class="sw-mp"></i>Montageplatz</span><span><i class="sw-fb"></i>Funktionsbereich</span>
+            <span><i class="sw-sf"></i>Sonderfläche</span><span><i class="sw-in"></i>Infrastruktur</span><span><i class="sw-vw"></i>Verkehrsweg</span>
+          </div>
+          <div class="layout-hint" id="layoutHint" hidden>Zone ziehen = <b>verschieben</b> · Ecke = <b>Größe</b> · 1 Raster = 2 × 2 m</div>
+          <div class="right">
+            <span id="layoutBtns" hidden><button class="btn sm ghost" id="lyCancel">Verwerfen</button> <button class="btn sm pri" id="lySave">Übernehmen</button></span>
+            <div class="seg" id="hallMode"><button class="on" data-m="bel">Belegung</button><button data-m="lay">Layout</button></div>
+          </div>
         </div>
-      </div>
-      <div class="hall" id="hall"></div>
-    </section>
+        <div class="hall" id="hall"></div>
+      </section>
 
-    <!-- B4 PROJEKTE -->
-    <section class="panel">
-      <div class="ph"><h2>Projekte</h2><span class="sub">10 aktiv</span><div class="right"><span class="sub">Sortierung: Ampel</span></div></div>
-      <div class="proj" id="proj"></div>
-    </section>
-  </main>
+      <section class="panel">
+        <div class="ph"><h2>Projekte</h2><span class="sub" id="projSub">10 aktiv</span>
+          <div class="right"><button class="btn sm" id="newProj"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>Projekt</button></div></div>
+        <div class="proj" id="proj"></div>
+      </section>
+    </main>
 
-  <!-- =============================== B5 FUSSLEISTE =============================== -->
+    <!-- ============================== FORECAST / AUSWERTUNG ============================== -->
+    <section class="view vpad" id="v-forecast" hidden></section>
+    <section class="view vpad" id="v-auswertung" hidden></section>
+  </div>
+
+  <!-- ============================== B5 FUSSLEISTE ============================== -->
   <footer class="ftr">
     <div class="lg">
       <span class="t">Status</span>
-      <span><i class="st-an"></i>Anwesend</span>
-      <span><i class="st-sc"></i>Schulung</span>
-      <span><i class="st-ku"></i>Kundeneinsatz</span>
-      <span><i class="st-in"></i>Intern</span>
-      <span><i class="st-ab"></i>Abwesend</span>
+      <span><i class="st-an"></i>Anwesend</span><span><i class="st-ab"></i>Abwesend</span><span><i class="st-ex"></i>Ext. Service</span>
+      <span><i class="st-dr"></i>Dienstreise</span><span><i class="st-sc"></i>Schulung</span>
     </div>
     <span class="vsep"></span>
-    <div class="lg">
-      <span class="t">Ampel</span>
-      <span><b class="amp">Q</b>Qualität</span>
-      <span><b class="amp">C</b>Kosten</span>
-      <span><b class="amp">D</b>Termin</span>
-    </div>
-    <span class="vsep"></span>
-    <div class="lg"><span><i class="avx"></i>Vorarbeiter</span></div>
-
-    <div class="kpis">
-      <button class="kpi"><span class="dot st-an"></span><span class="k">Anwesend</span><span class="v">34<small>/41</small></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-      <button class="kpi"><span class="k">Nicht eingeteilt</span><span class="v">4</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-      <button class="kpi"><span class="k">Unterbesetzt</span><span class="v">2</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-      <button class="kpi"><span class="dot st-ab"></span><span class="k">Rote Ampel</span><span class="v">1</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-      <button class="kpi alert"><span class="k">Maßnahmen überfällig</span><span class="v">3</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg></button>
-    </div>
+    <div class="lg"><span class="t">Ampel</span><span><b class="amp">Q</b>Qualität</span><span><b class="amp">C</b>Kosten</span><span><b class="amp">D</b>Liefertreue</span></div>
+    <div class="kpis" id="kpis"></div>
   </footer>
 
-  <!-- Undo-Snackbar -->
   <div class="snack" id="snack" role="status">
-    <span class="ok"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
-    <span class="msg" id="snackMsg"><b>M. Becker</b> → A2 eingeteilt</span>
+    <span class="ok" id="snackIc"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
+    <span class="msg" id="snackMsg"><b>M. Becker</b> → A2 eingeteilt <span class="mail">· ✉ Mitarbeiter informiert</span></span>
     <span class="div"></span>
     <button class="undo" id="undo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h6a3.5 3.5 0 0 1 0 7H7"/><path d="M6.5 3 3.5 6l3 3"/></svg>RÜCKGÄNGIG</button>
     <span class="timer"></span>
   </div>
+  <div class="pop" id="pop" hidden></div>
+  <div class="menu" id="bellMenu" hidden></div>
+  <div class="backdrop" id="modal" hidden></div>
+  <div class="toast hide" id="toast"></div>
+  <div class="tip" id="tip" hidden></div>
 </div>
 
 <script>
 /* =============================================================================
-   Statische, fiktive Daten
-   status: an = anwesend · sc = Schulung · ku = Kundeneinsatz · in = intern · ab = abwesend
+   DATENMODELL – entspricht den späteren Tabellen der Datenbank
+   (MITARBEITER, BEREICHE, PROJEKTE, ZUTEILUNG, MELDUNGEN). Alles fiktiv.
+   Status: an = anwesend · ab = abwesend (krank/Urlaub) · ex = externer Service
+           dr = Dienstreise · sc = Schulung
    ============================================================================= */
-const P = [
-  // Nicht eingeteilt
-  {id:'vogel',  n:'J. Vogel',  t:'NE',   s:'an', q:['MECH','KRAN']},
-  {id:'kaiser', n:'C. Kaiser', t:'NE',   s:'an', q:['ELEK','IBN']},
-  {id:'roth',   n:'N. Roth',   t:'NE',   s:'an', q:['MECH']},
-  {id:'graf',   n:'E. Graf',   t:'NE',   s:'an', q:['SCHW','MECH']},
-  // ZSA
+const HEUTE = new Date(2026,10,18);           // Mi 18.11.2026, KW 47
+const STUNDENSATZ = 85;                       // €/h für den Kostenforecast
+const STATUS = {
+  an:{l:'Anwesend', c:'st-an'}, ab:{l:'Abwesend', c:'st-ab'}, ex:{l:'Ext. Service', c:'st-ex', lang:'Externer Service'},
+  dr:{l:'Dienstreise', c:'st-dr'}, sc:{l:'Schulung', c:'st-sc'}
+};
+
+const MITARBEITER = [
+  {id:'vogel',  n:'J. Vogel',  t:'ZSA3', s:'an', q:['MECH','KRAN'], vorh:'A3'},
+  {id:'kaiser', n:'C. Kaiser', t:'ZSA4', s:'an', q:['ELEK','IBN'], vorh:'B2'},
+  {id:'roth',   n:'N. Roth',   t:'ZSA1', s:'an', q:['MECH'], vorh:'B1'},
+  {id:'graf',   n:'E. Graf',   t:'ZSA',  s:'an', q:['SCHW','MECH'], vorh:'ktf'},
   {id:'weber',  n:'T. Weber',  t:'ZSA',  s:'an', q:['MECH','ELEK','IBN'], lead:1},
   {id:'lange',  n:'S. Lange',  t:'ZSA',  s:'an', q:['MECH']},
-  {id:'hahn',   n:'D. Hahn',   t:'ZSA',  s:'an', q:['IBN','ELEK']},
+  {id:'hahn',   n:'D. Hahn',   t:'ZSA',  s:'dr', q:['IBN','ELEK'], bis:'20.11.', grund:'Abnahme-Vorbereitung P-24012', vorh:'ibn'},
   {id:'busch',  n:'K. Busch',  t:'ZSA',  s:'an', q:['MECH']},
   {id:'otto',   n:'F. Otto',   t:'ZSA',  s:'an', q:['MECH','SCHW']},
   {id:'kuehn',  n:'R. Kühn',   t:'ZSA',  s:'an', q:['MECH']},
-  // ZSA1
   {id:'wolf',   n:'A. Wolf',   t:'ZSA1', s:'an', q:['MECH','KRAN','IBN'], lead:1},
   {id:'koch',   n:'J. Koch',   t:'ZSA1', s:'an', q:['MECH']},
   {id:'braun',  n:'L. Braun',  t:'ZSA1', s:'an', q:['ELEK']},
   {id:'kraus',  n:'P. Kraus',  t:'ZSA1', s:'an', q:['MECH','KRAN']},
   {id:'engel',  n:'M. Engel',  t:'ZSA1', s:'an', q:['MECH']},
   {id:'simon',  n:'B. Simon',  t:'ZSA1', s:'an', q:['ELEK','IBN']},
-  // ZSA2
-  {id:'becker', n:'M. Becker', t:'ZSA2', s:'an', q:['MECH','ELEK']},
+  {id:'schulz', n:'H. Schulz', t:'ZSA1', s:'ab', q:['MECH','KRAN'], grund:'Urlaub', bis:'20.11.'},
+  {id:'becker', n:'M. Becker', t:'ZSA2', s:'an', q:['MECH','ELEK'], vorh:'ktf'},
   {id:'fuchs',  n:'O. Fuchs',  t:'ZSA2', s:'an', q:['MECH','IBN'], lead:1},
   {id:'haas',   n:'G. Haas',   t:'ZSA2', s:'an', q:['ELEK']},
   {id:'berg',   n:'I. Berg',   t:'ZSA2', s:'an', q:['MECH']},
   {id:'horn',   n:'U. Horn',   t:'ZSA2', s:'an', q:['MECH','SCHW']},
   {id:'pohl',   n:'V. Pohl',   t:'ZSA2', s:'an', q:['MECH']},
-  // ZSA3
   {id:'frank',  n:'H. Frank',  t:'ZSA3', s:'an', q:['IBN','ELEK']},
   {id:'jung',   n:'W. Jung',   t:'ZSA3', s:'an', q:['MECH']},
   {id:'lorenz', n:'S. Lorenz', t:'ZSA3', s:'an', q:['MECH','KRAN','IBN'], lead:1},
   {id:'seidel', n:'A. Seidel', t:'ZSA3', s:'an', q:['ELEK']},
-  {id:'brandt', n:'K. Brandt', t:'ZSA3', s:'an', q:['MECH']},
-  {id:'winter', n:'T. Winter', t:'ZSA3', s:'sc', q:['ELEK','IBN']},
-  // ZSA4
+  {id:'brandt', n:'K. Brandt', t:'ZSA3', s:'ab', q:['MECH'], grund:'Krank', seit:'18.11.', vorh:'A4'},
+  {id:'winter', n:'T. Winter', t:'ZSA3', s:'sc', q:['ELEK','IBN'], bis:'19.11.', grund:'SPS-Lehrgang', vorh:'A3'},
   {id:'keller', n:'R. Keller', t:'ZSA4', s:'an', q:['MECH','SCHW'], lead:1},
   {id:'peters', n:'J. Peters', t:'ZSA4', s:'an', q:['MECH']},
   {id:'franke', n:'D. Franke', t:'ZSA4', s:'an', q:['ELEK']},
   {id:'ludwig', n:'L. Ludwig', t:'ZSA4', s:'an', q:['MECH','KRAN']},
   {id:'boehm',  n:'E. Böhm',   t:'ZSA4', s:'an', q:['IBN']},
   {id:'sauer',  n:'N. Sauer',  t:'ZSA4', s:'an', q:['MECH']},
-  // ZSAA
   {id:'voigt',  n:'F. Voigt',  t:'ZSAA', s:'an', q:['MECH']},
-  {id:'huber',  n:'C. Huber',  t:'ZSAA', s:'in', q:['MECH','ELEK']},
-  {id:'mayer',  n:'B. Mayer',  t:'ZSAA', s:'in', q:['IBN']},
-  // ZSY/ZSC
-  {id:'stein',  n:'G. Stein',  t:'ZSY/ZSC', s:'ku', q:['IBN','ELEK','MECH'], lead:1},
-  {id:'dietz',  n:'P. Dietz',  t:'ZSY/ZSC', s:'ku', q:['ELEK']},
-  {id:'arnold', n:'M. Arnold', t:'ZSY/ZSC', s:'ku', q:['IBN','MECH']},
-  // Abwesend
-  {id:'schulz', n:'H. Schulz', t:'ZSA1', s:'ab', q:['MECH','KRAN'], absent:'Urlaub bis 20.11.'},
+  {id:'huber',  n:'C. Huber',  t:'ZSAA', s:'an', q:['MECH','ELEK']},
+  {id:'mayer',  n:'B. Mayer',  t:'ZSAA', s:'an', q:['IBN']},
+  {id:'stein',  n:'G. Stein',  t:'ZSY/ZSC', s:'ex', q:['IBN','ELEK','MECH'], lead:1, bis:'27.11.'},
+  {id:'dietz',  n:'P. Dietz',  t:'ZSY/ZSC', s:'ex', q:['ELEK'], bis:'27.11.'},
+  {id:'arnold', n:'M. Arnold', t:'ZSY/ZSC', s:'ex', q:['IBN','MECH'], bis:'04.12.'},
 ];
-const byId = Object.fromEntries(P.map(p=>[p.id,p]));
+const byId = Object.fromEntries(MITARBEITER.map(p=>[p.id,p]));
 const TEAMS = ['ZSA','ZSA1','ZSA2','ZSA3','ZSA4','ZSAA','ZSY/ZSC'];
 
-/* Hallenplan – 24×16-Raster, x/y 0-basiert */
-const Z = [
-  {id:'A1',x:1, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24117',p:['wolf','koch','braun','kraus']},
-  {id:'A2',x:5, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24121',p:['becker','fuchs','haas','berg'],fresh:'becker'},
-  {id:'A3',x:9, y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24098',p:['frank','jung']},
-  {id:'A4',x:13,y:1,w:4,h:3,t:'mp',cap:6,prj:'P-24130',p:['lorenz','seidel','brandt'],demoDrop:1},
-  {id:'B1',x:1, y:4,w:4,h:3,t:'mp',cap:6,prj:'P-24117',p:['engel','simon','horn','pohl']},
-  {id:'B2',x:5, y:4,w:4,h:3,t:'mp',cap:4,prj:'P-24105',p:['keller','peters','franke','ludwig','boehm']},
-  {id:'B3',x:9, y:4,w:4,h:3,t:'mp',cap:6,free:'27.11.',next:'P-24141'},
-  {id:'B4',x:13,y:4,w:4,h:3,t:'mp',cap:4,prj:'P-24126',p:['sauer','voigt']},
-  {id:'pol',n:'Polieren',           x:18,y:0, w:6, h:2,t:'fb',p:['busch']},
-  {id:'ibn',n:'IBN',                x:18,y:2, w:6, h:2,t:'fb',p:['hahn'],info:'Prüfplatz 1 belegt'},
-  {id:'qs', n:'QS',                 x:18,y:4, w:6, h:1,t:'fb',p:['lange']},
-  {id:'we', n:'Wareneingang',       x:18,y:5, w:6, h:3,t:'fb',p:[],info:'2 Anlieferungen heute'},
-  {id:'lag',n:'Lager',              x:18,y:8, w:6, h:2,t:'fb',p:[]},
-  {id:'ktf',n:'Kleinteile&shy;fertigung',x:0, y:9, w:4, h:5,t:'fb',p:['otto','kuehn']},
-  {id:'azu',n:'Azubi-Projekt',      x:6, y:9, w:3, h:2,t:'sf',p:['huber']},
-  {id:'tl', n:'Teamleitung',        x:10,y:9, w:4, h:2,t:'sf',p:['weber']},
-  {id:'fww',n:'Versuch FWW',        x:5, y:12,w:2, h:2,t:'sf',p:[]},
-  {id:'swk',n:'Versuch SWK',        x:8, y:12,w:3, h:2,t:'sf',p:['mayer']},
-  {id:'vs', n:'Versand',            x:13,y:11,w:4, h:1,t:'fb',p:[]},
-  {id:'lgm',n:'Lager (Mitte)',      x:13,y:12,w:4, h:2,t:'fb',p:[]},
-  {id:'rd', n:'R&D',                x:4, y:15,w:20,h:1,t:'fb',p:[]},
+/* BEREICHE – Hallenraster 24×16, x/y 0-basiert, 1 Raster = 2 × 2 m, m = Maschinen-Grundriss */
+const BEREICHE = [
+  {id:'A1',x:1, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Radlager-Linie M1',b:6.5,t:4.5}},
+  {id:'A2',x:5, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Prüfstand E-Achse',b:5.0,t:3.5}},
+  {id:'A3',x:9, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Fügezelle Rotor',b:5.5,t:4.0}},
+  {id:'A4',x:13,y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Wafer-Handling',b:4.0,t:3.0}},
+  {id:'B1',x:1, y:4,w:4,h:3,t:'mp',cap:6, m:{n:'Radlager-Linie M2',b:6.5,t:4.5}},
+  {id:'B2',x:5, y:4,w:4,h:3,t:'mp',cap:4, m:{n:'Laserschweißzelle',b:6.0,t:5.0}},
+  {id:'B3',x:9, y:4,w:4,h:3,t:'mp',cap:6, frei:'27.11.'},
+  {id:'B4',x:13,y:4,w:4,h:3,t:'mp',cap:4, m:{n:'Stator-Wickler',b:5.0,t:4.0}},
+  {id:'pol',k:'POL',n:'Polieren',           x:18,y:0, w:6, h:2,t:'fb'},
+  {id:'ibn',k:'IBN',n:'IBN',                x:18,y:2, w:6, h:2,t:'fb',info:'Prüfplatz 1 belegt'},
+  {id:'qs',k:'QS', n:'QS',                 x:18,y:4, w:6, h:1,t:'fb'},
+  {id:'we',k:'WE', n:'Wareneingang',       x:18,y:5, w:6, h:3,t:'fb',info:'2 Anlieferungen heute'},
+  {id:'lag',k:'LAGER',n:'Lager',              x:18,y:8, w:6, h:2,t:'fb'},
+  {id:'ktf',k:'KTF',n:'Kleinteile&shy;fertigung',x:0,y:9,w:4,h:5,t:'fb'},
+  {id:'azu',k:'AZUBI',n:'Azubi-Projekt',      x:6, y:9, w:3, h:2,t:'sf'},
+  {id:'tl',k:'TL', n:'Teamleitung',        x:10,y:9, w:4, h:2,t:'sf'},
+  {id:'fww',k:'FWW',n:'Versuch FWW',        x:5, y:12,w:2, h:2,t:'sf'},
+  {id:'swk',k:'SWK',n:'Versuch SWK',        x:8, y:12,w:3, h:2,t:'sf'},
+  {id:'vs',k:'VERS.', n:'Versand',            x:13,y:11,w:4, h:1,t:'fb'},
+  {id:'lgm',k:'LAGER',n:'Lager (Mitte)',      x:13,y:12,w:4, h:2,t:'fb'},
+  {id:'rd',k:'R&amp;D', n:'R&amp;D',            x:4, y:15,w:20,h:1,t:'fb'},
   {id:'umk',n:'Umkleide',           x:18,y:11,w:6, h:2,t:'in'},
   {id:'th1',n:'Treppenhaus',        x:0, y:14,w:4, h:2,t:'in'},
   {id:'th2',n:'Treppenhaus',        x:18,y:13,w:6, h:2,t:'in'},
 ];
+const zById = id => BEREICHE.find(z=>z.id===id);
+const zName = z => (z.n||z.id).replace('&shy;','').replace('&amp;','&');
 
-/* Projekte – phase: Index in PHASES; amp: [Q,C,D] g/y/r */
-const PHASES = ['Vormontage','Montage','IBN','FAT','Versand','SAT','Abgeschlossen'];
-const PR = [
-  {nr:'P-24117',nm:'Radlager-Linie',       c:'a',cust:'ANTRIEB A',   sec:'in', loc:'A1 · B1', from:'02.11.',to:'18.12.',at:23,ph:1,amp:'ggg',ist:8,soll:8,pct:34,p:['wolf','koch','braun','kraus','engel','simon','horn','pohl']},
-  {nr:'P-24121',nm:'Prüfstand E-Achse',     c:'b',cust:'e-mobil B', sec:'in', loc:'A2',      from:'26.10.',to:'11.12.',at:18,ph:1,amp:'ggg',ist:4,soll:4,pct:45,p:['becker','fuchs','haas','berg']},
-  {nr:'P-24098',nm:'Fügezelle Rotor',       c:'b',cust:'e-mobil B',   sec:'in', loc:'A3',      from:'19.10.',to:'27.11.',at:8, ph:2,amp:'gyr',ist:2,soll:6,pct:78,p:['frank','jung'],under:1},
-  {nr:'P-24130',nm:'Wafer-Handling',        c:'c',cust:'HALBLEITER C',sec:'in', loc:'A4',      from:'09.11.',to:'29.01.',at:53,ph:0,amp:'ggy',ist:3,soll:5,pct:12,p:['lorenz','seidel','brandt'],under:1},
-  {nr:'P-24105',nm:'Laserschweißzelle',     c:'d',cust:'ENERGIE D', sec:'in', loc:'B2',      from:'05.10.',to:'04.12.',at:13,ph:3,amp:'gyg',ist:5,soll:4,pct:88,p:['keller','peters','franke','ludwig','boehm']},
-  {nr:'P-24126',nm:'Stator-Wickler',        c:'a',cust:'ANTRIEB A',sec:'in', loc:'B4',      from:'16.11.',to:'05.02.',at:58,ph:0,amp:'ggg',ist:2,soll:2,pct:4, p:['sauer','voigt']},
-  {nr:'P-23188',nm:'Lager-Automat',  c:'d',cust:'ENERGIE D',   sec:'ku', loc:'vor Ort',  from:'12.10.',to:'27.11.',at:8, ph:5,amp:'ggg',ist:2,soll:2,pct:92,p:['stein','dietz']},
-  {nr:'P-24012',nm:'Getriebeprüfung',   c:'a',cust:'ANTRIEB A',   sec:'ku', loc:'vor Ort',  from:'16.11.',to:'04.12.',at:13,ph:4,amp:'ggg',ist:1,soll:1,pct:70,p:['arnold']},
-  {nr:'I-26003',nm:'Versuchsstand SWK',     c:'i',cust:'SMB INTERN',  sec:'int',loc:'Versuch SWK',from:'01.09.',to:'18.12.',at:23,ph:1,amp:'ggg',ist:1,soll:1,pct:60,p:['mayer']},
-  {nr:'I-26007',nm:'Azubi Linearachse',c:'i',cust:'SMB INTERN',sec:'int',loc:'Azubi-Projekt',from:'05.10.',to:'29.01.',at:53,ph:0,amp:'ggg',ist:1,soll:1,pct:30,p:['huber']},
+/* PROJEKTE – Klasse extern (Kundenmaschine in Halle) · service (beim Kunden) · intern
+   ph = geplante Phasen [Name, von, bis]; verzug in Arbeitstagen, ist:true = tatsächlich eingetreten */
+const PHASEN = ['Vormontage','Montage','IBN','FAT','Versand','SAT'];
+const PH_KURZ = {Vormontage:'VM',Montage:'MON',IBN:'IBN',FAT:'FAT',Versand:'VS',SAT:'SAT'};
+const PROJEKTE = [
+  {nr:'P-24098',nm:'Fügezelle Rotor',     kl:'extern', c:'b',cust:'e-mobil B',   zones:['A3'],      from:'19.10.',to:'27.11.',cur:'IBN',       soll:6,q:'g',plan:1200,ist:1010,pct:78,pak:[14,18],
+   verzug:{at:4,ist:true,txt:'IBN-Meilenstein 16.11. überschritten'},
+   ph:[['Vormontage','19.10.','30.10.'],['Montage','31.10.','08.11.'],['IBN','09.11.','16.11.'],['FAT','17.11.','24.11.'],['Versand','25.11.','27.11.']]},
+  {nr:'P-24130',nm:'Wafer-Handling',      kl:'extern', c:'c',cust:'HALBLEITER C',zones:['A4'],      from:'09.11.',to:'29.01.',cur:'Vormontage',soll:5,q:'g',plan:1600,ist:198, pct:12,pak:[3,24],
+   verzug:{at:3,ist:false,txt:'Prognose durch Unterbesetzung'},
+   ph:[['Vormontage','09.11.','27.11.'],['Montage','28.11.','08.01.'],['IBN','09.01.','20.01.'],['FAT','21.01.','26.01.'],['Versand','27.01.','29.01.']]},
+  {nr:'P-24105',nm:'Laserschweißzelle',   kl:'extern', c:'d',cust:'ENERGIE D',   zones:['B2'],      from:'05.10.',to:'04.12.',cur:'FAT',       soll:4,q:'g',plan:1400,ist:1360,pct:88,pak:[19,22],
+   ph:[['Vormontage','05.10.','16.10.'],['Montage','17.10.','02.11.'],['IBN','03.11.','13.11.'],['FAT','14.11.','27.11.'],['Versand','28.11.','04.12.']]},
+  {nr:'P-24117',nm:'Radlager-Linie',      kl:'extern', c:'a',cust:'ANTRIEB A',   zones:['A1','B1'], from:'02.11.',to:'18.12.',cur:'Montage',   soll:8,q:'g',plan:2400,ist:790, pct:34,pak:[11,32],
+   ph:[['Vormontage','02.11.','13.11.'],['Montage','14.11.','04.12.'],['IBN','05.12.','11.12.'],['FAT','12.12.','16.12.'],['Versand','17.12.','18.12.']]},
+  {nr:'P-24121',nm:'Prüfstand E-Achse',   kl:'extern', c:'b',cust:'e-mobil B',   zones:['A2'],      from:'26.10.',to:'11.12.',cur:'Montage',   soll:4,q:'g',plan:1100,ist:500, pct:45,pak:[9,20],
+   ph:[['Vormontage','26.10.','06.11.'],['Montage','07.11.','24.11.'],['IBN','25.11.','02.12.'],['FAT','03.12.','08.12.'],['Versand','09.12.','11.12.']]},
+  {nr:'P-24126',nm:'Stator-Wickler',      kl:'extern', c:'a',cust:'ANTRIEB A',   zones:['B4'],      from:'16.11.',to:'05.02.',cur:'Vormontage',soll:2,q:'g',plan:900, ist:34,  pct:4, pak:[1,20],
+   ph:[['Vormontage','16.11.','11.12.'],['Montage','12.12.','15.01.'],['IBN','16.01.','27.01.'],['FAT','28.01.','02.02.'],['Versand','03.02.','05.02.']]},
+  {nr:'P-23188',nm:'Lager-Automat',       kl:'service',c:'d',cust:'ENERGIE D',   zones:[],          from:'12.10.',to:'27.11.',cur:'SAT',       soll:2,q:'g',plan:640, ist:600, pct:92,pak:[12,13],
+   ph:[['Versand','12.10.','19.10.'],['SAT','20.10.','27.11.']]},
+  {nr:'P-24012',nm:'Getriebeprüfung',     kl:'service',c:'a',cust:'ANTRIEB A',   zones:[],          from:'16.11.',to:'04.12.',cur:'Versand',   soll:1,q:'g',plan:320, ist:230, pct:70,pak:[7,10],
+   ph:[['Versand','16.11.','20.11.'],['SAT','21.11.','04.12.']]},
+  {nr:'I-26003',nm:'Versuchsstand SWK',   kl:'intern', c:'i',cust:'SMB INTERN',  zones:['swk'],     from:'01.09.',to:'18.12.',cur:'Montage',   soll:1,q:'g',plan:400, ist:250, pct:60,pak:[6,10],
+   ph:[['Vormontage','01.09.','30.09.'],['Montage','01.10.','27.11.'],['IBN','28.11.','18.12.']]},
+  {nr:'I-26007',nm:'Azubi Linearachse',   kl:'intern', c:'i',cust:'SMB INTERN',  zones:['azu'],     from:'05.10.',to:'29.01.',cur:'Vormontage',soll:1,q:'g',plan:300, ist:88,  pct:30,pak:[3,10],
+   ph:[['Vormontage','05.10.','27.11.'],['Montage','28.11.','15.01.'],['IBN','16.01.','29.01.']]},
 ];
-const prjByNr = Object.fromEntries(PR.map(p=>[p.nr,p]));
+const prByNr = Object.fromEntries(PROJEKTE.map(p=>[p.nr,p]));
+const KLASSEN = [['extern','Extern','Kundenprojekte in Halle'],['service','Service','beim Kunden'],['intern','Intern','']];
+
+/* Stammdaten-Abruf per Projektnummer (fiktive ERP-Antworten) */
+const ERP = {
+  'P-24141':{nm:'Rotorfügepresse',cust:'ENERGIE D',c:'d',kl:'Extern',from:'27.11.',to:'19.02.',soll:4,plan:1300,platz:'B3'},
+  'P-24150':{nm:'Lagerprüfzelle',cust:'ANTRIEB A',c:'a',kl:'Extern',from:'11.01.',to:'26.03.',soll:3,plan:980,platz:'—'},
+};
+
+/* ZUTEILUNG – Mitarbeiter → Bereich oder (bei Service) direkt → Projekt */
+const ZUTEILUNG = {
+  wolf:'A1',koch:'A1',braun:'A1',kraus:'A1', becker:'A2',fuchs:'A2',haas:'A2',berg:'A2',
+  frank:'A3',jung:'A3', lorenz:'A4',seidel:'A4', engel:'B1',simon:'B1',horn:'B1',pohl:'B1',
+  keller:'B2',peters:'B2',franke:'B2',ludwig:'B2',boehm:'B2', sauer:'B4',voigt:'B4',
+  busch:'pol',lange:'qs',otto:'ktf',kuehn:'ktf',weber:'tl',huber:'azu',mayer:'swk',
+  stein:'P-23188',dietz:'P-23188',arnold:'P-24012'
+};
+
+/* MELDUNGEN (Benachrichtigungen) */
+let MELDUNGEN = [
+  {tm:'vor 1 Min.',typ:'mail', tt:'Mail an M. Becker versendet', tx:'Zuteilung A2 · P-24121 Prüfstand E-Achse ab 18.11.', neu:1},
+  {tm:'07:30',     typ:'alert',tt:'IBN-Meilenstein überschritten', tx:'P-24098 Fügezelle Rotor · Verzug +4 AT', neu:1},
+  {tm:'07:12',     typ:'alert',tt:'Krankmeldung K. Brandt', tx:'P-24130 Wafer-Handling (A4) fehlt 1 Person · Ist 2 / Soll 5 · Projektleitung informiert', neu:1},
+  {tm:'Gestern',   typ:'warn', tt:'Liefertermin-Prognose', tx:'P-24130 voraussichtlich +3 AT (Unterbesetzung)', neu:0},
+];
+
+/* Laufzeit-Zustand (nur im Browser) */
+const S = { view:'board', poolTab:'an', layout:false, sel:'vogel', pop:null, fresh:'becker', reserved:null,
+            demo:{lift:'kaiser', zone:'A4'}, hist:[], kwOff:0, hl:null };
 
 /* =============================================================================
-   Render-Helfer
+   Hilfsfunktionen
    ============================================================================= */
-const h = (html)=>{const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild;};
+const $ = s => document.querySelector(s);
+const h = html => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
 const ini = n => n.replace('.','').split(' ').map(s=>s[0]).join('');
 const surname = n => n.split(' ').slice(1).join(' ');
-const dot = p => `<i class="md st-${p.s}"></i>`;
-const av = (p,cls='') => `<span class="av ${p.lead?'lead':''} ${cls}">${ini(p.n)}<i class="sd st-${p.s}"></i></span>`;
-const icoUser = `<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2.5 15c.5-3.2 2.7-5 5.5-5s5 1.8 5.5 5z"/></svg>`;
+const fmt = (n,d=0) => n.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
+const D = s => { const [d,m]=s.split('.').map(Number); return new Date(m>=8?2026:2027, m-1, d); };
+const dstr = d => String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.';
+function atBis(to){ let n=0; for(let x=new Date(HEUTE); x<=D(to); x.setDate(x.getDate()+1)) if(x.getDay()%6) n++; return n; }
+function plusAT(s,at){ const d=D(s); while(at>0){ d.setDate(d.getDate()+1); if(d.getDay()%6) at--; } return d; }
+const ICO = {
+  user:`<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2.5 15c.5-3.2 2.7-5 5.5-5s5 1.8 5.5 5z"/></svg>`,
+  grip:`<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="4" r="1.3"/><circle cx="11" cy="4" r="1.3"/><circle cx="5" cy="8" r="1.3"/><circle cx="11" cy="8" r="1.3"/><circle cx="5" cy="12" r="1.3"/><circle cx="11" cy="12" r="1.3"/></svg>`,
+  x:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 4 8 8M12 4l-8 8"/></svg>`,
+  mail:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>`,
+  alert:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2 14.5 13.5h-13z" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.6v.1"/></svg>`,
+  chev:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg>`,
+};
 
+/* ---------- Abgeleitete Werte ---------- */
+const istAn = p => p.s==='an';
+function leuteIn(zid){ return MITARBEITER.filter(p=>istAn(p) && ZUTEILUNG[p.id]===zid); }
+function projVonZone(zid){ return PROJEKTE.find(pr=>pr.zones.includes(zid)); }
+function projVon(a){ return a ? (prByNr[a] || projVonZone(a)) : null; }
+function leuteImProjekt(pr){ return MITARBEITER.filter(p=>{ const a=ZUTEILUNG[p.id]; return a===pr.nr || (istAn(p) && pr.zones.includes(a)); }); }
+const ist = pr => leuteImProjekt(pr).length;
+function forecast(pr){
+  const prog = Math.round(pr.ist / (pr.pct/100));
+  const delta = prog - pr.plan, dPct = delta/pr.plan*100;
+  const kosten = Math.max(0,delta)*STUNDENSATZ;
+  const C = dPct<=5 ? 'g' : dPct<=15 ? 'y' : 'r';
+  const Dm = pr.verzug ? (pr.verzug.ist ? 'r' : 'y') : 'g';
+  const ende = pr.verzug ? plusAT(pr.to, pr.verzug.at) : D(pr.to);
+  return {prog, delta, dPct, kosten, amp:pr.q+C+Dm, ende, stdPct:Math.round(pr.ist/pr.plan*100)};
+}
+const rank = pr => { const a=forecast(pr).amp; return a.includes('r')?0:a.includes('y')?1:2; };
+function absNote(p, kurz){
+  if(kurz){ if(p.s==='ab') return absNote(p); if(p.s==='ex') return `${ZUTEILUNG[p.id]||'Service'} → ${p.bis||'—'}`; return `bis ${p.bis||'—'}`; }
+  if(p.s==='ab') return p.grund==='Krank' ? `krank seit ${p.seit||dstr(HEUTE)}` : `${p.grund||'abwesend'} bis ${p.bis||'—'}`;
+  if(p.s==='ex') return `${ZUTEILUNG[p.id]||'Service'} · bis ${p.bis||'—'}`;
+  if(p.s==='dr') return `Dienstreise bis ${p.bis||'—'}`;
+  if(p.s==='sc') return `Schulung bis ${p.bis||'—'}`;
+  return '';
+}
+
+/* ---------- Bausteine ---------- */
+const av = (p,cls='') => `<span class="av ${p.lead?'lead':''} ${cls}">${ini(p.n)}<i class="sd ${STATUS[p.s].c}"></i></span>`;
 function pcard(p,extra=''){
-  return `<div class="pcard ${extra}" draggable="true" data-id="${p.id}" title="${p.n} · ${p.q.join(', ')}">
-    ${av(p)}<span class="pn">${p.n}</span>
-    <span class="qb">${p.q.map(q=>`<b>${q}</b>`).join('')}</span></div>`;
+  const row2 = istAn(p) ? p.q.map(q=>`<b>${q}</b>`).join('') : `<em>${absNote(p,true)}</em>`;
+  return `<div class="pcard ${extra} ${S.sel===p.id?'selected':''}" draggable="true" data-pid="${p.id}">${av(p)}<span class="pn">${p.n}</span><span class="qb">${row2}</span></div>`;
 }
-function mcard(p,extra=''){
-  return `<div class="mcard ${p.lead?'lead':''} ${extra}" draggable="true" data-id="${p.id}" title="${p.n}">${dot(p)}<span class="mn">${surname(p.n)}</span></div>`;
-}
+const mcard = p => `<div class="mcard ${S.fresh===p.id?'fresh':''} ${S.sel===p.id?'selected':''}" draggable="true" data-pid="${p.id}" data-tip="${p.n} · ${p.q.join(', ')}"><i class="md ${STATUS[p.s].c}"></i><span class="mn">${surname(p.n)}</span></div>`;
 
-/* ---------- B2 Pool ---------- */
+/* =============================================================================
+   B2 – Personal
+   ============================================================================= */
 function renderPool(){
-  const box = document.getElementById('poolPresent');
-  const ne = P.filter(p=>p.t==='NE');
-  const neCards = ne.map(p=>{
-    if(p.id==='vogel')  return pcard(p,'selected');   // Zustand: ausgewählt
-    if(p.id==='kaiser') return `<div class="pcard ghost" data-demo></div>`; // Platzhalter der gezogenen Karte
-    return pcard(p);
-  }).join('');
-  box.appendChild(h(`<div class="grp ne"><div class="grp-h">NICHT EINGETEILT <b>${ne.length}</b></div><div class="cards" data-zone="NE">${neCards}</div></div>`));
-  TEAMS.forEach(t=>{
-    const m = P.filter(p=>p.t===t && p.s!=='ab');
-    box.appendChild(h(`<div class="grp"><div class="grp-h">${t} <b>${m.length}</b></div><div class="cards">${m.map(p=>pcard(p)).join('')}</div></div>`));
-  });
-  const abs = P.filter(p=>p.s==='ab');
-  document.getElementById('poolAbsent').appendChild(h(`<div class="grp"><div class="grp-h">ABWESEND <b>${abs.length}</b></div>
-    <div class="cards">${abs.map(p=>pcard(p,'dim')).join('')}</div>
-    <div class="absent-note">${abs.map(p=>`${p.n}: ${p.absent}`).join('<br>')}</div></div>`));
+  const pool = $('#pool'); pool.innerHTML='';
+  const an = MITARBEITER.filter(istAn), abs = MITARBEITER.filter(p=>!istAn(p));
+  $('#nAn').textContent = an.length; $('#nAbs').textContent = abs.length;
+  document.querySelectorAll('#poolTabs button').forEach(b=>b.classList.toggle('on', b.dataset.v===S.poolTab));
+  if(S.poolTab==='an'){
+    const ne = an.filter(p=>!ZUTEILUNG[p.id]);
+    const cards = ne.map(p => (S.demo && S.demo.lift===p.id) ? `<div class="pcard ghost"></div>` : pcard(p)).join('');
+    pool.appendChild(h(`<div class="grp ne" id="grpNE" data-drop="ne"><div class="grp-h">NICHT EINGETEILT <b>${ne.length}</b></div>
+      <div class="cards">${cards || '<div class="grp-empty" style="grid-column:1/-1">Alle Anwesenden sind eingeteilt.</div>'}</div></div>`));
+    TEAMS.forEach(t=>{
+      const m = an.filter(p=>p.t===t && ZUTEILUNG[p.id]);
+      const weg = MITARBEITER.filter(p=>p.t===t && !istAn(p)).length;
+      const body = m.length ? `<div class="cards">${m.map(p=>pcard(p)).join('')}</div>`
+                            : `<div class="grp-empty">${weg?`Alle ${weg} im externen Einsatz – siehe „Abwesend“`:'Keine Einteilung'}</div>`;
+      pool.appendChild(h(`<div class="grp"><div class="grp-h">${t}<b>${m.length}${weg?` · ${weg} abw.`:''}</b></div>${body}</div>`));
+    });
+  } else {
+    [['ab','Abwesend · krank / Urlaub'],['ex','Externer Service'],['dr','Dienstreise'],['sc','Schulung']].forEach(([s,l])=>{
+      const m = abs.filter(p=>p.s===s);
+      pool.appendChild(h(`<div class="grp abs"><div class="grp-h"><i class="${STATUS[s].c}"></i>${l.toUpperCase()}<b>${m.length}</b></div>
+        ${m.length?`<div class="cards">${m.map(p=>pcard(p)).join('')}</div>`:'<div class="grp-empty">—</div>'}</div>`));
+    });
+    pool.appendChild(h(`<div class="grp-empty" style="padding:4px 4px 0">Karte in den Hallenplan ziehen = wieder anwesend und eingeteilt.</div>`));
+  }
 }
 
-/* ---------- B3 Hallenplan ---------- */
+/* =============================================================================
+   B3 – Hallenplan (Belegung / Layout)
+   ============================================================================= */
 function renderHall(){
-  const hall = document.getElementById('hall');
-  Z.forEach(z=>{
+  const hall = $('#hall'); hall.innerHTML='';
+  hall.classList.toggle('layout', S.layout);
+  if(S.layout) for(let y=0;y<16;y++) for(let x=0;x<24;x++){ const c=document.createElement('div'); c.className='cell'; c.style.gridArea=`${y+1}/${x+1}`; hall.appendChild(c); }
+  BEREICHE.forEach(z=>{
     const el = document.createElement('div');
     el.className = `zone z-${z.t}` + ((z.t!=='mp' && z.h===1)?' row1':'');
-    el.style.gridColumn = `${z.x+1} / span ${z.w}`;
-    el.style.gridRow    = `${z.y+1} / span ${z.h}`;
+    el.style.gridColumn = `${z.x+1} / span ${z.w}`; el.style.gridRow = `${z.y+1} / span ${z.h}`;
     el.dataset.zone = z.id;
-    if(z.t==='in'){
-      el.innerHTML = `<div class="zl">${z.n}</div>`;
-    } else if(z.t==='mp'){
-      const people = z.p||[];
-      const over = people.length > z.cap;
-      if(over) el.classList.add('over');
-      let body;
-      if(z.free){
-        body = `<div class="mp-free"><div><small>Frei</small>frei ab ${z.free}<br><span style="font-size:12px">reserviert ${z.next}</span></div></div>`;
-      } else {
-        const pr = prjByNr[z.prj];
-        const shown = over ? people.slice(0,3) : people;
-        let cards = shown.map(id=>mcard(byId[id], z.fresh===id?'fresh':'')).join('');
-        if(over) cards += `<div class="more">+${people.length-3}</div>`;
-        if(z.demoDrop) cards += `<div class="slot" data-demo></div>`;
-        body = `<div class="mp-proj"><div class="l1"><span class="logo logo-${pr.c}">${pr.cust}</span><span class="prj">${pr.nr}</span></div>
-                <div class="kn">${pr.nm}</div></div><div class="people">${cards}</div>`;
-      }
-      el.innerHTML = `<div class="mp-h"><b>${z.id}</b>${over?'<span class="ob">Überbelegt</span>':''}<span>${icoUser}<em class="cap" style="font-style:normal">${(z.p||[]).length}/${z.cap}</em></span></div><div class="mp-b">${body}</div>`;
-      if(z.demoDrop){
-        el.classList.add('drop-ok');
-        el.appendChild(h(`<div class="drop-hint" data-demo>▼ HIER ABLEGEN · ${people.length+1}/${z.cap}</div>`));
-        // Zustand: angehoben – Karte schwebt über dem freien Slot
-        const lift = h(pcard(byId.kaiser,'lifted'));
-        lift.dataset.demo = '';
-        lift.removeAttribute('draggable');
-        lift.style.right = '-30px'; lift.style.bottom = '14px';
-        el.appendChild(lift);
-        const tp = h(`<span class="touchpoint" data-demo></span>`);
-        tp.style.right = '8px'; tp.style.bottom = '2px';
-        el.appendChild(tp);
-      }
-    } else {
-      const people = z.p||[];
-      el.innerHTML = `<div class="zl">${z.n}${z.h>1?`<em>${people.length||''}</em>`:''}</div>
-        ${z.info?`<div class="zinfo">${z.info}</div>`:''}
-        <div class="people">${people.map(id=>mcard(byId[id])).join('')}</div>`;
-    }
+    el.innerHTML = S.layout ? zoneLayout(z) : zoneBelegung(z, el);
+    if(S.layout) el.appendChild(h(`<span class="rz" data-tip="Größe ändern"></span>`));
     hall.appendChild(el);
+    if(!S.layout && S.demo && S.demo.zone===z.id){         // Demo: Karte wird gerade auf A4 gezogen
+      el.classList.add('drop-ok');
+      el.appendChild(h(`<div class="drop-hint">▼ HIER ABLEGEN · ${leuteIn(z.id).length+1}/${z.cap}</div>`));
+      const lift = h(pcard(byId[S.demo.lift],'lifted')); lift.removeAttribute('draggable'); lift.removeAttribute('data-pid');
+      lift.style.right='-30px'; lift.style.bottom='14px'; el.appendChild(lift);
+      const tp = h(`<span class="touchpoint"></span>`); tp.style.right='8px'; tp.style.bottom='2px'; el.appendChild(tp);
+    }
   });
-  // Beschriftung der Hauptverkehrswege
-  const a1 = h(`<div class="aisle-label">HAUPTVERKEHRSWEG</div>`);
-  a1.style.cssText += 'left:34%;top:46.4%;transform:translate(-50%,-50%)';
-  hall.appendChild(a1);
-  const a2 = h(`<div class="aisle-label">VERKEHRSWEG</div>`);
-  a2.style.cssText += 'left:47%;top:91.4%;transform:translate(-50%,-50%)';
-  hall.appendChild(a2);
+  if(!S.layout){
+    const a1 = h(`<div class="aisle-label">HAUPTVERKEHRSWEG</div>`); a1.style.cssText+='left:34%;top:46.4%;transform:translate(-50%,-50%)'; hall.appendChild(a1);
+    const a2 = h(`<div class="aisle-label">VERKEHRSWEG</div>`); a2.style.cssText+='left:47%;top:91.4%;transform:translate(-50%,-50%)'; hall.appendChild(a2);
+  }
+}
+function zoneBelegung(z, el){
+  if(z.t==='in') return `<div class="zl">${z.n}</div>`;
+  const people = leuteIn(z.id);
+  if(z.t==='mp'){
+    const over = people.length > z.cap; if(over) el.classList.add('over');
+    const pr = projVonZone(z.id);
+    let body;
+    if(!pr){
+      body = `<div class="mp-free"><div><small>Frei</small>frei ab ${z.frei}${S.reserved?`<br><span class="res">reserviert ${S.reserved}</span>`:''}</div></div>`;
+    } else {
+      const shown = people.length>4 ? people.slice(0,3) : people;
+      let cards = shown.map(mcard).join('');
+      if(people.length>4) cards += `<div class="more" data-tip="${people.slice(3).map(p=>p.n).join(', ')}">+${people.length-3}</div>`;
+      if(S.demo && S.demo.zone===z.id) cards += `<div class="slot"></div>`;
+      body = `<div class="mp-proj"><div class="l1"><span class="logo logo-${pr.c}">${pr.cust}</span><span class="prj">${pr.nr}</span></div><div class="kn">${pr.nm}</div></div><div class="people">${cards}</div>`;
+    }
+    return `<div class="mp-h"><b>${z.id}</b>${over?'<span class="ob">Überbelegt</span>':''}<span>${ICO.user}${people.length}/${z.cap}</span></div><div class="mp-b">${body}</div>`;
+  }
+  return `<div class="zl">${z.n}${z.h>1?`<em>${people.length||''}</em>`:''}</div>${z.info&&z.h>2?`<div class="zinfo">${z.info}</div>`:''}<div class="people">${people.map(mcard).join('')}</div>`;
+}
+function zoneLayout(z){
+  const dims = `${fmt(z.w*2)} × ${fmt(z.h*2)} m`;
+  if(z.t==='mp'){
+    const pr = projVonZone(z.id);
+    const m = z.m || (S.reserved ? {n:'Rotorfügepresse',b:4.5,t:3.5,res:1} : null);
+    let fp = `<div class="mp-free"><div><small>Frei</small>${dims}</div></div>`;
+    if(m){
+      const wp = Math.min(96, m.b/(z.w*2)*100), hp = Math.min(88, m.t/(z.h*2-1)*100);
+      fp = `<div class="fp ${m.res?'res':''}" style="width:${wp}%;height:${hp}%" data-tip="Maschinen-Grundriss ${m.n}: ${fmt(m.b,1)} × ${fmt(m.t,1)} m auf Fläche ${dims}">${m.n}<small>${fmt(m.b,1)} × ${fmt(m.t,1)} m${m.res?' · ab 27.11.':''}</small></div>`;
+    }
+    return `<div class="mp-h"><b>${z.id}</b><span style="font-size:11px;font-weight:600;color:#CFE6D8">${pr?pr.nr+' · ':''}${dims}</span></div><div class="mp-b">${fp}</div>`;
+  }
+  return `<div class="zl">${z.n}</div><div class="dim-lbl">${dims}</div>${z.t!=='in'&&z.w>=4?`<span class="grip">${ICO.grip}</span>`:''}`;
 }
 
-/* ---------- B4 Projekte ---------- */
+/* =============================================================================
+   B4 – Projekte
+   ============================================================================= */
 function tile(pr){
-  const ratio = pr.ist/pr.soll;
-  const sCls = pr.ist>=pr.soll ? 'f-g' : (ratio<=.5 ? 'f-r' : 'f-y');
-  const fill = Math.min(ratio,1)*100;
-  const vis = pr.p.length>3 ? 2 : 3;
-  const stack = pr.p.slice(0,vis).map(id=>av(byId[id])).join('') + (pr.p.length>vis?`<span class="av plus">+${pr.p.length-vis}</span>`:'');
-  const steps = PHASES.map((_,i)=>`<i class="${i<pr.ph?'done':i===pr.ph?'cur':''}"></i>`).join('');
-  const amp = [...pr.amp].map((c,i)=>`<span class="${c}" title="${['Qualität','Kosten','Termin'][i]}">${'QCD'[i]}</span>`).join('');
-  return `<article class="tile ${pr.under?'under':''}">
-    <div class="t-top"><div><div class="nm">${pr.nm}</div><div class="nr"><b>${pr.nr}</b> · ${pr.loc}</div></div>
-      <div class="rt"><span class="logo logo-${pr.c}">${pr.cust}</span>${pr.under?'<span class="badge-under">Unterbesetzt</span>':''}</div></div>
-    <div class="t-row"><span class="phase">${PHASES[pr.ph]}<span class="steps">${steps}</span></span><span class="qcd">${amp}</span></div>
-    <div class="t-row"><span class="dates">${pr.from}–${pr.to} · <b class="${pr.at<=10?'crit':''}">noch ${pr.at} AT</b></span><span class="stack">${stack}</span></div>
+  const f = forecast(pr), n = ist(pr), ppl = leuteImProjekt(pr);
+  const ratio = n/pr.soll, sCls = n>=pr.soll ? 'f-g' : (ratio<=.5 ? 'f-r' : 'f-y');
+  const vis = ppl.length>3 ? 2 : 3;
+  const stack = ppl.length ? ppl.slice(0,vis).map(p=>av(p)).join('') + (ppl.length>vis?`<span class="av plus">+${ppl.length-vis}</span>`:'') : '<span class="none">—</span>';
+  const ampTip = ['Qualität', `Kosten: Prognose ${f.dPct>=0?'+':''}${fmt(f.dPct,1)} % Std.`, ''];
+  const amp = [...f.amp].map((c,i)=>`<span class="${c}" data-tip="${i<2?ampTip[i]:'Liefertreue: '+(c==='g'?'im Zeitrahmen':c==='y'?'Verzug im Forecast':'tatsächlicher Verzug')}">${'QCD'[i]}</span>`).join('');
+  const dl = pr.verzug ? `<span class="dl ${pr.verzug.ist?'r':'y'}" data-tip="${pr.verzug.ist?'Tatsächlicher Verzug':'Prognose-Verzug'}: ${pr.verzug.txt}">+${pr.verzug.at} AT</span>` : '';
+  const loc = pr.kl==='service' ? 'beim Kunden' : pr.zones.map(z=>zName(zById(z))).join(' · ');
+  const under = n < pr.soll, late = f.stdPct > pr.pct+5, at = atBis(pr.to);
+  return `<article class="tile ${under?'under':''}" data-nr="${pr.nr}">
+    <div class="t-top"><div><div class="nm">${pr.nm}</div><div class="nr"><b>${pr.nr}</b> · ${loc}</div></div>
+      <div class="rt"><span class="logo logo-${pr.c}">${pr.cust}</span>${under?'<span class="badge-under">Unterbesetzt</span>':''}</div></div>
+    <div class="t-row"><span class="l"><span class="phase"><i style="background:var(--ph${PHASEN.indexOf(pr.cur)+1})"></i>${pr.cur}</span>${dl}</span><span class="qcd">${amp}</span></div>
+    <div class="t-row"><span class="dates">${pr.from}–${pr.to} · <b class="${at<=10?'crit':''}">noch ${at} AT</b></span><span class="stack">${stack}</span></div>
     <div class="bars">
-      <div class="bar"><div class="bl"><b>Ist ${pr.ist} / Soll ${pr.soll}</b><span>Personal</span></div><div class="track"><i class="${sCls}" style="width:${fill}%"></i></div></div>
-      <div class="bar"><div class="bl"><span>Fortschritt</span><b>${pr.pct} %</b></div><div class="track"><i class="f-n" style="width:${pr.pct}%"></i></div></div>
+      <div class="bar"><div class="bl"><b>Ist ${n} / Soll ${pr.soll}</b><span>Personal</span></div><div class="track"><i class="${sCls}" style="width:${Math.min(ratio,1)*100}%"></i></div></div>
+      <div class="bar" data-tip="Fortschritt (Aufgabenpakete ${pr.pak[0]}/${pr.pak[1]}): ${pr.pct} %\nGebuchte Std.: ${fmt(pr.ist)} von ${fmt(pr.plan)} h = ${f.stdPct} %\nStrich = Stundenverbrauch"><div class="bl"><span><b>${pr.pct} %</b> fertig</span><span class="sm ${late?'late':''}">Std ${f.stdPct} %</span></div>
+        <div class="track"><i class="f-n" style="width:${pr.pct}%"></i><span class="tick" style="left:${Math.min(f.stdPct,100)}%"></span></div></div>
     </div></article>`;
 }
 function renderProjects(){
-  const rank = pr => pr.amp.includes('r') ? 0 : pr.amp.includes('y') ? 1 : 2;   // rote Ampel zuerst
-  const box = document.getElementById('proj');
-  [['in','In-House','nach Ampel'],['ku','Beim Kunden',''],['int','Intern','']].forEach(([k,label,hint])=>{
-    const list = PR.filter(p=>p.sec===k).sort((a,b)=>rank(a)-rank(b));
+  const box = $('#proj'); box.innerHTML='';
+  $('#projSub').textContent = `${PROJEKTE.length} aktiv${S.reserved?' · 1 geplant':''}`;
+  KLASSEN.forEach(([k,label,hint])=>{
+    const list = PROJEKTE.filter(p=>p.kl===k).sort((a,b)=>rank(a)-rank(b) || atBis(a.to)-atBis(b.to));
     box.appendChild(h(`<div class="sec"><div class="sec-h"><h3>${label}</h3><span class="count">${list.length}</span>${hint?`<span class="hint">${hint}</span>`:''}</div>
       <div class="tiles">${list.map(tile).join('')}</div></div>`));
   });
 }
 
-renderPool(); renderHall(); renderProjects();
+/* =============================================================================
+   B5 – Kennzahlen, Meldungen
+   ============================================================================= */
+function renderKPIs(){
+  const an = MITARBEITER.filter(istAn).length, ne = MITARBEITER.filter(p=>istAn(p)&&!ZUTEILUNG[p.id]).length;
+  const under = PROJEKTE.filter(p=>ist(p)<p.soll).length, rot = PROJEKTE.filter(p=>forecast(p).amp.includes('r')).length;
+  $('#kpis').innerHTML = `
+    <button class="kpi" data-k="an"><span class="dot st-an"></span><span class="k">Anwesend</span><span class="v">${an}<small>/${MITARBEITER.length}</small></span>${ICO.chev}</button>
+    <button class="kpi" data-k="ne"><span class="k">Nicht eingeteilt</span><span class="v">${ne}</span>${ICO.chev}</button>
+    <button class="kpi" data-k="under"><span class="k">Unterbesetzt</span><span class="v">${under}</span>${ICO.chev}</button>
+    <button class="kpi" data-k="rot"><span class="dot st-ab"></span><span class="k">Rote Ampel</span><span class="v">${rot}</span>${ICO.chev}</button>
+    <button class="kpi alert" data-k="mn"><span class="k">Maßnahmen überfällig</span><span class="v">3</span>${ICO.chev}</button>`;
+  const n = MELDUNGEN.filter(m=>m.neu).length;
+  $('#bellN').textContent = n; $('#bellN').hidden = !n;
+}
+function renderBell(){
+  const m = $('#bellMenu');
+  m.innerHTML = `<div class="menu-h"><h4>Meldungen</h4><button class="btn sm ghost" id="allRead">Alle gelesen</button></div>
+    ${MELDUNGEN.slice(0,6).map(x=>`<div class="nt ${x.neu?'unread':''}"><span class="ic ${x.typ}">${x.typ==='mail'?ICO.mail:ICO.alert}</span>
+      <div><div class="tt">${x.tt}</div><div class="tx">${x.tx}</div></div><span class="tm">${x.tm}</span></div>`).join('')}
+    <div class="menu-f">${ICO.mail} Zuteilungen werden automatisch per Mail an die Mitarbeitenden gemeldet.</div>`;
+  const b = $('#bell').getBoundingClientRect(), st = $('#stage').getBoundingClientRect(), s = scale();
+  m.style.left = Math.min(1920-436, (b.right-st.left)/s - 420 + 18)+'px'; m.style.top = '70px';
+}
+function melde(typ, tt, tx){ MELDUNGEN.unshift({tm:new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}),typ,tt,tx,neu:1}); }
 
 /* =============================================================================
-   Skalierung der 1920×1080-Bühne
+   Personen-Pop-up: Einsatz, Auslastung, Status setzen
    ============================================================================= */
-function fit(){
-  const s = Math.min(innerWidth/1920, innerHeight/1080);
-  document.getElementById('stage').style.setProperty('--s', s);
+function code(a){ if(!a) return null; const z=zById(a); return z ? (z.t==='mp'?a:(z.k||z.id).replace('&amp;','&')) : a; }
+function wochenplan(p){
+  const jetzt = code(ZUTEILUNG[p.id]), vorher = code(p.vorh) || jetzt;
+  const plan = [8,8,8,8,6];
+  return ['Mo','Di','Mi','Do','Fr'].map((d,i)=>{
+    let c, hrs = plan[i], cls = i<2 ? '' : i===2 ? 'today' : 'plan';
+    if(i<2) c = vorher || '—';
+    else if(!istAn(p) && p.s!=='ex'){ c = p.s==='ab' ? (p.grund||'Abw.').toUpperCase() : STATUS[p.s].l.toUpperCase(); cls+=' off'; hrs=0; }
+    else c = jetzt || '—';
+    if(c==='—'){ cls+=' free'; hrs=0; }
+    return {d, c, h:hrs, cls};
+  });
 }
-addEventListener('resize', fit); fit();
-
-/* Uhr */
-function tick(){
-  const d = new Date();
-  document.getElementById('clock').textContent = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-}
-tick(); setInterval(tick, 10000);
-
-/* =============================================================================
-   Klick-Dummy-Interaktion (nur DOM, ohne Speichern)
-   – Drag & Drop (Maus) und Antippen → Zone antippen (Touch)
-   ============================================================================= */
-const stage = document.getElementById('stage');
-const snack = document.getElementById('snack');
-let selected = document.querySelector('.pcard.selected');
-let dragEl = null, lastMove = null, snackTimer = null;
-
-function clearDemo(){
-  document.querySelectorAll('[data-demo]').forEach(e=>e.remove());
-  document.querySelectorAll('.drop-ok').forEach(e=>e.classList.remove('drop-ok'));
-}
-function zoneOf(el){ return el.closest('.zone[data-zone]'); }
-function updateCap(zone){
-  if(!zone || !zone.classList.contains('z-mp')) return;
-  const z = Z.find(x=>x.id===zone.dataset.zone);
-  const more = zone.querySelector('.more');
-  const n = zone.querySelectorAll('.mcard').length + (more ? parseInt(more.textContent.slice(1)) : 0);
-  const cap = zone.querySelector('.cap'); if(cap) cap.textContent = `${n}/${z.cap}`;
-  zone.classList.toggle('over', n > z.cap);
-}
-function canTake(zone){
-  if(zone.classList.contains('z-in')) return false;
-  if(zone.querySelector('.mp-free')) return false;
-  return true;
-}
-function place(card, zone){
-  const p = byId[card.dataset.id]; if(!p) return;
-  const fromZone = zoneOf(card);
-  const fromParent = card.parentElement, fromNext = card.nextSibling;
-  const target = zone.querySelector('.people');
-  const m = h(mcard(p,'fresh'));
-  const more = target.querySelector('.more');
-  target.insertBefore(m, more || null);
-  card.remove();
-  updateCap(zone); updateCap(fromZone);
-  lastMove = {card, fromParent, fromNext, fromZone, placed:m, zone};
-  const zd = Z.find(z=>z.id===zone.dataset.zone);
-  showSnack(p.n, zd.n ? zd.n.replace('&shy;','') : zd.id);
-}
-function showSnack(name, where){
-  document.getElementById('snackMsg').innerHTML = `<b>${name}</b> → ${where} eingeteilt`;
-  snack.classList.remove('hide');
-  const t = snack.querySelector('.timer');
-  t.style.transition='none'; t.style.width='100%';
-  requestAnimationFrame(()=>{ t.style.transition='width 6s linear'; t.style.width='0%'; });
-  clearTimeout(snackTimer); snackTimer = setTimeout(()=>snack.classList.add('hide'), 6000);
-}
-document.getElementById('undo').addEventListener('click', ()=>{
-  if(lastMove){
-    const {card, fromParent, fromNext, fromZone, placed, zone} = lastMove;
-    placed.remove();
-    fromParent.insertBefore(card, fromNext && fromNext.parentNode===fromParent ? fromNext : null);
-    updateCap(zone); updateCap(fromZone); lastMove = null;
+function popHTML(){
+  const P = S.pop, p = byId[P.pid], a = ZUTEILUNG[p.id], pr = projVon(a), z = a && zById(a);
+  const wk = wochenplan(p), eingeplant = wk.reduce((s,x)=>s+x.h,0), ausl = Math.round(eingeplant/38*100);
+  const gebucht = wk[0].h + wk[1].h + (wk[2].h ? 4.5 : 0);
+  let einsatz;
+  if(pr){
+    const f = forecast(pr), n = ist(pr);
+    einsatz = `<div class="einsatz"><div class="r1">${z?`<span class="zchip ${z.t!=='mp'?'fb':''}">${zName(z)}</span>`:''}<span class="nm2">${pr.nm}</span><span class="kl" style="margin-left:auto">${pr.kl}</span></div>
+      <div class="r2"><span>${pr.nr} · Phase ${pr.cur} · bis ${pr.to}</span><span class="qcd">${[...f.amp].map((c,i)=>`<span class="${c}" style="width:20px;height:20px;font-size:10px">${'QCD'[i]}</span>`).join('')}</span></div>
+      <div class="r2"><span>Personal Ist ${n} / Soll ${pr.soll}</span><span>${pr.pct} % erledigt</span></div></div>`;
+  } else if(z){
+    einsatz = `<div class="einsatz"><div class="r1"><span class="zchip fb">${zName(z)}</span><span class="nm2">${{fb:'Funktionsbereich',sf:'Sonderfläche'}[z.t]||''}</span></div></div>`;
+  } else if(istAn(p)){
+    const vor = PROJEKTE.filter(x=>x.zones.length && zById(x.zones[0]).t==='mp' && ist(x)<x.soll);
+    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">Nicht eingeteilt</span><span class="kl" style="margin-left:auto">frei verfügbar</span></div>
+      <div class="r2"><span>Vorschlag: unterbesetzte Projekte – antippen oder Zone im Plan wählen</span></div>
+      <div class="sugg">${vor.map(x=>`<button data-assign="${x.zones[0]}">${x.zones[0]} · ${x.nr}<span style="font-weight:600">fehlt ${x.soll-ist(x)}</span></button>`).join('')}</div></div>`;
+  } else {
+    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">Kein Einsatz in der Halle</span></div><div class="r2"><span>${absNote(p)}${p.grund&&p.s!=='ab'?' · '+p.grund:''}</span></div></div>`;
   }
-  snack.classList.add('hide');
-});
+  const pend = P.pending;
+  const btns = Object.entries(STATUS).map(([k,v])=>`<button data-st="${k}" class="${p.s===k?'cur':''} ${pend===k?'pend':''}"><i class="${v.c}"></i>${v.l.replace('Ext. ','Ext.<br>')}</button>`).join('');
+  let opts = '', conseq = '';
+  if(pend && pend!==p.s){
+    if(pend==='ab') opts = `<div class="chips">${['Krank','Urlaub','Sonstiges'].map(g=>`<button data-grund="${g}" class="${P.grund===g?'on':''}">${g}</button>`).join('')}</div>`;
+    if(pend==='ex') opts = `<div><div class="pl">Neu zuteilen – Projektklasse Service</div><div class="chips">${PROJEKTE.filter(x=>x.kl==='service').map(x=>`<button data-target="${x.nr}" class="${P.target===x.nr?'on':''}">${x.nr} ${x.nm}</button>`).join('')}</div></div>`;
+    if(pend!=='an') opts += `<div class="chips">${['bis heute','bis Fr 20.11.','bis 27.11.','offen'].map(b=>`<button data-bis="${b}" class="${P.bis===b?'on':''}">${b}</button>`).join('')}</div>`;
+    const items = [];
+    if(pend==='an') items.push(`Status <b>Anwesend</b> – Karte erscheint unter „Nicht eingeteilt“`);
+    else {
+      if(z) items.push(`Wird aus <b>${zName(z)}</b> im Hallenplan entfernt`);
+      if(pr && !(pend==='ex' && P.target===pr.nr)){ const n=ist(pr); items.push(`Kapazität <b>${pr.nr}</b>: Ist ${n} → <b>${n-1}</b> / Soll ${pr.soll}${n-1<pr.soll?' · <b>unterbesetzt</b>':''}`); items.push('Projektleitung wird benachrichtigt'); }
+      if(pend==='ex' && P.target) items.push(`Neu zugeteilt: <b>${P.target}</b> (Service) · Mail an Mitarbeiter`);
+      items.push(`Wochenplan ab heute: <b>${STATUS[pend].lang||STATUS[pend].l}</b>`);
+    }
+    conseq = `<div class="conseq">Auswirkung<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+  }
+  const canApply = pend && pend!==p.s && !(pend==='ex' && !P.target);
+  return `
+    <div class="pop-h">${av(p)}<div><div class="nm">${p.n}</div><div class="meta">${p.t} · ${p.lead?'Vorarbeiter':'Monteur'} · ${p.q.join(' · ')}</div></div>
+      <button class="icon-btn x" data-close aria-label="Schließen">${ICO.x}</button></div>
+    <div><div class="pl">Status</div><div class="statline"><i class="${STATUS[p.s].c}"></i>${STATUS[p.s].lang||STATUS[p.s].l}<span>${istAn(p)?'· eingestempelt 06:02':'· '+absNote(p)}</span></div></div>
+    <div><div class="pl">Aktueller Einsatz</div>${einsatz}</div>
+    <div><div class="pl">Auslastung KW 47 <span>eingeplant ÷ Soll-Arbeitszeit</span></div>
+      <div class="ausl"><span class="big">${ausl}<small> %</small></span><div class="tr"><div class="track"><i class="${ausl>=90?'f-g':ausl>=60?'f-y':'f-r'}" style="width:${Math.min(ausl,100)}%"></i></div>
+        <div><span>${fmt(eingeplant,1)} von 38,0 h eingeplant</span><span>gebucht: ${fmt(gebucht,1)} h</span></div></div></div>
+      <div class="week">${wk.map(x=>`<div class="day ${x.cls}"><span class="d">${x.d}${x.cls.includes('today')?' · HEUTE':''}</span><span class="c">${x.c}</span><span class="h">${x.h?fmt(x.h,1)+' h':'—'}</span></div>`).join('')}</div></div>
+    <div><div class="pl">Status setzen <span>oder Karte auf „Abwesend“ ziehen</span></div><div class="stbtns">${btns}</div></div>
+    ${opts}${conseq}
+    <div class="pop-f">${istAn(p)&&a&&!pend?`<button class="btn lft" data-unassign>Zuteilung aufheben</button><button class="btn" data-mail>${ICO.mail}Einsatzplan mailen</button>`:''}
+      ${pend&&pend!==p.s?`<button class="btn" data-cancel>Abbrechen</button><button class="btn pri" data-apply ${canApply?'':'disabled'}>Übernehmen</button>`:''}</div>`;
+}
+function openPop(pid, anchor, pending){
+  S.pop = {pid, pending:pending||null, grund:'Krank', target:null, bis:'offen'};
+  $('#snack').classList.add('hide');
+  const st = $('#stage').getBoundingClientRect(), s = scale();
+  const r = anchor ? anchor.getBoundingClientRect() : {left:st.left+400*s,right:st.left+500*s,top:st.top+200*s};
+  S.pop.ax = (r.right-st.left)/s; S.pop.al = (r.left-st.left)/s; S.pop.ay = (r.top-st.top)/s;
+  renderPop();
+}
+function renderPop(){
+  const el = $('#pop');
+  if(!S.pop){ el.hidden = true; return; }
+  el.innerHTML = popHTML(); el.hidden = false;
+  const w = 388, hgt = el.offsetHeight;
+  let left = S.pop.ax + 12; if(left + w > 1904) left = S.pop.al - w - 12;
+  el.style.left = left+'px'; el.style.top = Math.max(112, Math.min(S.pop.ay - 24, 1080 - 60 - hgt))+'px';
+}
+function closePop(){ S.pop = null; renderPop(); }
 
-/* Drag & Drop */
+/* =============================================================================
+   Aktionen (mit Rückgängig)
+   ============================================================================= */
+function snapshot(){ S.hist.push(JSON.stringify({z:ZUTEILUNG, p:MITARBEITER.map(p=>({s:p.s,grund:p.grund??null,bis:p.bis??null,seit:p.seit??null})), m:MELDUNGEN})); }
+function undo(){
+  const last = S.hist.pop(); if(!last) return;
+  const o = JSON.parse(last);
+  Object.keys(ZUTEILUNG).forEach(k=>delete ZUTEILUNG[k]); Object.assign(ZUTEILUNG, o.z);
+  MITARBEITER.forEach((p,i)=>Object.assign(p, o.p[i])); MELDUNGEN = o.m;
+  renderAll();
+}
+function zuteilen(pid, zid){
+  const p = byId[pid], z = zById(zid); if(!p || !z) return;
+  if(ZUTEILUNG[pid]===zid && istAn(p)) return;
+  snapshot();
+  const warAbw = !istAn(p);
+  if(warAbw){ p.s='an'; p.grund=p.bis=p.seit=null; }
+  ZUTEILUNG[pid] = zid; S.fresh = pid; S.sel = null; S.demo = null; closePop();
+  const pr = projVonZone(zid);
+  melde('mail', `Mail an ${p.n} versendet`, `Zuteilung ${zName(z)}${pr?' · '+pr.nr+' '+pr.nm:''} ab ${dstr(HEUTE)}`);
+  snack(`<b>${p.n}</b> → ${zName(z)} eingeteilt${warAbw?' (wieder anwesend)':''} <span class="mail">· ✉ Mitarbeiter informiert</span>`);
+  renderAll(); setTimeout(()=>{ if(S.fresh===pid) S.fresh=null; }, 2500);
+}
+function aufheben(pid){
+  const p = byId[pid]; if(!ZUTEILUNG[pid] && istAn(p)) return;
+  snapshot(); const a = ZUTEILUNG[pid]; delete ZUTEILUNG[pid];
+  const warAbw = !istAn(p); if(warAbw){ p.s='an'; p.grund=p.bis=p.seit=null; }
+  S.sel=null; S.demo=null; closePop();
+  snack(`<b>${p.n}</b> → ${warAbw?'wieder anwesend · ':''}nicht eingeteilt${a&&!warAbw?` (vorher ${zById(a)?zName(zById(a)):a})`:''}`);
+  renderAll();
+}
+function setzeStatus(pid, s, o){
+  const p = byId[pid]; snapshot();
+  const a = ZUTEILUNG[pid], pr = projVon(a), z = a && zById(a);
+  p.s = s;
+  p.grund = s==='ab' ? o.grund : null;
+  p.seit = s==='ab' && o.grund==='Krank' ? dstr(HEUTE) : null;
+  p.bis = s==='an' ? null : ({'bis heute':dstr(HEUTE),'bis Fr 20.11.':'20.11.','bis 27.11.':'27.11.','offen':'offen'}[o.bis]||'offen');
+  if(s==='an'){ if(a && prByNr[a]) delete ZUTEILUNG[pid]; }
+  else { delete ZUTEILUNG[pid]; if(s==='ex' && o.target) ZUTEILUNG[pid] = o.target; }
+  let extra = '';
+  if(s!=='an' && pr && !(s==='ex' && o.target===pr.nr)){
+    melde('alert', `${s==='ab'?o.grund+'meldung':STATUS[s].lang||STATUS[s].l}: ${p.n}`, `${pr.nr} ${pr.nm}${z?' ('+zName(z)+')':''} fehlt 1 Person · Ist ${ist(pr)} / Soll ${pr.soll} · Projektleitung informiert`);
+    extra = ` · aus ${pr.nr} entfernt <span class="mail">· PL benachrichtigt</span>`;
+  }
+  if(s==='ex' && o.target) melde('mail', `Mail an ${p.n} versendet`, `Externer Service ${o.target} ${prByNr[o.target].nm}`);
+  S.sel = null; S.demo = null; closePop();
+  snack(`<b>${p.n}</b> → ${s==='ab'?o.grund:STATUS[s].lang||STATUS[s].l}${extra}`, s!=='an');
+  renderAll();
+}
+
+/* ---------- Snackbar / Toast / Tooltip ---------- */
+let snackT, toastT;
+function snack(html, warn){
+  $('#snackMsg').innerHTML = html; $('#snackIc').classList.toggle('warn', !!warn);
+  const sn = $('#snack'); sn.classList.remove('hide');
+  const t = sn.querySelector('.timer'); t.style.transition='none'; t.style.width='100%';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ t.style.transition='width 7s linear'; t.style.width='0%'; }));
+  clearTimeout(snackT); snackT = setTimeout(()=>sn.classList.add('hide'), 7000);
+}
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hide'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.add('hide'),2800); }
+const scale = () => parseFloat($('#stage').style.getPropertyValue('--s')) || 1;
+function toStage(x,y){ const r=$('#stage').getBoundingClientRect(), s=scale(); return [(x-r.left)/s,(y-r.top)/s]; }
+function moveTip(e){ const tip=$('#tip'); const [x,y]=toStage(e.clientX,e.clientY); tip.style.left=Math.min(x+14,1920-310)+'px'; tip.style.top=Math.min(y+18,1030)+'px'; }
+document.addEventListener('mouseover', e=>{
+  const t = e.target.closest && e.target.closest('[data-tip]'), tip = $('#tip');
+  if(!t){ tip.hidden=true; return; }
+  tip.textContent = t.dataset.tip; tip.hidden=false; moveTip(e);
+});
+document.addEventListener('mousemove', e=>{ if(!$('#tip').hidden) moveTip(e); });
+
+/* =============================================================================
+   Forecast-Ansicht
+   ============================================================================= */
+const G0 = new Date(2026,7,31), G1 = new Date(2027,1,8);                  // KW 36 – KW 06
+const DAY = 100/((G1-G0)/864e5);
+const gx = d => (d - G0) / (G1 - G0) * 100;
+function kw(d){ const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); const n=t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-n); const y=new Date(Date.UTC(t.getUTCFullYear(),0,1)); return Math.ceil(((t-y)/864e5+1)/7); }
+function renderForecast(){
+  const v = $('#v-forecast');
+  const F = PROJEKTE.map(p=>({p, f:forecast(p)}));
+  const plan = F.reduce((s,x)=>s+x.p.plan,0), prog = F.reduce((s,x)=>s+x.f.prog,0);
+  const mehrStd = F.reduce((s,x)=>s+Math.max(0,x.f.delta),0), kosten = mehrStd*STUNDENSATZ;
+  const ok = F.filter(x=>x.f.amp[2]==='g').length, fc = F.filter(x=>x.f.amp[2]==='y').length, real = F.filter(x=>x.f.amp[2]==='r').length;
+  const worst = F.slice().sort((a,b)=>b.f.dPct-a.f.dPct)[0];
+  const ver = F.filter(x=>x.p.verzug);
+  let scl = '', grid = '';
+  let wi = 0;
+  for(let d=new Date(G0); d<G1; d.setDate(d.getDate()+7), wi++){
+    const x = gx(d), k = kw(d);
+    grid += `<span class="gline" style="left:${x}%"></span>`;
+    if((wi%2===1 && Math.abs(k-47)>1) || k===47) scl += `<span class="w ${k===47?'now':''}" style="left:${x+3.5*DAY}%">${k===47?'KW 47':k}</span>`;
+  }
+  for(let m=new Date(2026,8,1); m<G1; m.setMonth(m.getMonth()+1)){
+    grid += `<span class="gline mo" style="left:${gx(m)}%"></span>`;
+    scl += `<span class="m" style="left:calc(${gx(m)}% + 4px)">${['JAN','FEB','MÄR','APR','MAI','JUN','JUL','AUG','SEP','OKT','NOV','DEZ'][m.getMonth()]}${m.getMonth()===0?' 27':''}</span>`;
+  }
+  const today = gx(HEUTE);
+  const row = ({p,f})=>{
+    const c = f.amp[1], dd = f.amp[2];
+    const max = Math.max(p.plan, f.prog);
+    const x0 = gx(D(p.ph[0][1])), x1 = gx(D(p.ph[p.ph.length-1][2])) + DAY;
+    const segs = p.ph.map(([n,a,b])=>{
+      const w = gx(D(b)) + DAY - gx(D(a));
+      const i = PHASEN.indexOf(n)+1, overdue = p.verzug && p.verzug.ist && n===p.cur;
+      return `<span class="gseg ${i<=2?'dk':''} ${n===p.cur?(overdue?'overdue':'cur'):''}" style="width:${w/(x1-x0)*100}%;background:var(--ph${i})" data-tip="${n}: ${a}–${b}${n===p.cur?' (aktuell)':''}${overdue?'\nüberfällig – '+p.verzug.txt:''}">${w>2.6?PH_KURZ[n]:''}</span>`;
+    }).join('');
+    let ext = '';
+    if(p.verzug){ const xe = gx(f.ende)+DAY;
+      ext = `<span class="gext ${dd}" style="left:${x1}%;width:${xe-x1}%" data-tip="${p.verzug.ist?'Tatsächlicher Verzug':'Prognose-Verzug'} +${p.verzug.at} AT → Ende ${dstr(f.ende)}\n${p.verzug.txt}"></span><span class="glbl" style="left:calc(${xe}% + 6px)">+${p.verzug.at} AT</span>`; }
+    return `<div class="fc-row r ${S.hl===p.nr?'hl':''}" data-nr="${p.nr}">
+      <div class="fc-p"><div class="nm">${p.nm}</div><div class="nr">${p.nr}<span class="phase" style="height:18px;font-size:10px;padding:0 6px"><i style="background:var(--ph${PHASEN.indexOf(p.cur)+1})"></i>${p.cur}</span></div></div>
+      <div data-tip="Zeitprognose = gebuchte Std. ÷ Fortschritt\n${fmt(p.ist)} h ÷ ${p.pct} % = ${fmt(f.prog)} h">
+        <div class="l1">${fmt(p.ist)} <em>/ ${fmt(p.plan)} h</em><span style="margin-left:auto">${f.dPct>=0?'+':''}${fmt(f.dPct,1)} %</span></div>
+        <div class="hbar"><span class="ist" style="width:${p.ist/max*100}%"></span>${f.prog>p.plan?`<span class="ext" style="left:${p.plan/max*100}%;width:${(f.prog-p.plan)/max*100}%"></span>`:''}<span class="plan" style="left:${p.plan/max*100}%"></span></div>
+        <div class="l2">Prognose ${fmt(f.prog)} h</div></div>
+      <div><div class="l1">${p.pct} % <em>erledigt</em></div><div class="l2">Pakete ${p.pak[0]}/${p.pak[1]} · Std ${f.stdPct} %</div></div>
+      <div data-tip="Mehrkosten = (Prognose − Plan-Std.) × ${STUNDENSATZ} €/h"><div class="l1"><span class="amp1 ${c}"></span>${f.delta>0?'+'+fmt(f.kosten)+' €':'im Plan'}</div><div class="l2">${f.delta>0?fmt(f.delta)+' h × '+STUNDENSATZ+' €':fmt(-f.delta)+' h Puffer'}</div></div>
+      <div><div class="l1"><span class="amp1 ${dd}"></span>${dd==='g'?'im Zeitrahmen':dd==='y'?'Verzug Forecast':'Verzug tatsächlich'}</div><div class="l2">Ende ${p.to}${p.verzug?' → '+dstr(f.ende):''}</div></div>
+      <div class="fc-g"><div class="gscale">${grid}<span class="gtoday" style="left:${today}%"></span>
+        <div class="gbar" style="left:${x0}%;width:${x1-x0}%">${segs}</div>${ext}</div></div></div>`;
+  };
+  v.innerHTML = `
+    <div class="ktiles">
+      <div class="ktile"><div class="k">Zeit-Forecast <span class="f">gebuchte Std. ÷ Fortschritt</span></div><div class="v">${prog>=plan?'+':''}${fmt((prog/plan-1)*100,1)} %<small>Zeitbedarf ggü. Plan</small></div><div class="s">Prognose ${fmt(prog)} h · Plan ${fmt(plan)} h · max. ${worst.p.nr} +${fmt(worst.f.dPct,1)} %</div></div>
+      <div class="ktile"><div class="k">Kosten-Forecast <span class="f">Stundenverzug × Stundensatz</span></div><div class="v">+${fmt(kosten)} €<small>Mehrkosten</small></div><div class="s">${fmt(mehrStd)} h Verzug × ${STUNDENSATZ} €/h über alle Projekte</div></div>
+      <div class="ktile"><div class="k">Liefertreue-Forecast</div><div class="v">${ok} / ${F.length}<small>im Zeitrahmen</small></div><div class="s">${fc} Verzug im Forecast (gelb) · ${real} tatsächlicher Verzug (rot)</div></div>
+      <div class="ktile"><div class="k">Zeitverzug Montage / IBN</div><div class="v">${ver.length}<small>Projekte</small></div><div class="s">${ver.map(x=>`${x.p.nr} ${x.p.cur} +${x.p.verzug.at} AT`).join(' · ')}</div></div>
+    </div>
+    <div class="fc">
+      <div class="fc-row fc-head"><div>Projekt<small>Nr. · aktuelle Phase</small></div><div>Zeit<small>gebuchte / Plan-Std. · Prognose</small></div><div>Fortschritt<small>Aufgabenpakete</small></div><div>Kosten (C)<small>Mehrkosten</small></div><div>Liefertreue (D)<small>Plan- → Prognose-Ende</small></div>
+        <div class="fc-g"><div class="gscale">${scl}<span class="gtoday" style="left:${today}%;top:auto;height:10px"></span></div></div></div>
+      ${KLASSEN.map(([k,l])=>`<div class="fc-sec">${l}<span class="count">${F.filter(x=>x.p.kl===k).length}</span></div>`+F.filter(x=>x.p.kl===k).sort((a,b)=>rank(a.p)-rank(b.p)).map(row).join('')).join('')}
+      <div class="fc-foot">
+        <span><b>Phasen</b></span>${PHASEN.map((n,i)=>`<span><i class="sw" style="background:var(--ph${i+1})"></i>${n}</span>`).join('')}
+        <span style="margin-left:8px"><i class="sw" style="background:repeating-linear-gradient(135deg,#E9B82E 0 3px,#FCF1CC 3px 7px)"></i>Verzug Forecast</span>
+        <span><i class="sw" style="background:repeating-linear-gradient(135deg,#D7263D 0 3px,#FBE3E6 3px 7px)"></i>Verzug tatsächlich</span>
+        <span><i class="sw" style="background:var(--green);width:3px;height:14px"></i>Heute ${dstr(HEUTE)}</span>
+        <span style="margin-left:auto">Ampel D: <b>grün</b> im Zeitrahmen · <b>gelb</b> Verzug im Forecast · <b>rot</b> tatsächlicher Verzug</span>
+      </div>
+    </div>`;
+}
+
+/* =============================================================================
+   Auswertung
+   ============================================================================= */
+const AUSW = {
+  krankTeam:[['ZSA',3.1],['ZSA1',2.4],['ZSA2',4.8],['ZSA3',7.9],['ZSA4',3.5],['ZSAA',1.2],['ZSY/ZSC',2.0]],
+  krankVerlauf:[[36,3.1],[37,2.9],[38,3.4],[39,4.0],[40,4.6],[41,5.2],[42,4.8],[43,4.1],[44,3.6],[45,3.2],[46,3.0],[47,2.4]],
+  termintreue:[['Jun',4,5],['Jul',4,5],['Aug',2,3],['Sep',6,7],['Okt',5,6],['Nov',4,5]],
+  auslastung:[['ZSA',212,228],['ZSA1',205,228],['ZSA2',230,228],['ZSA3',140,190],['ZSA4',236,228],['ZSAA',98,114],['ZSY/ZSC',120,114]],
+};
+const SW = 900, SH = 300;
+function hbars(data, max, ticks, ref, refLbl, unit, tipFn){
+  const L=74, R=130, T=18, B=22, step=(SH-T-B)/data.length, bh=Math.min(20, step-12);
+  const x = v => L + v/max*(SW-L-R);
+  let s = `<svg viewBox="0 0 ${SW} ${SH}" preserveAspectRatio="xMinYMid meet">`;
+  ticks.forEach(v=>{ s+=`<line x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${SH-B}" stroke="#EEF0F2"/><text x="${x(v)}" y="${SH-5}" font-size="11" fill="#7A838B" text-anchor="middle">${v}${unit}</text>`; });
+  s+=`<line x1="${x(ref)}" x2="${x(ref)}" y1="${T-4}" y2="${SH-B}" stroke="#1F2328" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x(ref)+5}" y="${T-6}" font-size="11" font-weight="700" fill="#1F2328">${refLbl}</text>`;
+  data.forEach((d,i)=>{ const y=T+i*step+(step-bh)/2, w=Math.min(x(d.v),SW-R+20)-L;
+    s+=`<text x="${L-10}" y="${y+bh/2+4.5}" font-size="13" font-weight="700" fill="#1F2328" text-anchor="end">${d.l}</text>
+        <rect x="${L}" y="${y}" width="${Math.max(w,2)}" height="${bh}" rx="4" fill="#00893D"/>
+        <text x="${L+w+8}" y="${y+bh/2+4.5}" font-size="12.5" font-weight="700" fill="#1F2328">${d.txt}</text>
+        <rect class="hit" x="0" y="${T+i*step}" width="${SW}" height="${step}" data-tip="${tipFn(d)}"/>`; });
+  return s+'</svg>';
+}
+function renderAuswertung(){
+  const v = $('#v-auswertung');
+  const c1 = hbars(AUSW.krankTeam.map(([l,val])=>({l,v:val,txt:fmt(val,1)+' %'})), 10, [0,2,4,6,8,10], 4, 'Ziel ≤ 4 %', ' %', d=>`${d.l}: ${fmt(d.v,1)} % Krankheitsrate (Ø 4 Wochen)`);
+  const L=48,R=24,T=24,B=24, kv=AUSW.krankVerlauf, xs=i=>L+i*(SW-L-R)/(kv.length-1), ys=val=>T+(1-val/6)*(SH-T-B);
+  const peak = Math.max(...kv.map(k=>k[1]));
+  let c2 = `<svg viewBox="0 0 ${SW} ${SH}" preserveAspectRatio="xMinYMid meet">`;
+  [0,2,4,6].forEach(g=>c2+=`<line x1="${L}" x2="${SW-R}" y1="${ys(g)}" y2="${ys(g)}" stroke="#EEF0F2"/><text x="${L-8}" y="${ys(g)+4}" font-size="11" fill="#7A838B" text-anchor="end">${g} %</text>`);
+  c2 += `<line x1="${L}" x2="${SW-R}" y1="${ys(4)}" y2="${ys(4)}" stroke="#1F2328" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${SW-R}" y="${ys(4)-6}" font-size="11" font-weight="700" fill="#1F2328" text-anchor="end">Ziel ≤ 4 %</text>`;
+  c2 += `<polyline fill="none" stroke="#00893D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="${kv.map((d,i)=>xs(i)+','+ys(d[1])).join(' ')}"/>`;
+  kv.forEach((d,i)=>{ c2+=`<text x="${xs(i)}" y="${SH-5}" font-size="11" fill="#7A838B" text-anchor="middle">KW ${d[0]}</text>`;
+    if(i===0||i===kv.length-1||d[1]===peak) c2+=`<circle cx="${xs(i)}" cy="${ys(d[1])}" r="5" fill="#00893D" stroke="#fff" stroke-width="2"/><text x="${xs(i)}" y="${ys(d[1])-12}" font-size="12.5" font-weight="700" fill="#1F2328" text-anchor="middle">${fmt(d[1],1)} %</text>`;
+    c2+=`<rect class="hit" x="${xs(i)-(SW-L-R)/22}" y="${T}" width="${(SW-L-R)/11}" height="${SH-T-B}" data-tip="KW ${d[0]}: ${fmt(d[1],1)} % krank"/>`; });
+  c2 += '</svg>';
+  const tt = AUSW.termintreue, cw=(SW-L-R)/tt.length, yt=val=>T+(1-val/100)*(SH-T-B);
+  let c3 = `<svg viewBox="0 0 ${SW} ${SH}" preserveAspectRatio="xMinYMid meet">`;
+  [0,25,50,75,100].forEach(g=>c3+=`<line x1="${L}" x2="${SW-R}" y1="${yt(g)}" y2="${yt(g)}" stroke="#EEF0F2"/><text x="${L-8}" y="${yt(g)+4}" font-size="11" fill="#7A838B" text-anchor="end">${g} %</text>`);
+  c3 += `<line x1="${L}" x2="${SW-R}" y1="${yt(90)}" y2="${yt(90)}" stroke="#1F2328" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${SW-R}" y="${yt(90)-6}" font-size="11" font-weight="700" fill="#1F2328" text-anchor="end">Ziel 90 %</text>`;
+  tt.forEach(([m,a,b],i)=>{ const p=Math.round(a/b*100), x=L+i*cw+cw*.3, w=cw*.4;
+    c3+=`<rect x="${x}" y="${yt(p)}" width="${w}" height="${yt(0)-yt(p)}" rx="4" fill="#00893D"/><text x="${x+w/2}" y="${yt(p)-8}" font-size="12.5" font-weight="700" fill="#1F2328" text-anchor="middle">${p} %</text>
+      <text x="${x+w/2}" y="${SH-5}" font-size="12" font-weight="600" fill="#5F6870" text-anchor="middle">${m} · ${a}/${b}</text><rect class="hit" x="${L+i*cw}" y="${T}" width="${cw}" height="${SH-T-B}" data-tip="${m} 2026: ${a} von ${b} Projekten pünktlich ausgeliefert (${p} %)"/>`; });
+  c3 += '</svg>';
+  const c4 = hbars(AUSW.auslastung.map(([l,a,b])=>({l,v:a/b*100,txt:`${Math.round(a/b*100)} % · ${a}/${b} h`})), 120, [0,25,50,75,100], 100, '100 % = Plan', ' %', d=>`${d.l}: gebuchte / geplante Std. ${d.txt}`);
+  const abs = {ab:0,ex:0,dr:0,sc:0}; MITARBEITER.forEach(p=>{ if(!istAn(p)) abs[p.s]++; });
+  const nAbs = Object.values(abs).reduce((a,b)=>a+b,0);
+  const ausl = AUSW.auslastung.reduce((s,x)=>s+x[1],0)/AUSW.auslastung.reduce((s,x)=>s+x[2],0)*100;
+  const tA = AUSW.termintreue.reduce((s,x)=>[s[0]+x[1],s[1]+x[2]],[0,0]), tPct = Math.round(tA[0]/tA[1]*100);
+  v.innerHTML = `
+    <div class="ktiles">
+      <div class="ktile"><div class="k">Krankheitsrate Bereich <span class="f">Ø 4 Wochen</span></div><div class="v">3,8 %<small>Vormonat 4,4 %</small></div><div class="s">Ziel ≤ 4 % · höchster Wert ZSA3 mit 7,9 %</div></div>
+      <div class="ktile"><div class="k">Termintreue <span class="f">Jun–Nov 2026</span></div><div class="v">${tPct} %<small>${tA[0]} von ${tA[1]} pünktlich</small></div><div class="s">Ziel 90 % · gemessen am vereinbarten Liefertermin</div></div>
+      <div class="ktile"><div class="k">Auslastung KW 47 <span class="f">gebuchte ÷ geplante Std.</span></div><div class="v">${fmt(ausl,0)} %<small>Bereich SMB</small></div><div class="s">Niedrigste: ZSA3 mit 74 % (1 krank, 1 Schulung)</div></div>
+      <div class="ktile"><div class="k">Abwesenheiten heute</div><div class="v">${nAbs}<small>von ${MITARBEITER.length}</small></div>
+        <div><div class="stackbar">${['ab','ex','dr','sc'].filter(s=>abs[s]).map(s=>`<i class="${STATUS[s].c}" style="flex:${abs[s]}" data-tip="${STATUS[s].lang||STATUS[s].l}: ${abs[s]}"></i>`).join('')}</div>
+        <div class="s" style="margin-top:4px">Abwesend ${abs.ab} · Ext. Service ${abs.ex} · Dienstreise ${abs.dr} · Schulung ${abs.sc}</div></div></div>
+    </div>
+    <div class="agrid">
+      <div class="chart"><h4>Krankheitsrate je Team <span>Ø letzte 4 Wochen</span></h4><div class="cs">ZSA3 liegt deutlich über dem Bereichsziel von 4 %.</div>${c1}</div>
+      <div class="chart"><h4>Krankheitsrate Verlauf <span>Bereich SMB · KW 36–47</span></h4><div class="cs">Herbstspitze in KW 41 mit 5,2 %, seitdem rückläufig.</div>${c2}</div>
+      <div class="chart"><h4>Termintreue je Monat <span>pünktlich ausgelieferte Projekte</span></h4><div class="cs">Ziel 90 % in keinem Monat erreicht – Mittel ${tPct} %.</div>${c3}</div>
+      <div class="chart"><h4>Auslastung je Team <span>KW 47 · gebuchte / geplante Stunden</span></h4><div class="cs">ZSA2, ZSA4 und ZSY/ZSC über 100 % (Mehrarbeit), ZSA3 deutlich darunter.</div>${c4}</div>
+    </div>`;
+}
+
+/* =============================================================================
+   Gesamt-Render & Ansichten
+   ============================================================================= */
+function renderAll(){
+  renderPool(); renderHall(); renderProjects(); renderKPIs();
+  if(S.pop) renderPop();
+  if(!$('#bellMenu').hidden) renderBell();
+  if(S.view==='forecast') renderForecast();
+  if(S.view==='auswertung') renderAuswertung();
+}
+function setView(vw){
+  if(vw==='massn'||vw==='stamm'){ toast(`„${vw==='massn'?'Maßnahmen':'Stammdaten'}“ ist im Prototyp noch nicht ausgestaltet`); return; }
+  S.view = vw; closePop(); $('#snack').classList.add('hide');
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.view===vw));
+  $('#v-board').hidden = vw!=='board'; $('#v-forecast').hidden = vw!=='forecast'; $('#v-auswertung').hidden = vw!=='auswertung';
+  if(vw==='forecast') renderForecast();
+  if(vw==='auswertung') renderAuswertung();
+}
+
+/* =============================================================================
+   Interaktion
+   ============================================================================= */
+const stage = $('#stage');
+let dragPid = null;
+
+/* Drag & Drop von Personen: Zone = einteilen, „Nicht eingeteilt“ = aufheben, Reiter „Abwesend“ = Status wählen */
 stage.addEventListener('dragstart', e=>{
-  const c = e.target.closest('.pcard,.mcard'); if(!c || c.classList.contains('ghost')) return;
-  clearDemo(); dragEl = c; c.classList.add('dragging');
-  e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', c.dataset.id);
+  const c = e.target.closest && e.target.closest('[data-pid]'); if(!c || S.layout) return;
+  dragPid = c.dataset.pid; c.classList.add('dragging'); closePop();
+  if(S.demo){ S.demo=null; requestAnimationFrame(()=>{ renderHall(); renderPool(); }); }
+  e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', dragPid);
 });
-stage.addEventListener('dragend', ()=>{
-  if(dragEl) dragEl.classList.remove('dragging'); dragEl = null;
-  document.querySelectorAll('.drop-ok').forEach(e=>e.classList.remove('drop-ok'));
-});
+stage.addEventListener('dragend', ()=>{ dragPid=null; document.querySelectorAll('.dragging,.drop-ok,.drop-over,.drop-tab').forEach(x=>x.classList.remove('dragging','drop-ok','drop-over','drop-tab')); });
+function canTake(zEl){ const z=zById(zEl.dataset.zone); return z && z.t!=='in' && !(z.t==='mp' && !projVonZone(z.id)); }
+function dropTarget(e){
+  const tab = e.target.closest('#poolTabs button'); if(tab) return {tab};
+  const ne = e.target.closest('[data-drop="ne"]'); if(ne) return {ne};
+  const z = e.target.closest('.zone'); if(z && canTake(z)) return {z};
+  return null;
+}
 stage.addEventListener('dragover', e=>{
-  const z = e.target.closest('.zone'); if(!z || !dragEl || !canTake(z)) return;
-  e.preventDefault();
-  document.querySelectorAll('.drop-ok').forEach(x=>x!==z && x.classList.remove('drop-ok'));
-  z.classList.add('drop-ok');
+  if(!dragPid) return; const t = dropTarget(e);
+  document.querySelectorAll('.drop-ok,.drop-over,.drop-tab').forEach(x=>x.classList.remove('drop-ok','drop-over','drop-tab'));
+  if(!t) return; e.preventDefault();
+  if(t.tab) t.tab.classList.add('drop-tab');
+  else if(t.ne) t.ne.classList.add('drop-ok');
+  else { const z=zById(t.z.dataset.zone); const n=leuteIn(z.id).length + (ZUTEILUNG[dragPid]===z.id?0:1); t.z.classList.add(z.cap && n>z.cap ? 'drop-over' : 'drop-ok'); }
 });
 stage.addEventListener('drop', e=>{
-  const z = e.target.closest('.zone'); if(!z || !dragEl || !canTake(z)) return;
-  e.preventDefault(); z.classList.remove('drop-ok');
-  if(zoneOf(dragEl)!==z) place(dragEl, z);
+  if(!dragPid) return; const t = dropTarget(e); if(!t) return; e.preventDefault();
+  const pid = dragPid; dragPid = null;
+  if(t.tab){ if(t.tab.dataset.v==='abs'){ if(istAn(byId[pid])) openPop(pid, t.tab, 'ab'); } else aufheben(pid); return; }
+  if(t.ne){ aufheben(pid); return; }
+  zuteilen(pid, t.z.dataset.zone);
 });
 
-/* Antippen: Karte wählen → Zone antippen */
+/* Klicks / Antippen */
 stage.addEventListener('click', e=>{
-  const c = e.target.closest('.pcard,.mcard');
-  if(c && !c.classList.contains('ghost')){
-    if(selected) selected.classList.remove('selected');
-    selected = (selected===c) ? null : c;
-    if(selected) selected.classList.add('selected');
+  const T = e.target;
+  if(T.closest('#pop')){
+    const P = S.pop, b = T.closest('button'); if(!P || !b) return;
+    if(b.dataset.close!==undefined){ S.sel=null; closePop(); renderPool(); renderHall(); return; }
+    if(b.dataset.st){ P.pending = b.dataset.st===byId[P.pid].s ? null : b.dataset.st; P.target=null; P.bis='offen'; renderPop(); return; }
+    if(b.dataset.grund){ P.grund=b.dataset.grund; renderPop(); return; }
+    if(b.dataset.target){ P.target=b.dataset.target; renderPop(); return; }
+    if(b.dataset.bis){ P.bis=b.dataset.bis; renderPop(); return; }
+    if(b.dataset.cancel!==undefined){ P.pending=null; renderPop(); return; }
+    if(b.dataset.apply!==undefined){ setzeStatus(P.pid, P.pending, {grund:P.grund,target:P.target,bis:P.bis}); return; }
+    if(b.dataset.assign){ zuteilen(P.pid, b.dataset.assign); return; }
+    if(b.dataset.unassign!==undefined){ aufheben(P.pid); return; }
+    if(b.dataset.mail!==undefined){ const p=byId[P.pid]; melde('mail',`Mail an ${p.n} versendet`,`Einsatzplan KW 47 · ${code(ZUTEILUNG[p.id])}`); renderKPIs(); toast(`✉ Einsatzplan KW 47 an ${p.n} gesendet`); return; }
     return;
   }
-  const z = e.target.closest('.zone');
-  if(z && selected && canTake(z) && zoneOf(selected)!==z){
-    clearDemo(); selected.classList.remove('selected');
-    place(selected, z); selected = null;
+  if(T.closest('#bellMenu')){ if(T.closest('#allRead')){ MELDUNGEN.forEach(m=>m.neu=0); renderKPIs(); renderBell(); } return; }
+  if(T.closest('#bell')){ const m=$('#bellMenu'); m.hidden=!m.hidden; if(!m.hidden){ closePop(); renderBell(); } return; }
+  $('#bellMenu').hidden = true;
+  if(T.closest('#modal') || T.closest('#snack')) return;
+  const tab = T.closest('#tabs button'); if(tab){ setView(tab.dataset.view); return; }
+  const kwb = T.closest('[data-kw]'); if(kwb){ S.kwOff = kwb.dataset.kw==='0' ? 0 : S.kwOff+Number(kwb.dataset.kw); setKW(); return; }
+  const seg = T.closest('[data-seg] button'); if(seg){ seg.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===seg)); if(seg.textContent==='Tag') toast('Tagesansicht: Schicht- und Stundenplanung je Tag (folgt)'); return; }
+  const kpi = T.closest('.kpi'); if(kpi){ kpiClick(kpi.dataset.k); return; }
+  if(T.closest('#newProj')){ openModal(); return; }
+  const hm = T.closest('#hallMode button'); if(hm){ setLayout(hm.dataset.m==='lay'); return; }
+  if(T.closest('#lyCancel')){ BEREICHE.forEach((z,i)=>Object.assign(z, S.lyBackup[i])); setLayout(false); toast('Änderungen am Hallenlayout verworfen'); return; }
+  if(T.closest('#lySave')){ setLayout(false); toast('Hallenlayout gespeichert'); return; }
+  const pt = T.closest('#poolTabs button'); if(pt){ S.poolTab = pt.dataset.v; renderPool(); return; }
+  if(S.view==='forecast'){ const r=T.closest('.fc-row.r'); if(r){ S.hl = S.hl===r.dataset.nr?null:r.dataset.nr; renderForecast(); } return; }
+  if(S.view!=='board' || S.layout) return;
+  const card = T.closest('[data-pid]');
+  if(card){
+    const pid = card.dataset.pid;
+    if(S.sel===pid && S.pop){ S.sel=null; closePop(); renderPool(); renderHall(); return; }
+    const kind = card.classList.contains('mcard') ? '.mcard' : '.pcard';
+    S.sel = pid; renderPool(); renderHall();
+    openPop(pid, document.querySelector(`${kind}[data-pid="${pid}"]`) || document.querySelector(`[data-pid="${pid}"]`));
+    return;
   }
+  const tl = T.closest('.tile'); if(tl){ S.hl = tl.dataset.nr; setView('forecast'); return; }
+  const z = T.closest('.zone');
+  if(z && S.sel && canTake(z)){ zuteilen(S.sel, z.dataset.zone); return; }
+  if(S.pop || S.sel){ S.sel=null; closePop(); renderPool(); renderHall(); }
+});
+$('#undo').addEventListener('click', ()=>{ undo(); $('#snack').classList.add('hide'); });
+
+function kpiClick(k){
+  if(S.view!=='board') setView('board');
+  const flash = el=>{ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+  if(k==='ne'){ S.poolTab='an'; renderPool(); flash($('#grpNE')); }
+  if(k==='an'){ S.poolTab = S.poolTab==='an'?'abs':'an'; renderPool(); }
+  if(k==='under') document.querySelectorAll('.tile.under').forEach(flash);
+  if(k==='rot'){ S.hl = (PROJEKTE.find(p=>forecast(p).amp.includes('r'))||{}).nr; setView('forecast'); }
+  if(k==='mn') toast('3 Maßnahmen überfällig – Ansicht „Maßnahmen“ folgt');
+}
+function setKW(){
+  const mo = new Date(2026,10,16+7*S.kwOff), so = new Date(mo); so.setDate(so.getDate()+6);
+  $('#kwLabel').textContent = 'KW '+kw(mo); $('#kwRange').textContent = `${dstr(mo)}–${dstr(so)}${so.getFullYear()}`;
+  if(S.kwOff) toast(`${S.kwOff>0?'Vorschau':'Rückblick'} KW ${kw(mo)} – im Prototyp werden die Daten von KW 47 gezeigt`);
+}
+
+/* ---------- Layout-Modus: Bereiche verschieben / skalieren ---------- */
+function setLayout(on){
+  if(on && !S.layout) S.lyBackup = BEREICHE.map(z=>({x:z.x,y:z.y,w:z.w,h:z.h}));
+  S.layout = on; S.sel=null; S.demo=null; closePop();
+  document.querySelectorAll('#hallMode button').forEach(b=>b.classList.toggle('on', (b.dataset.m==='lay')===on));
+  $('#hallLegend').hidden = on; $('#layoutHint').hidden = !on; $('#layoutBtns').hidden = !on;
+  renderAll();
+}
+let ly = null;
+function cellAt(e){
+  const r=$('#hall').getBoundingClientRect(), s=scale(), pad=6*s;
+  return { x:Math.floor((e.clientX-r.left-pad)/(r.width-2*pad)*24), y:Math.floor((e.clientY-r.top-pad)/(r.height-2*pad)*16) };
+}
+const hits = (a,b) => a.x < b.x+b.w && b.x < a.x+a.w && a.y < b.y+b.h && b.y < a.y+a.h;
+$('#hall').addEventListener('pointerdown', e=>{
+  if(!S.layout) return; const el=e.target.closest('.zone'); if(!el) return;
+  const z = zById(el.dataset.zone); e.preventDefault(); el.setPointerCapture(e.pointerId);
+  ly = {z, el, rz:!!e.target.closest('.rz'), c0:cellAt(e), o:{x:z.x,y:z.y,w:z.w,h:z.h}, bad:false};
+  el.classList.add('moving');
+});
+$('#hall').addEventListener('pointermove', e=>{
+  if(!ly) return; const c=cellAt(e), dx=c.x-ly.c0.x, dy=c.y-ly.c0.y, z=ly.z, o=ly.o;
+  if(ly.rz){ z.w=Math.max(1,Math.min(24-o.x,o.w+dx)); z.h=Math.max(1,Math.min(16-o.y,o.h+dy)); }
+  else { z.x=Math.max(0,Math.min(24-o.w,o.x+dx)); z.y=Math.max(0,Math.min(16-o.h,o.y+dy)); }
+  ly.el.style.gridColumn=`${z.x+1} / span ${z.w}`; ly.el.style.gridRow=`${z.y+1} / span ${z.h}`;
+  ly.bad = BEREICHE.some(b=>b!==z && hits(z,b)); ly.el.classList.toggle('collide', ly.bad);
+});
+$('#hall').addEventListener('pointerup', ()=>{
+  if(!ly) return;
+  if(ly.bad){ Object.assign(ly.z, ly.o); toast('Bereiche dürfen sich nicht überlappen – zurückgesetzt'); }
+  ly = null; renderHall();
 });
 
-/* Reiter & Umschalter (rein optisch) */
-document.querySelectorAll('[data-pooltabs] button').forEach(b=>b.addEventListener('click',()=>{
-  b.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
-  document.getElementById('pool').classList.toggle('show-absent', b.dataset.v==='absent');
-}));
-document.querySelectorAll('[data-seg], [data-tabs]').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
-  g.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
-})));
+/* ---------- Neues Projekt per Projektnummer ---------- */
+function openModal(){
+  const m = $('#modal'); m.hidden = false; closePop();
+  m.innerHTML = `<div class="modal"><h3>Neues Projekt anlegen</h3><p>Projektnummer eingeben – Kunde, Termine, Soll-Besetzung und Plan-Stunden werden aus den Stammdaten übernommen.</p>
+    <div class="field"><input id="pnr" value="P-24141" spellcheck="false" autocomplete="off"><button class="btn" id="pSearch">Abrufen</button></div><div id="pRes"></div>
+    <div class="pop-f"><button class="btn" id="pCancel">Abbrechen</button><button class="btn pri" id="pOk" disabled>Anlegen</button></div></div>`;
+  const look = ()=>{
+    const nr = $('#pnr').value.trim().toUpperCase(), d = ERP[nr], res = $('#pRes');
+    if(!d){ res.innerHTML = `<div class="nf">Projektnummer „${nr}“ nicht gefunden.</div>`; $('#pOk').disabled=true; return; }
+    if(prByNr[nr] || S.reserved===nr){ res.innerHTML = `<div class="nf">${nr} ist bereits angelegt.</div>`; $('#pOk').disabled=true; return; }
+    res.innerHTML = `<div class="preview"><div class="full"><span class="nm">${d.nm}</span><span class="logo logo-${d.c}">${d.cust}</span></div>
+      <div><div class="k">Projektklasse</div><div class="v">${d.kl}</div></div><div><div class="k">Zeitraum</div><div class="v">${d.from}–${d.to}</div></div>
+      <div><div class="k">Soll-Besetzung</div><div class="v">${d.soll} Personen</div></div><div><div class="k">Plan-Stunden</div><div class="v">${fmt(d.plan)} h</div></div>
+      <div class="full"><div><div class="k">Montageplatz-Vorschlag</div><div class="v">${d.platz==='—'?'im Zeitraum kein Platz frei':d.platz+' · frei ab 27.11.'}</div></div></div></div>`;
+    $('#pOk').disabled=false; $('#pOk').dataset.nr=nr;
+  };
+  $('#pSearch').onclick = look; $('#pnr').onkeydown = e=>{ if(e.key==='Enter') look(); };
+  $('#pCancel').onclick = ()=>{ m.hidden=true; };
+  m.onclick = e=>{ if(e.target===m) m.hidden=true; };
+  $('#pOk').onclick = ()=>{ const nr=$('#pOk').dataset.nr, d=ERP[nr]; m.hidden=true;
+    if(d.platz==='B3') S.reserved = nr;
+    melde('mail','Projekt angelegt',`${nr} ${d.nm} · Start ${d.from}${d.platz==='B3'?' · Montageplatz B3 reserviert':''}`);
+    renderAll(); toast(`${nr} ${d.nm} angelegt – erscheint ab ${d.from} als aktives Projekt`); };
+  look(); setTimeout(()=>{ const i=$('#pnr'); if(i) i.select(); },50);
+}
+
+/* ---------- Skalierung, Uhr, Start ---------- */
+function fit(){ stage.style.setProperty('--s', Math.min(innerWidth/1920, innerHeight/1080)); }
+addEventListener('resize', ()=>{ fit(); if(S.pop) renderPop(); }); fit();
+function tick(){ $('#clock').textContent = new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}); }
+tick(); setInterval(tick, 10000);
+renderAll();
+setTimeout(()=>{ if(S.fresh==='becker') S.fresh=null; }, 3000);
 </script>
 </body>
 </html>

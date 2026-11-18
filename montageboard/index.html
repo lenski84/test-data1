@@ -82,186 +82,161 @@ input{font:inherit}
 .ph{height:36px;flex:none;display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .ph h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
 .ph .sub{font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap}
-.ph .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.ph .right{margin-left:auto;display:flex;align-items:center;gap:10px}
 .count{min-width:24px;height:20px;padding:0 6px;border-radius:10px;background:var(--surface);border:1px solid var(--line);
   font-size:12px;font-weight:700;display:inline-grid;place-items:center}
-
-/* ---------- Avatare / Status ---------- */
-.av{position:relative;flex:none;width:22px;height:22px;border-radius:50%;background:#E3E6E9;color:var(--text);
-  display:grid;place-items:center;font-size:10px;font-weight:700;letter-spacing:.02em}
-.av.lead{background:var(--green-dk);color:var(--white)}
-.sd{position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;border:2px solid var(--white)}
 .st-an{background:var(--st-an)} .st-sc{background:var(--st-sc)} .st-ex{background:var(--st-ex)}
 .st-dr{background:var(--st-dr)} .st-ab{background:var(--st-ab)}
 
-/* ---------- B2 Personal ---------- */
-.pool-tabs{display:flex;height:36px;width:252px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:2px;flex:none}
-.pool-tabs button{flex:1;border-radius:6px;font-size:13px;font-weight:700;color:var(--text-2);display:flex;align-items:center;justify-content:center;gap:7px}
-.pool-tabs button.on{background:var(--text);color:var(--white)}
-.pool-tabs button .count{background:transparent;border-color:currentColor;height:18px}
-.pool-tabs button.drop-tab{background:var(--green-lt);color:var(--green-dk);box-shadow:inset 0 0 0 2px var(--green)}
-.pool{background:var(--surface);border-radius:var(--r);padding:8px;flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
-.grp{border-radius:var(--r);background:var(--white);border:1px solid var(--line)}
-.grp-h{height:18px;padding:0 8px;display:flex;align-items:center;gap:6px;background:var(--green-dk);color:var(--white);
-  font-size:11px;font-weight:700;letter-spacing:.1em;border-radius:7px 7px 0 0}
-.grp-h b{margin-left:auto;font-weight:600;opacity:.85;letter-spacing:0}
-.grp-h i{width:9px;height:9px;border-radius:50%;box-shadow:0 0 0 1.5px var(--white)}
-.grp.abs .grp-h{background:var(--surface-2);color:var(--text)}
-.grp.abs .grp-h b{opacity:1;color:var(--text-2)}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:3px}
-.grp-empty{font-size:12px;font-weight:600;color:var(--text-2);padding:6px 8px}
-.grp.ne{background:var(--green-lt);border:1.5px solid var(--green)}
-.grp.ne .grp-h{background:transparent;color:var(--green-dk);height:22px;border-radius:0}
-.grp.ne .grp-h b{opacity:1;background:var(--green-dk);color:var(--white);border-radius:9px;padding:0 7px;line-height:18px;font-weight:700}
-.grp.ne .cards{padding-top:0}
-.grp.ne.drop-ok{box-shadow:0 0 0 3px rgba(0,137,61,.35)}
-.grp.flash,.tile.flash{animation:flash 1.4s ease-out 2}
-@keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(0,137,61,0)}30%{box-shadow:0 0 0 4px rgba(0,137,61,.55)}}
+/* ---------- Personenbild (Platzhalter-Foto) ---------- */
+.ph-img{position:relative;flex:none;display:block;border-radius:6px;background-color:var(--surface-2);background-size:cover;background-position:center}
+.ph-img .sd{position:absolute;right:-3px;bottom:-3px;width:12px;height:12px;border-radius:50%;border:2px solid var(--white)}
+.ph-img.lead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:0 0 6px 6px;background:var(--green)}
+.av{position:relative;flex:none;width:26px;height:26px;border-radius:50%;background-size:cover;background-position:center;border:2px solid var(--white);box-sizing:content-box}
 
-.pcard{position:relative;height:42px;min-width:0;padding:2px 4px 0;border-radius:var(--r);background:var(--white);border:1px solid var(--line);
-  display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:22px 13px;column-gap:4px;row-gap:1px;align-items:center;cursor:grab;touch-action:manipulation}
-.pcard .pn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qb{grid-column:1 / -1;display:flex;gap:2px;overflow:hidden;white-space:nowrap}
-.qb b{height:12px;padding:0 3px;border-radius:3px;background:var(--surface);border:1px solid var(--line);
-  font-size:8.5px;font-weight:700;letter-spacing:.03em;line-height:10px;color:#3A4148}
-.qb em{font-style:normal;font-size:10.5px;font-weight:600;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;line-height:12px}
-.pcard.ghost{background:transparent;border:1.5px dashed #9AA3AB;cursor:default}
-.pcard.ghost::after{content:"wird gezogen";position:absolute;inset:0;display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--text-2)}
-.selected{border-color:var(--green)!important;animation:pulse 1.6s ease-in-out infinite;z-index:2}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 2px var(--green),0 0 0 3px rgba(0,137,61,.28)}50%{box-shadow:0 0 0 2px var(--green),0 0 0 8px rgba(0,137,61,0)}}
-.lifted{position:absolute;z-index:30;width:108px;transform:rotate(2deg) scale(1.08);box-shadow:0 14px 28px rgba(31,35,40,.28),0 3px 8px rgba(31,35,40,.18);pointer-events:none}
-.touchpoint{position:absolute;z-index:31;width:34px;height:34px;border-radius:50%;background:rgba(31,35,40,.14);border:2px solid rgba(255,255,255,.9);pointer-events:none}
+/* ---------- B2 Personal ---------- */
+.pool{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}
+.sect{border-radius:var(--r);background:var(--surface);padding:8px;display:flex;flex-direction:column;gap:6px;transition:box-shadow .15s}
+.sect-h{height:24px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.sect-h i{width:12px;height:12px;border-radius:50%}
+.sect-h .hint{margin-left:auto;font-size:11.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--text-2)}
+.sect.drop-ok{box-shadow:0 0 0 3px var(--green)}
+.sect.ab.drop-ok{box-shadow:0 0 0 3px var(--st-ab)}
+.depts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:row dense;gap:6px}
+.dept{background:var(--white);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.dept.full{grid-column:1 / -1}
+.dept-h{height:18px;padding:0 8px;display:flex;align-items:center;justify-content:space-between;background:var(--green-dk);color:var(--white);
+  font-size:11px;font-weight:700;letter-spacing:.1em;border-radius:7px 7px 0 0}
+.dept-h b{font-weight:600;opacity:.85;letter-spacing:0}
+.sect.ab .dept-h{background:#8A939B}
+.phs{display:flex;flex-wrap:wrap;gap:4px;padding:5px 4px 4px}
+.pt{width:42px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:grab;touch-action:manipulation;border-radius:6px;position:relative}
+.pt .ph-img{width:42px;height:42px}
+.pt .cap{font-size:10.5px;font-weight:700;max-width:46px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:12px}
+.pt.abs .ph-img{filter:grayscale(1);opacity:.6}
+.pt .why{position:absolute;left:-1px;right:-1px;top:28px;height:14px;border-radius:0 0 6px 6px;font-size:8px;font-weight:800;letter-spacing:0;
+  color:var(--white);display:grid;place-items:center;text-transform:uppercase}
+.pt .svc{position:absolute;left:-1px;right:-1px;top:28px;height:14px;border-radius:0 0 6px 6px;background:var(--st-ex);font-size:8.5px;font-weight:800;color:var(--white);display:grid;place-items:center;letter-spacing:.04em}
+.pt.sel .ph-img{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--green)}
+.pt.sel{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,137,61,.35)}50%{box-shadow:0 0 0 6px rgba(0,137,61,0)}}
+.dim .pt:not(.hit){opacity:.28}
+.dim .pt.hit .ph-img{box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--green-dk)}
 .dragging{opacity:.35}
+.drop-note{border:1.5px dashed var(--line-2);border-radius:var(--r);padding:8px;font-size:12px;font-weight:600;color:var(--text-2);text-align:center}
 
 /* ---------- B3 Hallenplan ---------- */
 .legend-mini{display:flex;gap:12px;font-size:12px;font-weight:600;color:var(--text-2)}
 .legend-mini span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.legend-mini i{width:16px;height:12px;border-radius:3px;display:inline-block}
-.sw-mp{background:var(--white);border:1px solid var(--line);box-shadow:inset 0 3px 0 var(--green-dk)}
-.sw-fb{background:var(--green-lt);border:1px solid var(--green-ln)}
-.sw-sf{background:var(--white);border:1.5px dashed var(--green)}
-.sw-in{background:repeating-linear-gradient(45deg,#D5DADE 0 3px,#F4F5F6 3px 6px);border:1px solid var(--line)}
-.sw-vw{background:var(--surface-2);border:1px solid var(--line-2)}
-.layout-hint{font-size:13px;font-weight:600;color:var(--text-2);display:flex;align-items:center;gap:8px;white-space:nowrap}
-.layout-hint b{color:var(--text)}
+.legend-mini i{width:18px;height:12px;border-radius:3px;display:inline-block}
+.sw-ex{background:var(--white);border:2px solid var(--green-dk)}
+.sw-in{background:var(--white);border:2px dashed var(--green-dk)}
+.sw-fl{background:var(--white);border:1.5px dashed #9AA3AB}
+.mapwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.map{position:relative;width:100%;aspect-ratio:6/5;max-height:100%;background:var(--surface-2);border:4px solid #5F6870;border-radius:4px;touch-action:none}
+.gate{position:absolute;height:8px;background:var(--white);z-index:2}
+.gate-l{position:absolute;font-size:10.5px;font-weight:700;letter-spacing:.14em;color:var(--text-2);transform:translateX(-50%);white-space:nowrap}
+.aisle{position:absolute;display:grid;place-items:center;pointer-events:none}
+.aisle span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:700;letter-spacing:.4em;color:#8F989F}
+.fl{position:absolute;background-color:var(--white);border:1.5px dashed #9AA3AB;border-radius:6px;cursor:crosshair}
+.fl-l{position:absolute;left:2px;top:-22px;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--text-2);pointer-events:none;text-transform:uppercase}
+.fl-l small{font-weight:600;letter-spacing:0;text-transform:none;margin-left:6px}
+.fl-hint{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#8F989F;font-size:13px;font-weight:700;text-align:center;pointer-events:none;line-height:1.35}
+.fl-hint svg{width:46px;height:46px}
+.fl.drop-ok{border-color:var(--green);box-shadow:inset 0 0 0 2px var(--green)}
+.ghost{position:absolute;border:2px dashed var(--green-dk);background:rgba(0,137,61,.10);border-radius:6px;z-index:8;pointer-events:none;display:grid;place-items:center;
+  font-size:13px;font-weight:800;color:var(--green-dk)}
+.ghost.bad{border-color:var(--st-ab);background:rgba(215,38,61,.08);color:#B3182C}
+.pr{position:absolute;z-index:4;background:#FBFDFC;border:2px solid var(--green-dk);border-radius:6px;padding:8px 10px;display:flex;flex-direction:column;gap:4px;
+  overflow:hidden;cursor:move;min-width:0}
+.pr.in{border-style:dashed;background:var(--white)}
+.pr .co{display:flex;align-items:center;gap:7px;min-width:0}
+.pr .co .mk{width:30px;height:30px;flex:none}
+.pr .co b{font-size:14.5px;font-weight:800;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr .nr2{font-size:11.5px;font-weight:600;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr .pn{font-size:15px;font-weight:700;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr .ft{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:6px;min-width:0}
+.pr .cnt{font-size:12px;font-weight:800;white-space:nowrap;padding:1px 6px;border-radius:4px;background:var(--surface)}
+.pr .cnt.under{background:#FBE3E6;color:#9E1528}
+.pr .cnt.over{background:#FDE8D4;color:#8A4200}
+.pr .dim-m{position:absolute;left:8px;bottom:-1px;font-size:10.5px;font-weight:700;color:var(--green-dk);background:var(--green-lt);padding:0 5px;border-radius:4px 4px 0 0;display:none}
+.pr.sel{box-shadow:0 0 0 3px rgba(0,137,61,.35),0 10px 22px rgba(31,35,40,.18);z-index:6}
+.pr.sel .dim-m{display:block}
+.pr.bad{border-color:var(--st-ab)!important;box-shadow:0 0 0 3px rgba(215,38,61,.3)}
+.pr.drop-ok{box-shadow:0 0 0 3px var(--green),0 0 18px rgba(0,137,61,.45);z-index:6}
+.pr.focus{box-shadow:0 0 0 3px var(--green),0 0 0 7px rgba(0,137,61,.18)}
+.pr .rz{position:absolute;right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 50%,var(--green-dk) 50%);display:none}
+.pr .del{position:absolute;right:4px;top:4px;width:30px;height:30px;border-radius:6px;background:var(--white);border:1px solid var(--line);display:none;place-items:center;color:var(--text-2)}
+.pr .del svg{width:14px;height:14px}
+.pr.sel .rz{display:block} .pr.sel .del{display:grid}
+.stk{display:flex;padding-left:6px;min-width:0;overflow:hidden}
+.stk .av{margin-left:-6px;width:24px;height:24px}
+.stk .more{margin-left:-4px;height:24px;min-width:28px;padding:0 5px;border-radius:12px;background:var(--surface);border:2px solid var(--white);font-size:11px;font-weight:800;color:var(--text-2);display:grid;place-items:center}
 
-.hall{flex:1;min-height:0;position:relative;border:2px solid var(--line-2);border-radius:var(--r);background:var(--surface-2);padding:4px;
-  display:grid;grid-template-columns:repeat(24,minmax(0,1fr));grid-template-rows:repeat(16,minmax(0,1fr));gap:4px}
-.aisle-label{position:absolute;font-size:11px;font-weight:700;letter-spacing:.32em;color:#8F989F;white-space:nowrap;pointer-events:none}
-.zone{position:relative;min-width:0;min-height:0;border-radius:var(--r);display:flex;flex-direction:column}
-.zone .zl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green-dk);hyphens:manual;
-  display:flex;align-items:center;justify-content:space-between;gap:6px;line-height:13px}
-.zone .zl em{font-style:normal;font-weight:600;color:var(--text-2);letter-spacing:0}
-.zone .zinfo{font-size:11px;font-weight:600;color:var(--text-2)}
-.people{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
-.z-mp{background:var(--white);border:1px solid var(--line)}
-.mp-h{height:26px;flex:none;background:var(--green-dk);color:var(--white);border-radius:7px 7px 0 0;padding:0 8px;display:flex;align-items:center;justify-content:space-between}
-.mp-h b{font-size:15px;font-weight:800;letter-spacing:.04em}
-.mp-h > span:last-child{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
-.mp-h svg{width:12px;height:12px;opacity:.85}
-.mp-h .ob{margin-left:6px;margin-right:auto;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#FFD3B0}
-.mp-b{flex:1;min-height:0;padding:5px 4px 4px;display:flex;flex-direction:column;gap:5px;position:relative}
-.mp-proj{display:flex;flex-direction:column;gap:2px;padding:0 2px 5px;border-bottom:1px solid #ECEEF0}
-.mp-proj .l1{display:flex;align-items:center;justify-content:space-between;gap:4px}
-.mp-proj .prj{font-size:11px;font-weight:700;color:var(--text-2)}
-.mp-proj .kn{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:16px}
-.z-mp .people{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:36px;gap:4px}
-.mp-free{flex:1;display:grid;place-items:center;border:1.5px dashed var(--line);border-radius:6px;color:var(--text-2);font-size:14px;font-weight:600;text-align:center;line-height:1.35}
-.mp-free small{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
-.mp-free .res{display:inline-block;margin-top:4px;font-size:12px;font-weight:700;color:var(--green-dk);background:var(--green-lt);border-radius:4px;padding:1px 6px}
-.more{height:36px;border-radius:6px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:14px;font-weight:700;color:var(--text-2)}
-.slot{height:36px;border-radius:6px;border:1.5px dashed var(--green);background:rgba(0,137,61,.06)}
-.z-fb{background:var(--green-lt);border:1px solid var(--green-ln);padding:6px 8px;gap:5px}
-.z-sf{background:var(--white);border:1.5px dashed var(--green);padding:6px 8px;gap:5px}
-.z-in{background:repeating-linear-gradient(45deg,#DDE1E4 0 6px,#F4F5F6 6px 12px);border:1px solid var(--line);padding:6px 8px;justify-content:center;align-items:center}
-.z-in .zl{color:var(--text-2);letter-spacing:.1em}
-.zone.row1{flex-direction:row;align-items:center;gap:10px;padding-top:0;padding-bottom:0}
-.zone.row1 .zl{flex:none}
-.zone.row1 .people{flex-wrap:nowrap}
-.mcard{position:relative;height:36px;min-width:60px;padding:0 4px 0 6px;border-radius:6px;background:var(--white);border:1px solid var(--line);
-  display:flex;align-items:center;gap:5px;cursor:grab;touch-action:manipulation}
-.mcard .md{flex:none;width:10px;height:10px;border-radius:50%}
-.mcard .mn{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.z-mp .mcard{min-width:0}
-.zone:not(.z-mp) .mcard{width:92px}
-.mcard.fresh{animation:fresh 2.4s ease-out 1}
-@keyframes fresh{0%{background:#CFE9D9}100%{background:var(--white)}}
-.mcard.fresh::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;border-radius:6px 0 0 6px;background:var(--green)}
-.drop-ok{border-color:var(--green)!important;box-shadow:0 0 0 2px var(--green),0 0 0 6px rgba(0,137,61,.18),0 0 22px rgba(0,137,61,.45);z-index:5}
-.drop-over{border-color:var(--warn)!important;box-shadow:0 0 0 2px var(--warn),0 0 18px rgba(232,113,10,.45);z-index:5}
-.drop-hint{position:absolute;left:50%;top:-30px;transform:translateX(-50%);z-index:6;height:22px;padding:0 9px;border-radius:11px;background:var(--green);color:var(--white);
-  font-size:11px;font-weight:700;letter-spacing:.04em;display:flex;align-items:center;white-space:nowrap}
-.over{border-color:var(--warn)!important;box-shadow:0 0 0 2px var(--warn);z-index:4}
-.over .mp-h svg{display:none}
-.over .mp-h > span:last-child{background:var(--warn);color:var(--text);border-radius:4px;padding:1px 6px}
-
-/* Layout-Modus */
-.hall .cell{border:1px dashed #CDD2D6;border-radius:3px;pointer-events:none}
-.hall.layout .zone{cursor:move;touch-action:none;z-index:2}
-.hall.layout .zone.moving{box-shadow:0 10px 24px rgba(31,35,40,.25);z-index:20;opacity:.95}
-.hall.layout .zone.collide{outline:3px solid var(--st-ab);outline-offset:1px}
-.rz{position:absolute;right:-1px;bottom:-1px;width:22px;height:22px;border-radius:0 0 8px 0;cursor:nwse-resize;z-index:3;
-  background:linear-gradient(135deg,transparent 50%,var(--green-dk) 50%)}
-.grip{position:absolute;right:6px;top:5px;width:16px;height:16px;color:var(--text-2);opacity:.8}
-.fp{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);border:2px solid var(--text-2);border-radius:4px;
-  background:repeating-linear-gradient(135deg,rgba(95,104,112,.10) 0 6px,rgba(95,104,112,.02) 6px 12px);display:grid;place-items:center;text-align:center;
-  font-size:11px;font-weight:700;color:var(--text);line-height:1.3;padding:2px}
-.fp small{display:block;font-size:10px;font-weight:600;color:var(--text-2)}
-.fp.res{border-style:dashed;border-color:var(--green)}
-.dim-lbl{font-size:10.5px;font-weight:600;color:var(--text-2)}
-.hall.layout .zl{padding-right:18px}
-
-/* ---------- B4 Projekte ---------- */
+/* ---------- B4 Projektarten ---------- */
 .proj{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}
-.sec-h{height:24px;flex:none;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:2px}
-.sec-h h3{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.sec-h .hint{margin-left:auto;font-size:12px;font-weight:600;color:var(--text-2)}
 .sec{display:flex;flex-direction:column;gap:8px}
-.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.tile{position:relative;height:150px;padding:10px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);
-  display:grid;grid-template-rows:36px 22px 22px 26px;row-gap:8px;min-width:0;cursor:pointer}
-.tile.under{border-left:4px solid var(--st-ab);padding-left:7px}
-.t-top{display:flex;justify-content:space-between;gap:8px;min-width:0}
-.t-top > div:first-child{min-width:0}
-.t-top .nm{font-size:15px;font-weight:700;line-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.t-top .nr{font-size:12px;font-weight:600;color:var(--text-2);line-height:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.t-top .nr b{color:var(--text);font-weight:700}
-.t-top .rt{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex:none}
-.badge-under{height:16px;padding:0 6px;border-radius:4px;background:var(--st-ab);color:var(--white);font-size:10px;font-weight:700;letter-spacing:.06em;display:flex;align-items:center;text-transform:uppercase}
-.t-row{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
-.t-row .l{display:flex;align-items:center;gap:6px;min-width:0}
+.sec-h{height:24px;flex:none;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);padding-bottom:2px}
+.sec-h h3{margin:0;font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.sec-h .hint{margin-left:auto;font-size:12px;font-weight:600;color:var(--text-2)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pc{position:relative;height:104px;padding:9px 10px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);display:flex;flex-direction:column;gap:5px;min-width:0;cursor:grab}
+.pc.under{border-left:4px solid var(--st-ab);padding-left:7px}
+.pc.focus{border-color:var(--green);box-shadow:0 0 0 2px var(--green)}
+.pc.drop-ok{border-color:var(--green);box-shadow:0 0 0 3px var(--green),0 0 16px rgba(0,137,61,.35)}
+.pc .co{display:flex;align-items:center;gap:6px;min-width:0}
+.pc .co .mk{width:18px;height:18px;flex:none}
+.pc .co b{font-size:11px;font-weight:800;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc .co .nr{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--text-2);white-space:nowrap}
+.pc .pn{display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.pc .pn span{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cnt{font-size:12px;font-weight:800;white-space:nowrap;padding:1px 6px;border-radius:4px;background:var(--surface)}
+.cnt.under{background:#FBE3E6;color:#9E1528}
+.cnt.over{background:#FDE8D4;color:#8A4200}
+.pc .ppl{margin-top:auto;display:flex;align-items:center;gap:3px;min-height:28px}
+.pc .ppl .ph-img{width:26px;height:26px;border-radius:5px;cursor:grab}
+.pc .ppl .ph-img .sd{width:9px;height:9px;right:-2px;bottom:-2px}
+.pc .ppl .none{font-size:12px;font-weight:600;color:var(--text-3)}
+.pc .tag{position:absolute;right:8px;bottom:9px;height:20px;padding:0 7px;border-radius:10px;font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.tag.plan{border:1.5px dashed var(--green-dk);color:var(--green-dk);background:var(--green-lt)}
+.tag.kunde{border:1px solid var(--line-2);color:var(--text-2);background:var(--surface)}
+.tag svg{width:11px;height:11px}
+.ohne{border:1.5px dashed var(--line-2);border-radius:var(--r);min-height:40px;padding:6px 10px;display:flex;align-items:center;gap:8px;flex:none}
+.ohne.has{border-color:var(--warn);background:#FFF6EE}
+.ohne .l{font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);white-space:nowrap}
+.ohne .ph-img{width:28px;height:28px;cursor:grab}
+.ohne .t{font-size:12px;font-weight:600;color:var(--text-3)}
+.ohne.drop-ok{border-color:var(--green);background:var(--green-lt)}
+.flash{animation:flash 1.4s ease-out 2}
+@keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(0,137,61,0)}30%{box-shadow:0 0 0 4px rgba(0,137,61,.55)}}
+
+/* Logo-Wortmarken (fiktiv) */
+.logo{flex:none;font-size:10px;line-height:14px;color:var(--text);white-space:nowrap}
+.mk{display:inline-block;color:var(--text)}
+.mk svg{width:100%;height:100%;display:block}
+
+/* Pop-up: Projektliste beim Platzieren */
+.plist{display:flex;flex-direction:column;gap:6px;max-height:430px;overflow:auto}
+.plist button{min-height:48px;padding:6px 10px;border-radius:var(--r);border:1px solid var(--line);background:var(--white);display:flex;align-items:center;gap:10px;text-align:left}
+.plist button:hover{border-color:var(--green)}
+.plist .mk{width:26px;height:26px}
+.plist .tx{display:flex;flex-direction:column;min-width:0}
+.plist .tx b{font-size:14px;font-weight:700}
+.plist .tx span{font-size:11.5px;font-weight:600;color:var(--text-2)}
+.plist .st{margin-left:auto;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:9px;white-space:nowrap}
+.plist .st.neu{background:var(--green-lt);color:var(--green-dk);border:1px dashed var(--green-dk)}
+.plist .st.mv{background:var(--surface);color:var(--text-2);border:1px solid var(--line)}
+
+/* gemeinsam genutzt (Forecast, Pop-up) */
 .phase{height:22px;padding:0 8px;border-radius:4px;background:var(--surface);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;
   font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
 .phase i{width:8px;height:8px;border-radius:2px}
-.dl{height:20px;padding:0 6px;border-radius:4px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
-.dl.y{background:#FCF1CC;color:#6B4E00;border:1px solid #E9C65A}
-.dl.r{background:#FBE3E6;color:#9E1528;border:1px solid #E9A3AC}
 .qcd{display:flex;gap:4px}
 .qcd span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--text)}
 .qcd .g{background:var(--amp-g)} .qcd .y{background:var(--amp-y)} .qcd .r{background:var(--amp-r);color:var(--white)}
-.dates{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap}
-.dates b{color:var(--text);font-weight:700}
-.dates b.crit{color:#B3182C}
-.stack{display:flex;padding-left:6px}
-.stack .av{width:20px;height:20px;margin-left:-6px;border:2px solid var(--white);font-size:9px;box-sizing:content-box}
-.stack .av.plus{background:var(--surface);color:var(--text-2);font-size:10px}
-.stack .none{font-size:12px;color:var(--text-2);font-weight:600}
-.bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
-.bar .bl{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:600;color:var(--text-2);line-height:14px;margin-bottom:4px;white-space:nowrap}
-.bar .bl b{color:var(--text);font-weight:700;font-size:12px}
-.bar .bl .late{color:#8A5A00;font-weight:700}
-.bar .bl .sm{font-size:10.5px}
 .track{position:relative;height:8px;border-radius:4px;background:#E6E8EA}
 .track > i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
-.track .tick{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--text);border-radius:1px}
 .f-g{background:var(--amp-g)} .f-y{background:var(--amp-y)} .f-r{background:var(--amp-r)} .f-n{background:var(--text-2)}
-.logo{flex:none;font-size:10px;line-height:14px;color:var(--text);white-space:nowrap}
-.logo-a{font-weight:800;font-style:italic;letter-spacing:.02em;font-size:11px}
-.logo-a::before{content:"";display:inline-block;width:8px;height:8px;background:var(--text);transform:skewX(-14deg);margin-right:4px}
-.logo-b{font-weight:700;letter-spacing:.02em;border:1.5px solid var(--text);border-radius:8px;padding:0 5px;line-height:12px}
-.logo-c{font-weight:600;letter-spacing:.1em;font-size:9px;border-top:1.5px solid var(--text);border-bottom:1.5px solid var(--text);line-height:11px}
-.logo-d{font-weight:800;letter-spacing:.06em;background:var(--text);color:var(--white);padding:0 5px;border-radius:2px}
-.logo-i{font-weight:700;letter-spacing:.1em;color:var(--text-2);border:1px dashed #8C959D;padding:0 4px;border-radius:3px;font-size:9.5px;line-height:12px}
 
 /* ---------- B5 Fußleiste ---------- */
 .ftr{display:flex;align-items:center;gap:14px;padding:0 16px 0 24px;border-top:1px solid var(--line);background:var(--white)}
@@ -452,7 +427,7 @@ input{font:inherit}
 
 /* Tabellenziffern nur für Zahlen – Namen und Wortmarken proportional */
 .kn,.t-top .nm,.logo,.pn,.mn,.zl,.app-title,.fc-p .nm,.pop-h .nm,.einsatz .nm2,.preview .nm{font-variant-numeric:normal}
-@media (prefers-reduced-motion:reduce){.selected,.mcard.fresh,.grp.flash,.tile.flash{animation:none}}
+@media (prefers-reduced-motion:reduce){.pt.sel,.flash{animation:none}}
 </style>
 </head>
 <body>
@@ -475,7 +450,7 @@ input{font:inherit}
       <div class="seg" data-seg><button>Tag</button><button class="on">Woche</button></div>
     </div>
     <div class="hdr-right">
-      <button class="icon-btn" data-tip="Filter: Team, Qualifikation, Projektklasse" aria-label="Filter"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z"/></svg></button>
+      <button class="icon-btn" data-tip="Filter: Abteilung, Qualifikation, Projektart" aria-label="Filter"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M2 3h12l-4.5 5.5V13l-3 1.5V8.5z"/></svg></button>
       <nav class="tabs" id="tabs">
         <button class="on" data-view="board">Board</button><button data-view="forecast">Forecast</button><button data-view="massn">Maßnahmen</button><button data-view="auswertung">Auswertung</button><button data-view="stamm">Stammdaten</button>
       </nav>
@@ -490,40 +465,32 @@ input{font:inherit}
   <div class="views">
     <!-- ============================== BOARD ============================== -->
     <main class="view main" id="v-board">
+      <!-- links: Personal nach Anwesenheit und Abteilung -->
       <section class="panel">
-        <div class="ph"><h2>Personal</h2>
-          <div class="right pool-tabs" id="poolTabs">
-            <button class="on" data-v="an">Anwesend <span class="count" id="nAn">34</span></button>
-            <button data-v="abs">Abwesend <span class="count" id="nAbs">7</span></button>
-          </div>
-        </div>
+        <div class="ph"><h2>Personal</h2><span class="sub" id="poolSub"></span></div>
         <div class="pool" id="pool"></div>
       </section>
 
+      <!-- Mitte: grober Hallenplan mit zwei Montageflächen -->
       <section class="panel">
         <div class="ph">
           <h2>Hallenplan</h2>
-          <div class="legend-mini" id="hallLegend">
-            <span><i class="sw-mp"></i>Montageplatz</span><span><i class="sw-fb"></i>Funktionsbereich</span>
-            <span><i class="sw-sf"></i>Sonderfläche</span><span><i class="sw-in"></i>Infrastruktur</span><span><i class="sw-vw"></i>Verkehrsweg</span>
+          <div class="legend-mini">
+            <span><i class="sw-fl"></i>Montagefläche</span><span><i class="sw-ex"></i>Projekt extern</span><span><i class="sw-in"></i>Projekt intern</span>
           </div>
-          <div class="layout-hint" id="layoutHint" hidden>Zone ziehen = <b>verschieben</b> · Ecke = <b>Größe</b> · 1 Raster = 2 × 2 m</div>
-          <div class="right">
-            <span id="layoutBtns" hidden><button class="btn sm ghost" id="lyCancel">Verwerfen</button> <button class="btn sm pri" id="lySave">Übernehmen</button></span>
-            <div class="seg" id="hallMode"><button class="on" data-m="bel">Belegung</button><button data-m="lay">Layout</button></div>
-          </div>
+          <div class="right"><button class="btn sm" id="clearPlan" data-tip="Alle Projekte von den Flächen nehmen (rückgängig möglich)">Flächen leeren</button></div>
         </div>
-        <div class="hall" id="hall"></div>
+        <div class="mapwrap"><div class="map" id="map"></div></div>
       </section>
 
+      <!-- rechts: Projektarten mit zugeteilten Personen -->
       <section class="panel">
-        <div class="ph"><h2>Projekte</h2><span class="sub" id="projSub">10 aktiv</span>
+        <div class="ph"><h2>Projekte</h2><span class="sub" id="projSub"></span>
           <div class="right"><button class="btn sm" id="newProj"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>Projekt</button></div></div>
         <div class="proj" id="proj"></div>
       </section>
     </main>
 
-    <!-- ============================== FORECAST / AUSWERTUNG ============================== -->
     <section class="view vpad" id="v-forecast" hidden></section>
     <section class="view vpad" id="v-auswertung" hidden></section>
   </div>
@@ -532,17 +499,16 @@ input{font:inherit}
   <footer class="ftr">
     <div class="lg">
       <span class="t">Status</span>
-      <span><i class="st-an"></i>Anwesend</span><span><i class="st-ab"></i>Abwesend</span><span><i class="st-ex"></i>Ext. Service</span>
+      <span><i class="st-an"></i>Anwesend</span><span><i class="st-ex"></i>Ext. Service</span><span><i class="st-ab"></i>Krank / Urlaub</span>
       <span><i class="st-dr"></i>Dienstreise</span><span><i class="st-sc"></i>Schulung</span>
+      <span style="margin-left:6px"><i style="width:16px;height:4px;border-radius:2px;background:var(--green)"></i>Vorarbeiter</span>
     </div>
-    <span class="vsep"></span>
-    <div class="lg"><span class="t">Ampel</span><span><b class="amp">Q</b>Qualität</span><span><b class="amp">C</b>Kosten</span><span><b class="amp">D</b>Liefertreue</span></div>
     <div class="kpis" id="kpis"></div>
   </footer>
 
-  <div class="snack" id="snack" role="status">
+  <div class="snack hide" id="snack" role="status">
     <span class="ok" id="snackIc"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4"><path d="m3.5 8.5 3 3 6-7"/></svg></span>
-    <span class="msg" id="snackMsg"><b>M. Becker</b> → A2 eingeteilt <span class="mail">· ✉ Mitarbeiter informiert</span></span>
+    <span class="msg" id="snackMsg"></span>
     <span class="div"></span>
     <button class="undo" id="undo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h6a3.5 3.5 0 0 1 0 7H7"/><path d="M6.5 3 3.5 6l3 3"/></svg>RÜCKGÄNGIG</button>
     <span class="timer"></span>
@@ -557,47 +523,49 @@ input{font:inherit}
 <script>
 /* =============================================================================
    DATENMODELL – entspricht den späteren Tabellen der Datenbank
-   (MITARBEITER, BEREICHE, PROJEKTE, ZUTEILUNG, MELDUNGEN). Alles fiktiv.
-   Status: an = anwesend · ab = abwesend (krank/Urlaub) · ex = externer Service
-           dr = Dienstreise · sc = Schulung
+   MITARBEITER · PROJEKTE · ZUTEILUNG (Person → Projekt) · PLAN (Projekt → Rechteck
+   auf einer Montagefläche) · MELDUNGEN. Alle Daten fiktiv.
+   Status: an = anwesend (Halle) · ex = externer Service (anwesend, beim Kunden)
+           ab = abwesend krank/Urlaub · dr = Dienstreise · sc = Schulung
    ============================================================================= */
 const HEUTE = new Date(2026,10,18);           // Mi 18.11.2026, KW 47
 const STUNDENSATZ = 85;                       // €/h für den Kostenforecast
 const STATUS = {
-  an:{l:'Anwesend', c:'st-an'}, ab:{l:'Abwesend', c:'st-ab'}, ex:{l:'Ext. Service', c:'st-ex', lang:'Externer Service'},
-  dr:{l:'Dienstreise', c:'st-dr'}, sc:{l:'Schulung', c:'st-sc'}
+  an:{l:'Anwesend', c:'st-an'}, ex:{l:'Ext. Service', c:'st-ex', lang:'Externer Service'},
+  ab:{l:'Abwesend', c:'st-ab'}, dr:{l:'Dienstreise', c:'st-dr'}, sc:{l:'Schulung', c:'st-sc'}
 };
+const TEAMS = ['ZSA','ZSA1','ZSA2','ZSA3','ZSA4','ZSAA','ZSY/ZSC'];
 
 const MITARBEITER = [
-  {id:'vogel',  n:'J. Vogel',  t:'ZSA3', s:'an', q:['MECH','KRAN'], vorh:'A3'},
-  {id:'kaiser', n:'C. Kaiser', t:'ZSA4', s:'an', q:['ELEK','IBN'], vorh:'B2'},
-  {id:'roth',   n:'N. Roth',   t:'ZSA1', s:'an', q:['MECH'], vorh:'B1'},
-  {id:'graf',   n:'E. Graf',   t:'ZSA',  s:'an', q:['SCHW','MECH'], vorh:'ktf'},
+  {id:'graf',   n:'E. Graf',   t:'ZSA',  s:'an', q:['SCHW','MECH']},
   {id:'weber',  n:'T. Weber',  t:'ZSA',  s:'an', q:['MECH','ELEK','IBN'], lead:1},
   {id:'lange',  n:'S. Lange',  t:'ZSA',  s:'an', q:['MECH']},
-  {id:'hahn',   n:'D. Hahn',   t:'ZSA',  s:'dr', q:['IBN','ELEK'], bis:'20.11.', grund:'Abnahme-Vorbereitung P-24012', vorh:'ibn'},
+  {id:'hahn',   n:'D. Hahn',   t:'ZSA',  s:'dr', q:['IBN','ELEK'], bis:'20.11.', vorh:'P-24105'},
   {id:'busch',  n:'K. Busch',  t:'ZSA',  s:'an', q:['MECH']},
   {id:'otto',   n:'F. Otto',   t:'ZSA',  s:'an', q:['MECH','SCHW']},
   {id:'kuehn',  n:'R. Kühn',   t:'ZSA',  s:'an', q:['MECH']},
+  {id:'roth',   n:'N. Roth',   t:'ZSA1', s:'an', q:['MECH']},
   {id:'wolf',   n:'A. Wolf',   t:'ZSA1', s:'an', q:['MECH','KRAN','IBN'], lead:1},
   {id:'koch',   n:'J. Koch',   t:'ZSA1', s:'an', q:['MECH']},
   {id:'braun',  n:'L. Braun',  t:'ZSA1', s:'an', q:['ELEK']},
   {id:'kraus',  n:'P. Kraus',  t:'ZSA1', s:'an', q:['MECH','KRAN']},
   {id:'engel',  n:'M. Engel',  t:'ZSA1', s:'an', q:['MECH']},
   {id:'simon',  n:'B. Simon',  t:'ZSA1', s:'an', q:['ELEK','IBN']},
-  {id:'schulz', n:'H. Schulz', t:'ZSA1', s:'ab', q:['MECH','KRAN'], grund:'Urlaub', bis:'20.11.'},
-  {id:'becker', n:'M. Becker', t:'ZSA2', s:'an', q:['MECH','ELEK'], vorh:'ktf'},
+  {id:'schulz', n:'H. Schulz', t:'ZSA1', s:'ab', q:['MECH','KRAN'], grund:'Urlaub', bis:'20.11.', vorh:'P-24117'},
+  {id:'becker', n:'M. Becker', t:'ZSA2', s:'an', q:['MECH','ELEK']},
   {id:'fuchs',  n:'O. Fuchs',  t:'ZSA2', s:'an', q:['MECH','IBN'], lead:1},
   {id:'haas',   n:'G. Haas',   t:'ZSA2', s:'an', q:['ELEK']},
   {id:'berg',   n:'I. Berg',   t:'ZSA2', s:'an', q:['MECH']},
   {id:'horn',   n:'U. Horn',   t:'ZSA2', s:'an', q:['MECH','SCHW']},
   {id:'pohl',   n:'V. Pohl',   t:'ZSA2', s:'an', q:['MECH']},
+  {id:'vogel',  n:'J. Vogel',  t:'ZSA3', s:'an', q:['MECH','KRAN']},
   {id:'frank',  n:'H. Frank',  t:'ZSA3', s:'an', q:['IBN','ELEK']},
   {id:'jung',   n:'W. Jung',   t:'ZSA3', s:'an', q:['MECH']},
   {id:'lorenz', n:'S. Lorenz', t:'ZSA3', s:'an', q:['MECH','KRAN','IBN'], lead:1},
   {id:'seidel', n:'A. Seidel', t:'ZSA3', s:'an', q:['ELEK']},
-  {id:'brandt', n:'K. Brandt', t:'ZSA3', s:'ab', q:['MECH'], grund:'Krank', seit:'18.11.', vorh:'A4'},
-  {id:'winter', n:'T. Winter', t:'ZSA3', s:'sc', q:['ELEK','IBN'], bis:'19.11.', grund:'SPS-Lehrgang', vorh:'A3'},
+  {id:'brandt', n:'K. Brandt', t:'ZSA3', s:'ab', q:['MECH'], grund:'Krank', seit:'18.11.', vorh:'P-24130'},
+  {id:'winter', n:'T. Winter', t:'ZSA3', s:'sc', q:['ELEK','IBN'], bis:'19.11.', vorh:'P-24098'},
+  {id:'kaiser', n:'C. Kaiser', t:'ZSA4', s:'an', q:['ELEK','IBN']},
   {id:'keller', n:'R. Keller', t:'ZSA4', s:'an', q:['MECH','SCHW'], lead:1},
   {id:'peters', n:'J. Peters', t:'ZSA4', s:'an', q:['MECH']},
   {id:'franke', n:'D. Franke', t:'ZSA4', s:'an', q:['ELEK']},
@@ -612,102 +580,98 @@ const MITARBEITER = [
   {id:'arnold', n:'M. Arnold', t:'ZSY/ZSC', s:'ex', q:['IBN','MECH'], bis:'04.12.'},
 ];
 const byId = Object.fromEntries(MITARBEITER.map(p=>[p.id,p]));
-const TEAMS = ['ZSA','ZSA1','ZSA2','ZSA3','ZSA4','ZSAA','ZSY/ZSC'];
 
-/* BEREICHE – Hallenraster 24×16, x/y 0-basiert, 1 Raster = 2 × 2 m, m = Maschinen-Grundriss */
-const BEREICHE = [
-  {id:'A1',x:1, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Radlager-Linie M1',b:6.5,t:4.5}},
-  {id:'A2',x:5, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Prüfstand E-Achse',b:5.0,t:3.5}},
-  {id:'A3',x:9, y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Fügezelle Rotor',b:5.5,t:4.0}},
-  {id:'A4',x:13,y:1,w:4,h:3,t:'mp',cap:6, m:{n:'Wafer-Handling',b:4.0,t:3.0}},
-  {id:'B1',x:1, y:4,w:4,h:3,t:'mp',cap:6, m:{n:'Radlager-Linie M2',b:6.5,t:4.5}},
-  {id:'B2',x:5, y:4,w:4,h:3,t:'mp',cap:4, m:{n:'Laserschweißzelle',b:6.0,t:5.0}},
-  {id:'B3',x:9, y:4,w:4,h:3,t:'mp',cap:6, frei:'27.11.'},
-  {id:'B4',x:13,y:4,w:4,h:3,t:'mp',cap:4, m:{n:'Stator-Wickler',b:5.0,t:4.0}},
-  {id:'pol',k:'POL',n:'Polieren',           x:18,y:0, w:6, h:2,t:'fb'},
-  {id:'ibn',k:'IBN',n:'IBN',                x:18,y:2, w:6, h:2,t:'fb',info:'Prüfplatz 1 belegt'},
-  {id:'qs',k:'QS', n:'QS',                 x:18,y:4, w:6, h:1,t:'fb'},
-  {id:'we',k:'WE', n:'Wareneingang',       x:18,y:5, w:6, h:3,t:'fb',info:'2 Anlieferungen heute'},
-  {id:'lag',k:'LAGER',n:'Lager',              x:18,y:8, w:6, h:2,t:'fb'},
-  {id:'ktf',k:'KTF',n:'Kleinteile&shy;fertigung',x:0,y:9,w:4,h:5,t:'fb'},
-  {id:'azu',k:'AZUBI',n:'Azubi-Projekt',      x:6, y:9, w:3, h:2,t:'sf'},
-  {id:'tl',k:'TL', n:'Teamleitung',        x:10,y:9, w:4, h:2,t:'sf'},
-  {id:'fww',k:'FWW',n:'Versuch FWW',        x:5, y:12,w:2, h:2,t:'sf'},
-  {id:'swk',k:'SWK',n:'Versuch SWK',        x:8, y:12,w:3, h:2,t:'sf'},
-  {id:'vs',k:'VERS.', n:'Versand',            x:13,y:11,w:4, h:1,t:'fb'},
-  {id:'lgm',k:'LAGER',n:'Lager (Mitte)',      x:13,y:12,w:4, h:2,t:'fb'},
-  {id:'rd',k:'R&amp;D', n:'R&amp;D',            x:4, y:15,w:20,h:1,t:'fb'},
-  {id:'umk',n:'Umkleide',           x:18,y:11,w:6, h:2,t:'in'},
-  {id:'th1',n:'Treppenhaus',        x:0, y:14,w:4, h:2,t:'in'},
-  {id:'th2',n:'Treppenhaus',        x:18,y:13,w:6, h:2,t:'in'},
-];
-const zById = id => BEREICHE.find(z=>z.id===id);
-const zName = z => (z.n||z.id).replace('&shy;','').replace('&amp;','&');
+/* Fiktive Firmen mit einfachem Logo (Bildmarke + Name) */
+const LOGO = {
+  a:{n:'ANTRIEB A',   svg:`<svg viewBox="0 0 24 24"><path d="M12 2.5 20.2 7.3v9.4L12 21.5 3.8 16.7V7.3z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/></svg>`},
+  b:{n:'E-MOBIL B',   svg:`<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor"/><path d="M13.5 4.5 7.5 13.2h4.2L10.5 19.5l6-8.7h-4.2z" fill="#fff"/></svg>`},
+  c:{n:'HALBLEITER C',svg:`<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor"/><path d="M9 2v4M12 2v4M15 2v4M9 18v4M12 18v4M15 18v4M2 9h4M2 12h4M2 15h4M18 9h4M18 12h4M18 15h4" stroke="currentColor" stroke-width="1.6"/></svg>`},
+  d:{n:'ENERGIE D',   svg:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M5 13.5c2.3-3 4.7-3 7 0s4.7 3 7 0" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>`},
+  i:{n:'SMB INTERN',  svg:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="10" y="10" width="11" height="11" rx="2" fill="currentColor"/></svg>`},
+};
 
-/* PROJEKTE – Klasse extern (Kundenmaschine in Halle) · service (beim Kunden) · intern
-   ph = geplante Phasen [Name, von, bis]; verzug in Arbeitstagen, ist:true = tatsächlich eingetreten */
+/* PROJEKTE – Art: extern (Kundenmaschine in der Halle) · intern · service (beim Kunden)
+   ph = geplante Phasen; plan/ist = Stunden; pct = Fortschritt Aufgabenpakete */
 const PHASEN = ['Vormontage','Montage','IBN','FAT','Versand','SAT'];
 const PH_KURZ = {Vormontage:'VM',Montage:'MON',IBN:'IBN',FAT:'FAT',Versand:'VS',SAT:'SAT'};
 const PROJEKTE = [
-  {nr:'P-24098',nm:'Fügezelle Rotor',     kl:'extern', c:'b',cust:'e-mobil B',   zones:['A3'],      from:'19.10.',to:'27.11.',cur:'IBN',       soll:6,q:'g',plan:1200,ist:1010,pct:78,pak:[14,18],
+  {nr:'P-24117',nm:'Radlager-Linie',     kl:'extern', c:'a', from:'02.11.',to:'18.12.',cur:'Montage',   soll:8,q:'g',plan:2400,ist:790, pct:34,pak:[11,32],
+   ph:[['Vormontage','02.11.','13.11.'],['Montage','14.11.','04.12.'],['IBN','05.12.','11.12.'],['FAT','12.12.','16.12.'],['Versand','17.12.','18.12.']]},
+  {nr:'P-24121',nm:'Prüfstand E-Achse',  kl:'extern', c:'b', from:'26.10.',to:'11.12.',cur:'Montage',   soll:4,q:'g',plan:1100,ist:500, pct:45,pak:[9,20],
+   ph:[['Vormontage','26.10.','06.11.'],['Montage','07.11.','24.11.'],['IBN','25.11.','02.12.'],['FAT','03.12.','08.12.'],['Versand','09.12.','11.12.']]},
+  {nr:'P-24098',nm:'Fügezelle Rotor',    kl:'extern', c:'b', from:'19.10.',to:'27.11.',cur:'IBN',       soll:6,q:'g',plan:1200,ist:1010,pct:78,pak:[14,18],
    verzug:{at:4,ist:true,txt:'IBN-Meilenstein 16.11. überschritten'},
    ph:[['Vormontage','19.10.','30.10.'],['Montage','31.10.','08.11.'],['IBN','09.11.','16.11.'],['FAT','17.11.','24.11.'],['Versand','25.11.','27.11.']]},
-  {nr:'P-24130',nm:'Wafer-Handling',      kl:'extern', c:'c',cust:'HALBLEITER C',zones:['A4'],      from:'09.11.',to:'29.01.',cur:'Vormontage',soll:5,q:'g',plan:1600,ist:198, pct:12,pak:[3,24],
+  {nr:'P-24130',nm:'Wafer-Handling',     kl:'extern', c:'c', from:'09.11.',to:'29.01.',cur:'Vormontage',soll:5,q:'g',plan:1600,ist:198, pct:12,pak:[3,24],
    verzug:{at:3,ist:false,txt:'Prognose durch Unterbesetzung'},
    ph:[['Vormontage','09.11.','27.11.'],['Montage','28.11.','08.01.'],['IBN','09.01.','20.01.'],['FAT','21.01.','26.01.'],['Versand','27.01.','29.01.']]},
-  {nr:'P-24105',nm:'Laserschweißzelle',   kl:'extern', c:'d',cust:'ENERGIE D',   zones:['B2'],      from:'05.10.',to:'04.12.',cur:'FAT',       soll:4,q:'g',plan:1400,ist:1360,pct:88,pak:[19,22],
+  {nr:'P-24105',nm:'Laserschweißzelle',  kl:'extern', c:'d', from:'05.10.',to:'04.12.',cur:'FAT',       soll:4,q:'g',plan:1400,ist:1360,pct:88,pak:[19,22],
    ph:[['Vormontage','05.10.','16.10.'],['Montage','17.10.','02.11.'],['IBN','03.11.','13.11.'],['FAT','14.11.','27.11.'],['Versand','28.11.','04.12.']]},
-  {nr:'P-24117',nm:'Radlager-Linie',      kl:'extern', c:'a',cust:'ANTRIEB A',   zones:['A1','B1'], from:'02.11.',to:'18.12.',cur:'Montage',   soll:8,q:'g',plan:2400,ist:790, pct:34,pak:[11,32],
-   ph:[['Vormontage','02.11.','13.11.'],['Montage','14.11.','04.12.'],['IBN','05.12.','11.12.'],['FAT','12.12.','16.12.'],['Versand','17.12.','18.12.']]},
-  {nr:'P-24121',nm:'Prüfstand E-Achse',   kl:'extern', c:'b',cust:'e-mobil B',   zones:['A2'],      from:'26.10.',to:'11.12.',cur:'Montage',   soll:4,q:'g',plan:1100,ist:500, pct:45,pak:[9,20],
-   ph:[['Vormontage','26.10.','06.11.'],['Montage','07.11.','24.11.'],['IBN','25.11.','02.12.'],['FAT','03.12.','08.12.'],['Versand','09.12.','11.12.']]},
-  {nr:'P-24126',nm:'Stator-Wickler',      kl:'extern', c:'a',cust:'ANTRIEB A',   zones:['B4'],      from:'16.11.',to:'05.02.',cur:'Vormontage',soll:2,q:'g',plan:900, ist:34,  pct:4, pak:[1,20],
+  {nr:'P-24126',nm:'Stator-Wickler',     kl:'extern', c:'a', from:'16.11.',to:'05.02.',cur:'Vormontage',soll:2,q:'g',plan:900, ist:34,  pct:4, pak:[1,20],
    ph:[['Vormontage','16.11.','11.12.'],['Montage','12.12.','15.01.'],['IBN','16.01.','27.01.'],['FAT','28.01.','02.02.'],['Versand','03.02.','05.02.']]},
-  {nr:'P-23188',nm:'Lager-Automat',       kl:'service',c:'d',cust:'ENERGIE D',   zones:[],          from:'12.10.',to:'27.11.',cur:'SAT',       soll:2,q:'g',plan:640, ist:600, pct:92,pak:[12,13],
-   ph:[['Versand','12.10.','19.10.'],['SAT','20.10.','27.11.']]},
-  {nr:'P-24012',nm:'Getriebeprüfung',     kl:'service',c:'a',cust:'ANTRIEB A',   zones:[],          from:'16.11.',to:'04.12.',cur:'Versand',   soll:1,q:'g',plan:320, ist:230, pct:70,pak:[7,10],
-   ph:[['Versand','16.11.','20.11.'],['SAT','21.11.','04.12.']]},
-  {nr:'I-26003',nm:'Versuchsstand SWK',   kl:'intern', c:'i',cust:'SMB INTERN',  zones:['swk'],     from:'01.09.',to:'18.12.',cur:'Montage',   soll:1,q:'g',plan:400, ist:250, pct:60,pak:[6,10],
+  {nr:'I-26003',nm:'Versuchsstand SWK',  kl:'intern', c:'i', from:'01.09.',to:'18.12.',cur:'Montage',   soll:4,q:'g',plan:400, ist:250, pct:60,pak:[6,10],
    ph:[['Vormontage','01.09.','30.09.'],['Montage','01.10.','27.11.'],['IBN','28.11.','18.12.']]},
-  {nr:'I-26007',nm:'Azubi Linearachse',   kl:'intern', c:'i',cust:'SMB INTERN',  zones:['azu'],     from:'05.10.',to:'29.01.',cur:'Vormontage',soll:1,q:'g',plan:300, ist:88,  pct:30,pak:[3,10],
+  {nr:'I-26007',nm:'Azubi Linearachse',  kl:'intern', c:'i', from:'05.10.',to:'29.01.',cur:'Vormontage',soll:3,q:'g',plan:300, ist:88,  pct:30,pak:[3,10],
    ph:[['Vormontage','05.10.','27.11.'],['Montage','28.11.','15.01.'],['IBN','16.01.','29.01.']]},
+  {nr:'P-23188',nm:'Lager-Automat',      kl:'service',c:'d', from:'12.10.',to:'27.11.',cur:'SAT',       soll:2,q:'g',plan:640, ist:600, pct:92,pak:[12,13],
+   ph:[['Versand','12.10.','19.10.'],['SAT','20.10.','27.11.']]},
+  {nr:'P-24012',nm:'Getriebeprüfung',    kl:'service',c:'a', from:'16.11.',to:'04.12.',cur:'Versand',   soll:1,q:'g',plan:320, ist:230, pct:70,pak:[7,10],
+   ph:[['Versand','16.11.','20.11.'],['SAT','21.11.','04.12.']]},
 ];
-const prByNr = Object.fromEntries(PROJEKTE.map(p=>[p.nr,p]));
-const KLASSEN = [['extern','Extern','Kundenprojekte in Halle'],['service','Service','beim Kunden'],['intern','Intern','']];
+const prByNr = () => Object.fromEntries(PROJEKTE.map(p=>[p.nr,p]));
+const PR = nr => PROJEKTE.find(p=>p.nr===nr);
+const KLASSEN = [['extern','Extern','Kundenmaschinen in der Halle'],['intern','Intern','eigene Projekte in der Halle'],['service','Service','beim Kunden · nicht im Hallenplan']];
 
-/* Stammdaten-Abruf per Projektnummer (fiktive ERP-Antworten) */
-const ERP = {
-  'P-24141':{nm:'Rotorfügepresse',cust:'ENERGIE D',c:'d',kl:'Extern',from:'27.11.',to:'19.02.',soll:4,plan:1300,platz:'B3'},
-  'P-24150':{nm:'Lagerprüfzelle',cust:'ANTRIEB A',c:'a',kl:'Extern',from:'11.01.',to:'26.03.',soll:3,plan:980,platz:'—'},
-};
-
-/* ZUTEILUNG – Mitarbeiter → Bereich oder (bei Service) direkt → Projekt */
+/* ZUTEILUNG – jede anwesende Person gehört zu genau einem Projekt */
 const ZUTEILUNG = {
-  wolf:'A1',koch:'A1',braun:'A1',kraus:'A1', becker:'A2',fuchs:'A2',haas:'A2',berg:'A2',
-  frank:'A3',jung:'A3', lorenz:'A4',seidel:'A4', engel:'B1',simon:'B1',horn:'B1',pohl:'B1',
-  keller:'B2',peters:'B2',franke:'B2',ludwig:'B2',boehm:'B2', sauer:'B4',voigt:'B4',
-  busch:'pol',lange:'qs',otto:'ktf',kuehn:'ktf',weber:'tl',huber:'azu',mayer:'swk',
+  wolf:'P-24117',koch:'P-24117',braun:'P-24117',kraus:'P-24117',engel:'P-24117',simon:'P-24117',horn:'P-24117',pohl:'P-24117',
+  becker:'P-24121',fuchs:'P-24121',haas:'P-24121',berg:'P-24121',
+  frank:'P-24098',jung:'P-24098',vogel:'P-24098',roth:'P-24098',graf:'P-24098',
+  lorenz:'P-24130',seidel:'P-24130',kaiser:'P-24130',
+  keller:'P-24105',peters:'P-24105',franke:'P-24105',ludwig:'P-24105',boehm:'P-24105',
+  sauer:'P-24126',voigt:'P-24126',
+  mayer:'I-26003',otto:'I-26003',busch:'I-26003',lange:'I-26003',
+  huber:'I-26007',kuehn:'I-26007',weber:'I-26007',
   stein:'P-23188',dietz:'P-23188',arnold:'P-24012'
 };
 
-/* MELDUNGEN (Benachrichtigungen) */
+/* HALLE in Metern: Umriss 60 × 50 m mit zwei Montageflächen und Hauptgang */
+const HALLE = {w:60, h:50};
+const FLAECHEN = [
+  {id:'F1', n:'Montagefläche 1', x:3,  y:4, w:25, h:42},
+  {id:'F2', n:'Montagefläche 2', x:32, y:4, w:25, h:42},
+];
+/* PLAN – Projekt → aufgezogenes Rechteck (Meter, Hallenkoordinaten) */
+let PLAN = {
+  'P-24117':{x:4, y:5, w:23,h:11},
+  'P-24121':{x:4, y:18,w:11,h:10},
+  'P-24098':{x:16,y:18,w:11,h:10},
+  'I-26003':{x:4, y:36,w:11,h:9},
+  'P-24105':{x:33,y:5, w:12,h:11},
+  'P-24126':{x:46,y:5, w:10,h:9},
+};
+
+/* Stammdaten-Abruf per Projektnummer (fiktive ERP-Antworten) */
+const ERP = {
+  'P-24141':{nm:'Rotorfügepresse',c:'d',kl:'extern',from:'27.11.',to:'19.02.',soll:4,plan:1300},
+  'P-24150':{nm:'Lagerprüfzelle', c:'a',kl:'extern',from:'11.01.',to:'26.03.',soll:3,plan:980},
+};
+
 let MELDUNGEN = [
-  {tm:'vor 1 Min.',typ:'mail', tt:'Mail an M. Becker versendet', tx:'Zuteilung A2 · P-24121 Prüfstand E-Achse ab 18.11.', neu:1},
-  {tm:'07:30',     typ:'alert',tt:'IBN-Meilenstein überschritten', tx:'P-24098 Fügezelle Rotor · Verzug +4 AT', neu:1},
-  {tm:'07:12',     typ:'alert',tt:'Krankmeldung K. Brandt', tx:'P-24130 Wafer-Handling (A4) fehlt 1 Person · Ist 2 / Soll 5 · Projektleitung informiert', neu:1},
-  {tm:'Gestern',   typ:'warn', tt:'Liefertermin-Prognose', tx:'P-24130 voraussichtlich +3 AT (Unterbesetzung)', neu:0},
+  {tm:'07:12',  typ:'alert',tt:'Krankmeldung K. Brandt', tx:'P-24130 Wafer-Handling fehlt 1 Person · Ist 3 / Soll 5 · Projektleitung informiert', neu:1},
+  {tm:'07:30',  typ:'alert',tt:'IBN-Meilenstein überschritten', tx:'P-24098 Fügezelle Rotor · Verzug +4 AT', neu:1},
+  {tm:'07:45',  typ:'warn', tt:'Projekt noch nicht im Hallenplan', tx:'P-24130 Wafer-Handling und I-26007 Azubi Linearachse haben keine Fläche', neu:1},
+  {tm:'Gestern',typ:'mail', tt:'Mail an C. Kaiser versendet', tx:'Zuteilung P-24130 Wafer-Handling ab 18.11.', neu:0},
 ];
 
-/* Laufzeit-Zustand (nur im Browser) */
-const S = { view:'board', poolTab:'an', layout:false, sel:'vogel', pop:null, fresh:'becker', reserved:null,
-            demo:{lift:'kaiser', zone:'A4'}, hist:[], kwOff:0, hl:null };
+/* Laufzeit-Zustand */
+const S = { view:'board', sel:null, focus:null, selRect:null, pop:null, ghost:null, hist:[], kwOff:0, hl:null, noClick:false };
 
 /* =============================================================================
    Hilfsfunktionen
    ============================================================================= */
 const $ = s => document.querySelector(s);
 const h = html => { const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; };
-const ini = n => n.replace('.','').split(' ').map(s=>s[0]).join('');
 const surname = n => n.split(' ').slice(1).join(' ');
 const fmt = (n,d=0) => n.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
 const D = s => { const [d,m]=s.split('.').map(Number); return new Date(m>=8?2026:2027, m-1, d); };
@@ -715,189 +679,178 @@ const dstr = d => String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1)
 function atBis(to){ let n=0; for(let x=new Date(HEUTE); x<=D(to); x.setDate(x.getDate()+1)) if(x.getDay()%6) n++; return n; }
 function plusAT(s,at){ const d=D(s); while(at>0){ d.setDate(d.getDate()+1); if(d.getDay()%6) at--; } return d; }
 const ICO = {
-  user:`<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2.5 15c.5-3.2 2.7-5 5.5-5s5 1.8 5.5 5z"/></svg>`,
-  grip:`<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="4" r="1.3"/><circle cx="11" cy="4" r="1.3"/><circle cx="5" cy="8" r="1.3"/><circle cx="11" cy="8" r="1.3"/><circle cx="5" cy="12" r="1.3"/><circle cx="11" cy="12" r="1.3"/></svg>`,
   x:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m4 4 8 8M12 4l-8 8"/></svg>`,
   mail:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>`,
   alert:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2 14.5 13.5h-13z" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.6v.1"/></svg>`,
   chev:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 3 5 5-5 5"/></svg>`,
+  pin:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke-dasharray="2.5 2"/><path d="M8 5.5v5M5.5 8h5"/></svg>`,
+  truck:`<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 4h8v7h-8zM9.5 6.5h3l2 2.5V11h-5"/><circle cx="4.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/></svg>`,
+  draw:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="9" width="30" height="24" rx="3" stroke-dasharray="4 3"/><path d="M33 29l8 8M41 37l-4 1 1-4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="9" r="2.5" fill="currentColor"/></svg>`,
 };
 
+/* Platzhalter-Portraits (generiert, keine echten Fotos) */
+function hash(s){ let x=7; for(const ch of s) x=(x*31+ch.charCodeAt(0))>>>0; return x; }
+(function portraits(){
+  const BG=['#E6E9EC','#E2E8E4','#EBE7E2','#E3E7EE'], SKIN=['#EAD3C0','#D9B79B','#BE9372','#F1DDCB'],
+        HAIR=['#3B342F','#6B4E37','#A5876A','#25272A','#8E9093'], SHIRT=['#5F6870','#48505A','#7A838B'];
+  const HS=[
+    c=>`<path d="M12.6 15.6c0-6 3.3-8.8 7.4-8.8s7.4 2.8 7.4 8.8c-1.2-2.6-3.6-4.2-7.4-4.2s-6.2 1.6-7.4 4.2z" fill="${c}"/>`,
+    c=>`<path d="M12.3 17c-.7-7 3-10.6 7.9-10.6 4.6 0 7.9 3 7.4 9.6-1.6-3.4-4.4-4.9-9.1-4.7-2.6.2-4.8 2-6.2 5.7z" fill="${c}"/>`,
+    c=>`<path d="M11.7 21c-1.6-9.4 2.5-14 8.3-14s9.9 4.6 8.3 14c-.7-4.4-1.5-6.8-2.7-7.8-3 1.7-8.3 1.7-11.3 0-1.2 1-2 3.4-2.6 7.8z" fill="${c}"/>`,
+    c=>`<path d="M13 13.4c.9-3.6 3.6-5.6 7-5.6s6.1 2 7 5.6c-2.2-1-4.5-1.4-7-1.4s-4.8.4-7 1.4z" fill="${c}"/><path d="M13.4 20.5c.9 4.8 3.4 6.4 6.6 6.4s5.7-1.6 6.6-6.4c-1.7 1.4-3.9 2-6.6 2s-4.9-.6-6.6-2z" fill="${c}" opacity=".85"/>`,
+  ];
+  let css='';
+  MITARBEITER.forEach(p=>{
+    const k=hash(p.id), shirt = p.lead ? '#006B2F' : SHIRT[(k>>6)%3];
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" fill="${BG[k%4]}"/>`+
+      `<path d="M2.5 40c1.6-8.4 8.2-12.6 17.5-12.6S35.9 31.6 37.5 40z" fill="${shirt}"/><path d="M16.6 24h6.8v5.2c-2 1.4-4.8 1.4-6.8 0z" fill="${SKIN[(k>>2)%4]}"/>`+
+      `<ellipse cx="20" cy="17.4" rx="7.3" ry="8.5" fill="${SKIN[(k>>2)%4]}"/>${HS[(k>>8)%4](HAIR[(k>>4)%5])}</svg>`;
+    css += `.ph-${p.id}{background-image:url("data:image/svg+xml,${encodeURIComponent(svg)}")}\n`;
+  });
+  const st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
+})();
+
 /* ---------- Abgeleitete Werte ---------- */
-const istAn = p => p.s==='an';
-function leuteIn(zid){ return MITARBEITER.filter(p=>istAn(p) && ZUTEILUNG[p.id]===zid); }
-function projVonZone(zid){ return PROJEKTE.find(pr=>pr.zones.includes(zid)); }
-function projVon(a){ return a ? (prByNr[a] || projVonZone(a)) : null; }
-function leuteImProjekt(pr){ return MITARBEITER.filter(p=>{ const a=ZUTEILUNG[p.id]; return a===pr.nr || (istAn(p) && pr.zones.includes(a)); }); }
-const ist = pr => leuteImProjekt(pr).length;
+const istAnw = p => p.s==='an' || p.s==='ex';
+const leute = nr => MITARBEITER.filter(p=>istAnw(p) && ZUTEILUNG[p.id]===nr);
+const ist = pr => leute(pr.nr).length;
+const imPlan = pr => !!PLAN[pr.nr];
+function flaecheVon(r){ return FLAECHEN.find(f=>r.x>=f.x && r.y>=f.y && r.x+r.w<=f.x+f.w && r.y+r.h<=f.y+f.h); }
+const hits = (a,b) => a.x < b.x+b.w && b.x < a.x+a.w && a.y < b.y+b.h && b.y < a.y+a.h;
+function freiePos(f0, w, h, cx, cy, ohne){
+  let best=null, bd=1e9;
+  [f0, ...FLAECHEN.filter(x=>x!==f0)].forEach((F,i)=>{
+    for(let y=F.y; y<=F.y+F.h-h; y++) for(let x=F.x; x<=F.x+F.w-w; x++){
+      const r={x,y,w,h}; if(!frei(r,ohne)) continue;
+      const d=(x+w/2-cx)**2+(y+h/2-cy)**2+(i?900:0); if(d<bd){ bd=d; best=r; }
+    }
+  });
+  return best;
+}
+function frei(r, ohne){ return !Object.entries(PLAN).some(([nr,o])=>nr!==ohne && hits(r,o)); }
 function forecast(pr){
-  const prog = Math.round(pr.ist / (pr.pct/100));
-  const delta = prog - pr.plan, dPct = delta/pr.plan*100;
-  const kosten = Math.max(0,delta)*STUNDENSATZ;
+  const prog = pr.pct ? Math.round(pr.ist/(pr.pct/100)) : pr.plan;
+  const delta = prog - pr.plan, dPct = delta/pr.plan*100, kosten = Math.max(0,delta)*STUNDENSATZ;
   const C = dPct<=5 ? 'g' : dPct<=15 ? 'y' : 'r';
   const Dm = pr.verzug ? (pr.verzug.ist ? 'r' : 'y') : 'g';
   const ende = pr.verzug ? plusAT(pr.to, pr.verzug.at) : D(pr.to);
   return {prog, delta, dPct, kosten, amp:pr.q+C+Dm, ende, stdPct:Math.round(pr.ist/pr.plan*100)};
 }
 const rank = pr => { const a=forecast(pr).amp; return a.includes('r')?0:a.includes('y')?1:2; };
-function absNote(p, kurz){
-  if(kurz){ if(p.s==='ab') return absNote(p); if(p.s==='ex') return `${ZUTEILUNG[p.id]||'Service'} → ${p.bis||'—'}`; return `bis ${p.bis||'—'}`; }
-  if(p.s==='ab') return p.grund==='Krank' ? `krank seit ${p.seit||dstr(HEUTE)}` : `${p.grund||'abwesend'} bis ${p.bis||'—'}`;
-  if(p.s==='ex') return `${ZUTEILUNG[p.id]||'Service'} · bis ${p.bis||'—'}`;
+function grundText(p){
+  if(p.s==='ab') return p.grund==='Krank' ? `krank seit ${p.seit||dstr(HEUTE)}` : `Urlaub bis ${p.bis||'—'}`;
   if(p.s==='dr') return `Dienstreise bis ${p.bis||'—'}`;
   if(p.s==='sc') return `Schulung bis ${p.bis||'—'}`;
+  if(p.s==='ex') return `beim Kunden bis ${p.bis||'—'}`;
   return '';
 }
-
-/* ---------- Bausteine ---------- */
-const av = (p,cls='') => `<span class="av ${p.lead?'lead':''} ${cls}">${ini(p.n)}<i class="sd ${STATUS[p.s].c}"></i></span>`;
-function pcard(p,extra=''){
-  const row2 = istAn(p) ? p.q.map(q=>`<b>${q}</b>`).join('') : `<em>${absNote(p,true)}</em>`;
-  return `<div class="pcard ${extra} ${S.sel===p.id?'selected':''}" draggable="true" data-pid="${p.id}">${av(p)}<span class="pn">${p.n}</span><span class="qb">${row2}</span></div>`;
+const why = p => p.s==='ab' ? (p.grund||'Abw.') : p.s==='dr' ? 'Reise' : 'Schulung';
+function personTip(p){
+  const pr = PR(ZUTEILUNG[p.id]);
+  return `${p.n} · ${p.t}${p.lead?' · Vorarbeiter':''}\n${STATUS[p.s].lang||STATUS[p.s].l}${istAnw(p)?'':' – '+grundText(p)}\n${pr?pr.nr+' '+pr.nm:(istAnw(p)?'ohne Projekt':'')}`;
 }
-const mcard = p => `<div class="mcard ${S.fresh===p.id?'fresh':''} ${S.sel===p.id?'selected':''}" draggable="true" data-pid="${p.id}" data-tip="${p.n} · ${p.q.join(', ')}"><i class="md ${STATUS[p.s].c}"></i><span class="mn">${surname(p.n)}</span></div>`;
+const mk = (c,cls='mk') => `<span class="${cls}">${LOGO[c].svg}</span>`;
+const foto = (p,cls='') => `<span class="ph-img ph-${p.id} ${p.lead?'lead':''} ${cls}"><i class="sd ${STATUS[p.s].c}"></i></span>`;
 
 /* =============================================================================
-   B2 – Personal
+   LINKS – Personal: Anwesend / Abwesend, je Abteilung nur Bilder
    ============================================================================= */
 function renderPool(){
-  const pool = $('#pool'); pool.innerHTML='';
-  const an = MITARBEITER.filter(istAn), abs = MITARBEITER.filter(p=>!istAn(p));
-  $('#nAn').textContent = an.length; $('#nAbs').textContent = abs.length;
-  document.querySelectorAll('#poolTabs button').forEach(b=>b.classList.toggle('on', b.dataset.v===S.poolTab));
-  if(S.poolTab==='an'){
-    const ne = an.filter(p=>!ZUTEILUNG[p.id]);
-    const cards = ne.map(p => (S.demo && S.demo.lift===p.id) ? `<div class="pcard ghost"></div>` : pcard(p)).join('');
-    pool.appendChild(h(`<div class="grp ne" id="grpNE" data-drop="ne"><div class="grp-h">NICHT EINGETEILT <b>${ne.length}</b></div>
-      <div class="cards">${cards || '<div class="grp-empty" style="grid-column:1/-1">Alle Anwesenden sind eingeteilt.</div>'}</div></div>`));
-    TEAMS.forEach(t=>{
-      const m = an.filter(p=>p.t===t && ZUTEILUNG[p.id]);
-      const weg = MITARBEITER.filter(p=>p.t===t && !istAn(p)).length;
-      const body = m.length ? `<div class="cards">${m.map(p=>pcard(p)).join('')}</div>`
-                            : `<div class="grp-empty">${weg?`Alle ${weg} im externen Einsatz – siehe „Abwesend“`:'Keine Einteilung'}</div>`;
-      pool.appendChild(h(`<div class="grp"><div class="grp-h">${t}<b>${m.length}${weg?` · ${weg} abw.`:''}</b></div>${body}</div>`));
-    });
-  } else {
-    [['ab','Abwesend · krank / Urlaub'],['ex','Externer Service'],['dr','Dienstreise'],['sc','Schulung']].forEach(([s,l])=>{
-      const m = abs.filter(p=>p.s===s);
-      pool.appendChild(h(`<div class="grp abs"><div class="grp-h"><i class="${STATUS[s].c}"></i>${l.toUpperCase()}<b>${m.length}</b></div>
-        ${m.length?`<div class="cards">${m.map(p=>pcard(p)).join('')}</div>`:'<div class="grp-empty">—</div>'}</div>`));
-    });
-    pool.appendChild(h(`<div class="grp-empty" style="padding:4px 4px 0">Karte in den Hallenplan ziehen = wieder anwesend und eingeteilt.</div>`));
-  }
+  const pool = $('#pool');
+  const an = MITARBEITER.filter(istAnw), ab = MITARBEITER.filter(p=>!istAnw(p));
+  const fokus = S.focus ? new Set(leute(S.focus).map(p=>p.id)) : null;
+  const pt = p => `<div class="pt ${istAnw(p)?'':'abs'} ${S.sel===p.id?'sel':''} ${fokus&&fokus.has(p.id)?'hit':''}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}">
+      ${foto(p)}${p.s==='ex'?'<span class="svc">SERVICE</span>':''}${istAnw(p)?'':`<span class="why ${STATUS[p.s].c}">${why(p)}</span>`}<span class="cap">${surname(p.n)}</span></div>`;
+  const depts = list => TEAMS.map(t=>{ const m=list.filter(p=>p.t===t); if(!m.length) return '';
+      return `<div class="dept ${m.length>3?'full':''}"><div class="dept-h">${t}<b>${m.length}</b></div><div class="phs">${m.map(pt).join('')}</div></div>`; }).join('');
+  const cnt = s => ab.filter(p=>p.s===s.split(':')[0] && (!s.includes(':')||p.grund===s.split(':')[1])).length;
+  const nEx = an.filter(p=>p.s==='ex').length;
+  $('#poolSub').textContent = `${MITARBEITER.length} Mitarbeitende · ${TEAMS.length} Abteilungen`;
+  pool.innerHTML = `
+    <div class="sect an ${fokus?'dim':''}" data-drop="an"><div class="sect-h"><i class="st-an"></i>Anwesend <span class="count">${an.length}</span><span class="hint">davon ${nEx} im ext. Service</span></div>
+      <div class="depts">${depts(an)}</div></div>
+    <div class="sect ab ${fokus?'dim':''}" data-drop="ab"><div class="sect-h"><i class="st-ab"></i>Abwesend <span class="count">${ab.length}</span>
+      <span class="hint" data-tip="Krank ${cnt('ab:Krank')} · Urlaub ${cnt('ab:Urlaub')} · Dienstreise ${cnt('dr')} · Schulung ${cnt('sc')}">krank, Urlaub, Reise, Schulung</span></div>
+      ${ab.length?`<div class="depts">${depts(ab)}</div>`:''}
+      <div class="drop-note">Bild hierher ziehen = abwesend melden · Person wird aus Projekt und Hallenplan genommen</div></div>`;
 }
 
 /* =============================================================================
-   B3 – Hallenplan (Belegung / Layout)
+   MITTE – Hallenplan: Umriss, zwei Montageflächen, aufgezogene Projekt-Rechtecke
    ============================================================================= */
-function renderHall(){
-  const hall = $('#hall'); hall.innerHTML='';
-  hall.classList.toggle('layout', S.layout);
-  if(S.layout) for(let y=0;y<16;y++) for(let x=0;x<24;x++){ const c=document.createElement('div'); c.className='cell'; c.style.gridArea=`${y+1}/${x+1}`; hall.appendChild(c); }
-  BEREICHE.forEach(z=>{
-    const el = document.createElement('div');
-    el.className = `zone z-${z.t}` + ((z.t!=='mp' && z.h===1)?' row1':'');
-    el.style.gridColumn = `${z.x+1} / span ${z.w}`; el.style.gridRow = `${z.y+1} / span ${z.h}`;
-    el.dataset.zone = z.id;
-    el.innerHTML = S.layout ? zoneLayout(z) : zoneBelegung(z, el);
-    if(S.layout) el.appendChild(h(`<span class="rz" data-tip="Größe ändern"></span>`));
-    hall.appendChild(el);
-    if(!S.layout && S.demo && S.demo.zone===z.id){         // Demo: Karte wird gerade auf A4 gezogen
-      el.classList.add('drop-ok');
-      el.appendChild(h(`<div class="drop-hint">▼ HIER ABLEGEN · ${leuteIn(z.id).length+1}/${z.cap}</div>`));
-      const lift = h(pcard(byId[S.demo.lift],'lifted')); lift.removeAttribute('draggable'); lift.removeAttribute('data-pid');
-      lift.style.right='-30px'; lift.style.bottom='14px'; el.appendChild(lift);
-      const tp = h(`<span class="touchpoint"></span>`); tp.style.right='8px'; tp.style.bottom='2px'; el.appendChild(tp);
-    }
+const pc = (v, of) => (v/of*100)+'%';
+const box = r => `left:${pc(r.x,HALLE.w)};top:${pc(r.y,HALLE.h)};width:${pc(r.w,HALLE.w)};height:${pc(r.h,HALLE.h)}`;
+function renderMap(){
+  const map = $('#map');
+  let html = `
+    <span class="gate" style="left:${pc(28.5,60)};width:${pc(3,60)};top:-6px"></span><span class="gate-l" style="left:50%;top:6px">TOR 1</span>
+    <span class="gate" style="left:${pc(28.5,60)};width:${pc(3,60)};bottom:-6px"></span><span class="gate-l" style="left:50%;bottom:6px">TOR 2</span>
+    <div class="aisle" style="${box({x:28,y:4,w:4,h:42})}"><span>HAUPTGANG</span></div>`;
+  FLAECHEN.forEach(f=>{
+    html += `<div class="fl" data-fl="${f.id}" style="${box(f)};background-image:linear-gradient(to right,#EEF0F2 1px,transparent 1px),linear-gradient(to bottom,#EEF0F2 1px,transparent 1px);background-size:${100/(f.w/2)}% ${100/(f.h/2)}%">
+      <span class="fl-l">${f.n}<small>${f.w} × ${f.h} m</small></span></div>`;
   });
-  if(!S.layout){
-    const a1 = h(`<div class="aisle-label">HAUPTVERKEHRSWEG</div>`); a1.style.cssText+='left:34%;top:46.4%;transform:translate(-50%,-50%)'; hall.appendChild(a1);
-    const a2 = h(`<div class="aisle-label">VERKEHRSWEG</div>`); a2.style.cssText+='left:47%;top:91.4%;transform:translate(-50%,-50%)'; hall.appendChild(a2);
-  }
-}
-function zoneBelegung(z, el){
-  if(z.t==='in') return `<div class="zl">${z.n}</div>`;
-  const people = leuteIn(z.id);
-  if(z.t==='mp'){
-    const over = people.length > z.cap; if(over) el.classList.add('over');
-    const pr = projVonZone(z.id);
-    let body;
-    if(!pr){
-      body = `<div class="mp-free"><div><small>Frei</small>frei ab ${z.frei}${S.reserved?`<br><span class="res">reserviert ${S.reserved}</span>`:''}</div></div>`;
-    } else {
-      const shown = people.length>4 ? people.slice(0,3) : people;
-      let cards = shown.map(mcard).join('');
-      if(people.length>4) cards += `<div class="more" data-tip="${people.slice(3).map(p=>p.n).join(', ')}">+${people.length-3}</div>`;
-      if(S.demo && S.demo.zone===z.id) cards += `<div class="slot"></div>`;
-      body = `<div class="mp-proj"><div class="l1"><span class="logo logo-${pr.c}">${pr.cust}</span><span class="prj">${pr.nr}</span></div><div class="kn">${pr.nm}</div></div><div class="people">${cards}</div>`;
-    }
-    return `<div class="mp-h"><b>${z.id}</b>${over?'<span class="ob">Überbelegt</span>':''}<span>${ICO.user}${people.length}/${z.cap}</span></div><div class="mp-b">${body}</div>`;
-  }
-  return `<div class="zl">${z.n}${z.h>1?`<em>${people.length||''}</em>`:''}</div>${z.info&&z.h>2?`<div class="zinfo">${z.info}</div>`:''}<div class="people">${people.map(mcard).join('')}</div>`;
-}
-function zoneLayout(z){
-  const dims = `${fmt(z.w*2)} × ${fmt(z.h*2)} m`;
-  if(z.t==='mp'){
-    const pr = projVonZone(z.id);
-    const m = z.m || (S.reserved ? {n:'Rotorfügepresse',b:4.5,t:3.5,res:1} : null);
-    let fp = `<div class="mp-free"><div><small>Frei</small>${dims}</div></div>`;
-    if(m){
-      const wp = Math.min(96, m.b/(z.w*2)*100), hp = Math.min(88, m.t/(z.h*2-1)*100);
-      fp = `<div class="fp ${m.res?'res':''}" style="width:${wp}%;height:${hp}%" data-tip="Maschinen-Grundriss ${m.n}: ${fmt(m.b,1)} × ${fmt(m.t,1)} m auf Fläche ${dims}">${m.n}<small>${fmt(m.b,1)} × ${fmt(m.t,1)} m${m.res?' · ab 27.11.':''}</small></div>`;
-    }
-    return `<div class="mp-h"><b>${z.id}</b><span style="font-size:11px;font-weight:600;color:#CFE6D8">${pr?pr.nr+' · ':''}${dims}</span></div><div class="mp-b">${fp}</div>`;
-  }
-  return `<div class="zl">${z.n}</div><div class="dim-lbl">${dims}</div>${z.t!=='in'&&z.w>=4?`<span class="grip">${ICO.grip}</span>`:''}`;
+  // Hinweis auf größter freier Zone
+  const hz = [{x:33,y:18,w:23,h:26},{x:4,y:29,w:23,h:6},{x:16,y:36,w:11,h:9}].find(z=>frei(z));
+  if(hz) html += `<div class="fl-hint" style="${box(hz)}">${ICO.draw}Rechteck aufziehen<br><span style="font-weight:600">oder Projektkarte von rechts hierher ziehen</span></div>`;
+  Object.entries(PLAN).forEach(([nr,r])=>{
+    const pr = PR(nr); if(!pr) return;
+    const ppl = leute(nr), n = ppl.length, maxAv = Math.max(1, Math.floor((r.w*16.4-80)/18));
+    const vis = ppl.length>maxAv ? maxAv-1 : maxAv;
+    const stk = ppl.slice(0,vis).map(p=>`<span class="av ph-${p.id}" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"></span>`).join('') + (ppl.length>vis?`<span class="more">+${ppl.length-vis}</span>`:'');
+    html += `<div class="pr ${pr.kl==='intern'?'in':''} ${S.selRect===nr?'sel':''} ${S.focus===nr?'focus':''}" data-nr="${nr}" style="${box(r)}" data-tip="${pr.nr} ${pr.nm} · ${LOGO[pr.c].n}\nFläche ${r.w} × ${r.h} m · Personal ${n}/${pr.soll}">
+      <span class="dim-m">${r.w} × ${r.h} m</span>
+      <div class="co">${mk(pr.c)}<b>${LOGO[pr.c].n}</b></div>
+      <div class="pn">${pr.nm}</div><div class="nr2">${nr} · ${pr.kl}</div>
+      <div class="ft"><span class="stk">${stk}</span><span class="cnt ${n<pr.soll?'under':n>pr.soll?'over':''}">${n}/${pr.soll}</span></div>
+      <button class="del" data-del="${nr}" aria-label="Aus dem Plan nehmen" data-tip="Aus dem Plan nehmen">${ICO.x}</button><span class="rz" data-tip="Größe ändern"></span></div>`;
+  });
+  if(S.ghost) html += `<div class="ghost ${S.ghost.bad?'bad':''}" style="${box(S.ghost)}">${S.ghost.w} × ${S.ghost.h} m</div>`;
+  map.innerHTML = html;
 }
 
 /* =============================================================================
-   B4 – Projekte
+   RECHTS – Projektarten (Extern · Intern · Service) mit zugeteilten Personen
    ============================================================================= */
-function tile(pr){
-  const f = forecast(pr), n = ist(pr), ppl = leuteImProjekt(pr);
-  const ratio = n/pr.soll, sCls = n>=pr.soll ? 'f-g' : (ratio<=.5 ? 'f-r' : 'f-y');
-  const vis = ppl.length>3 ? 2 : 3;
-  const stack = ppl.length ? ppl.slice(0,vis).map(p=>av(p)).join('') + (ppl.length>vis?`<span class="av plus">+${ppl.length-vis}</span>`:'') : '<span class="none">—</span>';
-  const ampTip = ['Qualität', `Kosten: Prognose ${f.dPct>=0?'+':''}${fmt(f.dPct,1)} % Std.`, ''];
-  const amp = [...f.amp].map((c,i)=>`<span class="${c}" data-tip="${i<2?ampTip[i]:'Liefertreue: '+(c==='g'?'im Zeitrahmen':c==='y'?'Verzug im Forecast':'tatsächlicher Verzug')}">${'QCD'[i]}</span>`).join('');
-  const dl = pr.verzug ? `<span class="dl ${pr.verzug.ist?'r':'y'}" data-tip="${pr.verzug.ist?'Tatsächlicher Verzug':'Prognose-Verzug'}: ${pr.verzug.txt}">+${pr.verzug.at} AT</span>` : '';
-  const loc = pr.kl==='service' ? 'beim Kunden' : pr.zones.map(z=>zName(zById(z))).join(' · ');
-  const under = n < pr.soll, late = f.stdPct > pr.pct+5, at = atBis(pr.to);
-  return `<article class="tile ${under?'under':''}" data-nr="${pr.nr}">
-    <div class="t-top"><div><div class="nm">${pr.nm}</div><div class="nr"><b>${pr.nr}</b> · ${loc}</div></div>
-      <div class="rt"><span class="logo logo-${pr.c}">${pr.cust}</span>${under?'<span class="badge-under">Unterbesetzt</span>':''}</div></div>
-    <div class="t-row"><span class="l"><span class="phase"><i style="background:var(--ph${PHASEN.indexOf(pr.cur)+1})"></i>${pr.cur}</span>${dl}</span><span class="qcd">${amp}</span></div>
-    <div class="t-row"><span class="dates">${pr.from}–${pr.to} · <b class="${at<=10?'crit':''}">noch ${at} AT</b></span><span class="stack">${stack}</span></div>
-    <div class="bars">
-      <div class="bar"><div class="bl"><b>Ist ${n} / Soll ${pr.soll}</b><span>Personal</span></div><div class="track"><i class="${sCls}" style="width:${Math.min(ratio,1)*100}%"></i></div></div>
-      <div class="bar" data-tip="Fortschritt (Aufgabenpakete ${pr.pak[0]}/${pr.pak[1]}): ${pr.pct} %\nGebuchte Std.: ${fmt(pr.ist)} von ${fmt(pr.plan)} h = ${f.stdPct} %\nStrich = Stundenverbrauch"><div class="bl"><span><b>${pr.pct} %</b> fertig</span><span class="sm ${late?'late':''}">Std ${f.stdPct} %</span></div>
-        <div class="track"><i class="f-n" style="width:${pr.pct}%"></i><span class="tick" style="left:${Math.min(f.stdPct,100)}%"></span></div></div>
-    </div></article>`;
-}
 function renderProjects(){
-  const box = $('#proj'); box.innerHTML='';
-  $('#projSub').textContent = `${PROJEKTE.length} aktiv${S.reserved?' · 1 geplant':''}`;
-  KLASSEN.forEach(([k,label,hint])=>{
-    const list = PROJEKTE.filter(p=>p.kl===k).sort((a,b)=>rank(a)-rank(b) || atBis(a.to)-atBis(b.to));
-    box.appendChild(h(`<div class="sec"><div class="sec-h"><h3>${label}</h3><span class="count">${list.length}</span>${hint?`<span class="hint">${hint}</span>`:''}</div>
-      <div class="tiles">${list.map(tile).join('')}</div></div>`));
+  const box2 = $('#proj');
+  const ohne = MITARBEITER.filter(p=>istAnw(p) && !ZUTEILUNG[p.id]);
+  const nPlan = PROJEKTE.filter(p=>p.kl!=='service' && imPlan(p)).length, nHalle = PROJEKTE.filter(p=>p.kl!=='service').length;
+  $('#projSub').textContent = `${PROJEKTE.length} aktiv · ${nPlan}/${nHalle} im Hallenplan`;
+  let html = `<div class="ohne ${ohne.length?'has':''}" id="ohne" data-drop="ohne"><span class="l">Ohne Projekt</span>
+    ${ohne.length ? ohne.map(p=>`<span class="ph-img ph-${p.id}" style="width:28px;height:28px" draggable="true" data-pid="${p.id}" data-tip="${personTip(p)}"><i class="sd ${STATUS[p.s].c}"></i></span>`).join('') : '<span class="t">alle Anwesenden sind einem Projekt zugeteilt</span>'}</div>`;
+  KLASSEN.forEach(([k,l,hint])=>{
+    const list = PROJEKTE.filter(p=>p.kl===k);
+    html += `<div class="sec"><div class="sec-h"><h3>${l}</h3><span class="count">${list.length}</span><span class="hint">${hint}</span></div><div class="cards">${list.map(card).join('')}</div></div>`;
   });
+  box2.innerHTML = html;
+}
+function card(pr){
+  const ppl = leute(pr.nr), n = ppl.length, vis = ppl.length>7 ? 6 : 7;
+  const tag = pr.kl==='service' ? `<span class="tag kunde">${ICO.truck}beim Kunden</span>`
+            : imPlan(pr) ? '' : `<span class="tag plan" data-tip="Noch keine Fläche im Hallenplan – Karte auf eine Montagefläche ziehen oder Rechteck aufziehen">${ICO.pin}nicht im Plan</span>`;
+  return `<article class="pc ${n<pr.soll?'under':''} ${S.focus===pr.nr?'focus':''}" data-nr="${pr.nr}" draggable="${pr.kl!=='service'}" data-tip="${pr.nr} ${pr.nm} · Phase ${pr.cur} · bis ${pr.to}${pr.kl!=='service'?'\nKarte auf eine Montagefläche ziehen = platzieren':''}">
+    <div class="co">${mk(pr.c)}<b>${LOGO[pr.c].n}</b><span class="nr">${pr.nr}</span></div>
+    <div class="pn"><span>${pr.nm}</span><span class="cnt ${n<pr.soll?'under':n>pr.soll?'over':''}" data-tip="Personal Ist ${n} / Soll ${pr.soll}">${n}/${pr.soll}</span></div>
+    <div class="ppl">${ppl.slice(0,vis).map(p=>foto(p).replace('class="ph-img','draggable="true" data-pid="'+p.id+'" data-tip="'+personTip(p)+'" class="ph-img')).join('') || '<span class="none">keine Person zugeteilt</span>'}${ppl.length>vis?`<span class="none" style="font-weight:800">+${ppl.length-vis}</span>`:''}</div>
+    ${tag}</article>`;
 }
 
 /* =============================================================================
-   B5 – Kennzahlen, Meldungen
+   Fußleiste – Kennzahlen, Meldungen
    ============================================================================= */
 function renderKPIs(){
-  const an = MITARBEITER.filter(istAn).length, ne = MITARBEITER.filter(p=>istAn(p)&&!ZUTEILUNG[p.id]).length;
-  const under = PROJEKTE.filter(p=>ist(p)<p.soll).length, rot = PROJEKTE.filter(p=>forecast(p).amp.includes('r')).length;
+  const an = MITARBEITER.filter(istAnw).length, ohne = MITARBEITER.filter(p=>istAnw(p)&&!ZUTEILUNG[p.id]).length;
+  const under = PROJEKTE.filter(p=>ist(p)<p.soll).length, np = PROJEKTE.filter(p=>p.kl!=='service'&&!imPlan(p)).length;
+  const rot = PROJEKTE.filter(p=>forecast(p).amp.includes('r')).length;
   $('#kpis').innerHTML = `
     <button class="kpi" data-k="an"><span class="dot st-an"></span><span class="k">Anwesend</span><span class="v">${an}<small>/${MITARBEITER.length}</small></span>${ICO.chev}</button>
-    <button class="kpi" data-k="ne"><span class="k">Nicht eingeteilt</span><span class="v">${ne}</span>${ICO.chev}</button>
+    <button class="kpi" data-k="ohne"><span class="k">Ohne Projekt</span><span class="v">${ohne}</span>${ICO.chev}</button>
     <button class="kpi" data-k="under"><span class="k">Unterbesetzt</span><span class="v">${under}</span>${ICO.chev}</button>
+    <button class="kpi" data-k="plan"><span class="k">Nicht im Plan</span><span class="v">${np}</span>${ICO.chev}</button>
     <button class="kpi" data-k="rot"><span class="dot st-ab"></span><span class="k">Rote Ampel</span><span class="v">${rot}</span>${ICO.chev}</button>
     <button class="kpi alert" data-k="mn"><span class="k">Maßnahmen überfällig</span><span class="v">3</span>${ICO.chev}</button>`;
-  const n = MELDUNGEN.filter(m=>m.neu).length;
-  $('#bellN').textContent = n; $('#bellN').hidden = !n;
+  const n = MELDUNGEN.filter(m=>m.neu).length; $('#bellN').textContent = n; $('#bellN').hidden = !n;
 }
 function renderBell(){
   const m = $('#bellMenu');
@@ -911,141 +864,142 @@ function renderBell(){
 function melde(typ, tt, tx){ MELDUNGEN.unshift({tm:new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}),typ,tt,tx,neu:1}); }
 
 /* =============================================================================
-   Personen-Pop-up: Einsatz, Auslastung, Status setzen
+   Pop-ups: Person (Einsatz, Auslastung, Status) und Projekt platzieren
    ============================================================================= */
-function code(a){ if(!a) return null; const z=zById(a); return z ? (z.t==='mp'?a:(z.k||z.id).replace('&amp;','&')) : a; }
+const STATUS_BTN = [['an',null,'Anwesend'],['ex',null,'Ext.<br>Service'],['ab','Krank','Krank'],['ab','Urlaub','Urlaub'],['dr',null,'Dienst-<br>reise'],['sc',null,'Schulung']];
 function wochenplan(p){
-  const jetzt = code(ZUTEILUNG[p.id]), vorher = code(p.vorh) || jetzt;
-  const plan = [8,8,8,8,6];
+  const kurz = nr => nr ? nr.replace('P-','').replace('I-','I-') : '—';
+  const jetzt = kurz(ZUTEILUNG[p.id]), vorher = kurz(p.vorh||ZUTEILUNG[p.id]);
   return ['Mo','Di','Mi','Do','Fr'].map((d,i)=>{
-    let c, hrs = plan[i], cls = i<2 ? '' : i===2 ? 'today' : 'plan';
-    if(i<2) c = vorher || '—';
-    else if(!istAn(p) && p.s!=='ex'){ c = p.s==='ab' ? (p.grund||'Abw.').toUpperCase() : STATUS[p.s].l.toUpperCase(); cls+=' off'; hrs=0; }
-    else c = jetzt || '—';
+    const plan = i===4 ? 6 : 8; let c, hrs = plan, cls = i<2 ? '' : i===2 ? 'today' : 'plan';
+    if(i<2) c = vorher;
+    else if(!istAnw(p)){ c = why(p).toUpperCase(); cls += ' off'; hrs = 0; }
+    else c = jetzt;
     if(c==='—'){ cls+=' free'; hrs=0; }
-    return {d, c, h:hrs, cls};
+    return {d,c,h:hrs,cls};
   });
 }
-function popHTML(){
-  const P = S.pop, p = byId[P.pid], a = ZUTEILUNG[p.id], pr = projVon(a), z = a && zById(a);
-  const wk = wochenplan(p), eingeplant = wk.reduce((s,x)=>s+x.h,0), ausl = Math.round(eingeplant/38*100);
-  const gebucht = wk[0].h + wk[1].h + (wk[2].h ? 4.5 : 0);
+function personPop(){
+  const P = S.pop, p = byId[P.pid], nr = ZUTEILUNG[p.id], pr = PR(nr);
+  const wk = wochenplan(p), eing = wk.reduce((s,x)=>s+x.h,0), ausl = Math.round(eing/38*100), geb = wk[0].h+wk[1].h+(wk[2].h?4.5:0);
   let einsatz;
   if(pr){
-    const f = forecast(pr), n = ist(pr);
-    einsatz = `<div class="einsatz"><div class="r1">${z?`<span class="zchip ${z.t!=='mp'?'fb':''}">${zName(z)}</span>`:''}<span class="nm2">${pr.nm}</span><span class="kl" style="margin-left:auto">${pr.kl}</span></div>
-      <div class="r2"><span>${pr.nr} · Phase ${pr.cur} · bis ${pr.to}</span><span class="qcd">${[...f.amp].map((c,i)=>`<span class="${c}" style="width:20px;height:20px;font-size:10px">${'QCD'[i]}</span>`).join('')}</span></div>
-      <div class="r2"><span>Personal Ist ${n} / Soll ${pr.soll}</span><span>${pr.pct} % erledigt</span></div></div>`;
-  } else if(z){
-    einsatz = `<div class="einsatz"><div class="r1"><span class="zchip fb">${zName(z)}</span><span class="nm2">${{fb:'Funktionsbereich',sf:'Sonderfläche'}[z.t]||''}</span></div></div>`;
-  } else if(istAn(p)){
-    const vor = PROJEKTE.filter(x=>x.zones.length && zById(x.zones[0]).t==='mp' && ist(x)<x.soll);
-    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">Nicht eingeteilt</span><span class="kl" style="margin-left:auto">frei verfügbar</span></div>
-      <div class="r2"><span>Vorschlag: unterbesetzte Projekte – antippen oder Zone im Plan wählen</span></div>
-      <div class="sugg">${vor.map(x=>`<button data-assign="${x.zones[0]}">${x.zones[0]} · ${x.nr}<span style="font-weight:600">fehlt ${x.soll-ist(x)}</span></button>`).join('')}</div></div>`;
+    const r = PLAN[pr.nr], f = r && flaecheVon(r);
+    einsatz = `<div class="einsatz"><div class="r1">${mk(pr.c,'mk" style="width:24px;height:24px')}<span class="nm2">${pr.nm}</span><span class="kl" style="margin-left:auto">${pr.kl}</span></div>
+      <div class="r2"><span>${LOGO[pr.c].n} · ${pr.nr} · Phase ${pr.cur}</span><span>Ist ${ist(pr)} / Soll ${pr.soll}</span></div>
+      <div class="r2"><span>${pr.kl==='service'?'beim Kunden – nicht im Hallenplan':f?`Hallenplan: ${f.n} (${r.w} × ${r.h} m)`:'noch nicht im Hallenplan platziert'}</span></div></div>`;
+  } else if(istAnw(p)){
+    const vor = PROJEKTE.filter(x=>x.kl!=='service' && ist(x)<x.soll);
+    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">Ohne Projekt</span>${p.vorh?`<span class="kl" style="margin-left:auto">vorher ${p.vorh}</span>`:''}</div>
+      <div class="r2"><span>Zuteilen – unterbesetzte Projekte zuerst:</span></div>
+      <div class="sugg">${(p.vorh&&PR(p.vorh)?[PR(p.vorh),...vor.filter(x=>x.nr!==p.vorh)]:vor).slice(0,4).map(x=>`<button data-assign="${x.nr}">${x.nr}<span style="font-weight:600">${x.soll-ist(x)>0?'fehlt '+(x.soll-ist(x)):'zurück'}</span></button>`).join('')}</div></div>`;
   } else {
-    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">Kein Einsatz in der Halle</span></div><div class="r2"><span>${absNote(p)}${p.grund&&p.s!=='ab'?' · '+p.grund:''}</span></div></div>`;
+    einsatz = `<div class="einsatz"><div class="r1"><span class="nm2">${STATUS[p.s].lang||STATUS[p.s].l}</span></div><div class="r2"><span>${grundText(p)}${p.vorh?' · vorher '+p.vorh:''}</span></div></div>`;
   }
+  const isCur = ([s,g]) => p.s===s && (s!=='ab' || p.grund===g);
+  const btns = STATUS_BTN.map(b=>`<button data-st="${b[0]}" data-g="${b[1]||''}" class="${isCur(b)?'cur':''} ${P.pending&&P.pending[0]===b[0]&&(P.pending[1]||'')===(b[1]||'')?'pend':''}"><i class="${STATUS[b[0]].c}"></i>${b[2]}</button>`).join('');
+  let opts='', conseq='';
   const pend = P.pending;
-  const btns = Object.entries(STATUS).map(([k,v])=>`<button data-st="${k}" class="${p.s===k?'cur':''} ${pend===k?'pend':''}"><i class="${v.c}"></i>${v.l.replace('Ext. ','Ext.<br>')}</button>`).join('');
-  let opts = '', conseq = '';
-  if(pend && pend!==p.s){
-    if(pend==='ab') opts = `<div class="chips">${['Krank','Urlaub','Sonstiges'].map(g=>`<button data-grund="${g}" class="${P.grund===g?'on':''}">${g}</button>`).join('')}</div>`;
-    if(pend==='ex') opts = `<div><div class="pl">Neu zuteilen – Projektklasse Service</div><div class="chips">${PROJEKTE.filter(x=>x.kl==='service').map(x=>`<button data-target="${x.nr}" class="${P.target===x.nr?'on':''}">${x.nr} ${x.nm}</button>`).join('')}</div></div>`;
-    if(pend!=='an') opts += `<div class="chips">${['bis heute','bis Fr 20.11.','bis 27.11.','offen'].map(b=>`<button data-bis="${b}" class="${P.bis===b?'on':''}">${b}</button>`).join('')}</div>`;
-    const items = [];
-    if(pend==='an') items.push(`Status <b>Anwesend</b> – Karte erscheint unter „Nicht eingeteilt“`);
-    else {
-      if(z) items.push(`Wird aus <b>${zName(z)}</b> im Hallenplan entfernt`);
-      if(pr && !(pend==='ex' && P.target===pr.nr)){ const n=ist(pr); items.push(`Kapazität <b>${pr.nr}</b>: Ist ${n} → <b>${n-1}</b> / Soll ${pr.soll}${n-1<pr.soll?' · <b>unterbesetzt</b>':''}`); items.push('Projektleitung wird benachrichtigt'); }
-      if(pend==='ex' && P.target) items.push(`Neu zugeteilt: <b>${P.target}</b> (Service) · Mail an Mitarbeiter`);
-      items.push(`Wochenplan ab heute: <b>${STATUS[pend].lang||STATUS[pend].l}</b>`);
-    }
-    conseq = `<div class="conseq">Auswirkung<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+  if(pend){
+    const [s] = pend;
+    if(s==='ex') opts = `<div><div class="pl">Service-Projekt wählen</div><div class="chips">${PROJEKTE.filter(x=>x.kl==='service').map(x=>`<button data-target="${x.nr}" class="${P.target===x.nr?'on':''}">${x.nr} ${x.nm}</button>`).join('')}</div></div>`;
+    if(s!=='an') opts += `<div class="chips">${['bis heute','bis Fr 20.11.','bis 27.11.','offen'].map(b=>`<button data-bis="${b}" class="${P.bis===b?'on':''}">${b}</button>`).join('')}</div>`;
+    const it = [];
+    if(s==='an'){ it.push(istAnw(p)?'bleibt anwesend':`wieder <b>anwesend</b> – erscheint unter „Ohne Projekt“${p.vorh?', Vorschlag: zurück zu <b>'+p.vorh+'</b>':''}`); }
+    else if(s==='ex'){ if(pr && pr.kl!=='service') it.push(`Wird aus <b>${pr.nr}</b> genommen: Ist ${ist(pr)} → <b>${ist(pr)-1}</b> / Soll ${pr.soll}`);
+      it.push(`zählt weiter als <b>anwesend</b>, ist aber <b>nicht im Hallenplan</b>`); if(P.target) it.push(`neu zugeteilt: <b>${P.target}</b> · Mail an Mitarbeiter`); }
+    else { if(pr){ it.push(`Wird aus <b>${pr.nr} ${pr.nm}</b> und dem Hallenplan genommen`); it.push(`Kapazität: Ist ${ist(pr)} → <b>${ist(pr)-1}</b> / Soll ${pr.soll}${ist(pr)-1<pr.soll?' · <b>unterbesetzt</b>':''}`); it.push('Projektleitung wird benachrichtigt'); }
+      it.push(`erscheint links unter <b>Abwesend</b>`); }
+    conseq = `<div class="conseq">Auswirkung<ul>${it.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
   }
-  const canApply = pend && pend!==p.s && !(pend==='ex' && !P.target);
+  const ok = pend && !(pend[0]==='ex' && !P.target);
   return `
-    <div class="pop-h">${av(p)}<div><div class="nm">${p.n}</div><div class="meta">${p.t} · ${p.lead?'Vorarbeiter':'Monteur'} · ${p.q.join(' · ')}</div></div>
+    <div class="pop-h">${foto(p).replace('class="ph-img','style="width:52px;height:52px;border-radius:8px" class="ph-img')}<div><div class="nm">${p.n}</div><div class="meta">${p.t} · ${p.lead?'Vorarbeiter':'Monteur'} · ${p.q.join(' · ')}</div></div>
       <button class="icon-btn x" data-close aria-label="Schließen">${ICO.x}</button></div>
-    <div><div class="pl">Status</div><div class="statline"><i class="${STATUS[p.s].c}"></i>${STATUS[p.s].lang||STATUS[p.s].l}<span>${istAn(p)?'· eingestempelt 06:02':'· '+absNote(p)}</span></div></div>
-    <div><div class="pl">Aktueller Einsatz</div>${einsatz}</div>
+    <div><div class="pl">Status</div><div class="statline"><i class="${STATUS[p.s].c}"></i>${STATUS[p.s].lang||STATUS[p.s].l}<span>${p.s==='an'?'· eingestempelt 06:02':'· '+grundText(p)}</span></div></div>
+    <div><div class="pl">Projekt</div>${einsatz}</div>
     <div><div class="pl">Auslastung KW 47 <span>eingeplant ÷ Soll-Arbeitszeit</span></div>
-      <div class="ausl"><span class="big">${ausl}<small> %</small></span><div class="tr"><div class="track"><i class="${ausl>=90?'f-g':ausl>=60?'f-y':'f-r'}" style="width:${Math.min(ausl,100)}%"></i></div>
-        <div><span>${fmt(eingeplant,1)} von 38,0 h eingeplant</span><span>gebucht: ${fmt(gebucht,1)} h</span></div></div></div>
+      <div class="ausl"><span class="big">${ausl}<small> %</small></span><div class="tr"><div class="track" style="height:10px"><i class="${ausl>=90?'f-g':ausl>=60?'f-y':'f-r'}" style="width:${Math.min(ausl,100)}%"></i></div>
+        <div><span>${fmt(eing,1)} von 38,0 h eingeplant</span><span>gebucht: ${fmt(geb,1)} h</span></div></div></div>
       <div class="week">${wk.map(x=>`<div class="day ${x.cls}"><span class="d">${x.d}${x.cls.includes('today')?' · HEUTE':''}</span><span class="c">${x.c}</span><span class="h">${x.h?fmt(x.h,1)+' h':'—'}</span></div>`).join('')}</div></div>
-    <div><div class="pl">Status setzen <span>oder Karte auf „Abwesend“ ziehen</span></div><div class="stbtns">${btns}</div></div>
+    <div><div class="pl">Status setzen <span>oder Bild nach links auf „Abwesend“ ziehen</span></div><div class="stbtns" style="grid-template-columns:repeat(6,1fr)">${btns}</div></div>
     ${opts}${conseq}
-    <div class="pop-f">${istAn(p)&&a&&!pend?`<button class="btn lft" data-unassign>Zuteilung aufheben</button><button class="btn" data-mail>${ICO.mail}Einsatzplan mailen</button>`:''}
-      ${pend&&pend!==p.s?`<button class="btn" data-cancel>Abbrechen</button><button class="btn pri" data-apply ${canApply?'':'disabled'}>Übernehmen</button>`:''}</div>`;
+    <div class="pop-f">${!pend&&istAnw(p)&&nr?`<button class="btn lft" data-unassign>Vom Projekt lösen</button><button class="btn" data-mail>${ICO.mail}Einsatzplan mailen</button>`:''}
+      ${pend?`<button class="btn" data-cancel>Abbrechen</button><button class="btn pri" data-apply ${ok?'':'disabled'}>Übernehmen</button>`:''}</div>`;
 }
-function openPop(pid, anchor, pending){
-  S.pop = {pid, pending:pending||null, grund:'Krank', target:null, bis:'offen'};
-  $('#snack').classList.add('hide');
+function placePop(){
+  const r = S.ghost, f = flaecheVon(r);
+  const list = PROJEKTE.filter(p=>p.kl!=='service').sort((a,b)=>imPlan(a)-imPlan(b));
+  return `<div class="pop-h"><div><div class="nm">Projekt platzieren</div><div class="meta">${f?f.n:''} · ${r.w} × ${r.h} m = ${r.w*r.h} m²</div></div>
+      <button class="icon-btn x" data-close aria-label="Abbrechen">${ICO.x}</button></div>
+    <div class="plist">${list.map(p=>`<button data-place="${p.nr}">${mk(p.c)}<span class="tx"><b>${p.nm}</b><span>${LOGO[p.c].n} · ${p.nr}</span></span>
+      <span class="st ${imPlan(p)?'mv':'neu'}">${imPlan(p)?'hierher verschieben':'nicht im Plan'}</span></button>`).join('')}</div>`;
+}
+function openPop(kind, anchorRect, extra){
+  S.pop = Object.assign({kind, bis:'offen'}, extra||{});
   const st = $('#stage').getBoundingClientRect(), s = scale();
-  const r = anchor ? anchor.getBoundingClientRect() : {left:st.left+400*s,right:st.left+500*s,top:st.top+200*s};
-  S.pop.ax = (r.right-st.left)/s; S.pop.al = (r.left-st.left)/s; S.pop.ay = (r.top-st.top)/s;
-  renderPop();
+  S.pop.ax = (anchorRect.right-st.left)/s; S.pop.al = (anchorRect.left-st.left)/s; S.pop.ay = (anchorRect.top-st.top)/s;
+  $('#snack').classList.add('hide'); renderPop();
 }
 function renderPop(){
-  const el = $('#pop');
-  if(!S.pop){ el.hidden = true; return; }
-  el.innerHTML = popHTML(); el.hidden = false;
-  const w = 388, hgt = el.offsetHeight;
-  let left = S.pop.ax + 12; if(left + w > 1904) left = S.pop.al - w - 12;
-  el.style.left = left+'px'; el.style.top = Math.max(112, Math.min(S.pop.ay - 24, 1080 - 60 - hgt))+'px';
+  const el = $('#pop'); if(!S.pop){ el.hidden = true; return; }
+  el.innerHTML = S.pop.kind==='person' ? personPop() : placePop(); el.hidden = false;
+  el.style.width = S.pop.kind==='person' ? '420px' : '380px';
+  const w = el.offsetWidth, hgt = el.offsetHeight;
+  let left = S.pop.ax + 12; if(left + w > 1904) left = S.pop.al - w - 12; if(left < 16) left = 16;
+  el.style.left = left+'px'; el.style.top = Math.max(76, Math.min(S.pop.ay - 24, 1080 - 60 - hgt))+'px';
 }
-function closePop(){ S.pop = null; renderPop(); }
+function closePop(){ if(S.pop && S.pop.kind==='place'){ S.ghost=null; renderMap(); } S.pop = null; renderPop(); }
 
 /* =============================================================================
    Aktionen (mit Rückgängig)
    ============================================================================= */
-function snapshot(){ S.hist.push(JSON.stringify({z:ZUTEILUNG, p:MITARBEITER.map(p=>({s:p.s,grund:p.grund??null,bis:p.bis??null,seit:p.seit??null})), m:MELDUNGEN})); }
+function snapshot(){ S.hist.push(JSON.stringify({z:ZUTEILUNG, p:MITARBEITER.map(p=>({s:p.s,grund:p.grund??null,bis:p.bis??null,seit:p.seit??null,vorh:p.vorh??null})), plan:PLAN, m:MELDUNGEN})); }
 function undo(){
-  const last = S.hist.pop(); if(!last) return;
-  const o = JSON.parse(last);
+  const last = S.hist.pop(); if(!last) return; const o = JSON.parse(last);
   Object.keys(ZUTEILUNG).forEach(k=>delete ZUTEILUNG[k]); Object.assign(ZUTEILUNG, o.z);
-  MITARBEITER.forEach((p,i)=>Object.assign(p, o.p[i])); MELDUNGEN = o.m;
-  renderAll();
+  MITARBEITER.forEach((p,i)=>Object.assign(p, o.p[i])); PLAN = o.plan; MELDUNGEN = o.m; renderAll();
 }
-function zuteilen(pid, zid){
-  const p = byId[pid], z = zById(zid); if(!p || !z) return;
-  if(ZUTEILUNG[pid]===zid && istAn(p)) return;
+function zuteilen(pid, nr){
+  const p = byId[pid], pr = PR(nr); if(!p||!pr) return;
+  if(ZUTEILUNG[pid]===nr && istAnw(p)) return;
   snapshot();
-  const warAbw = !istAn(p);
-  if(warAbw){ p.s='an'; p.grund=p.bis=p.seit=null; }
-  ZUTEILUNG[pid] = zid; S.fresh = pid; S.sel = null; S.demo = null; closePop();
-  const pr = projVonZone(zid);
-  melde('mail', `Mail an ${p.n} versendet`, `Zuteilung ${zName(z)}${pr?' · '+pr.nr+' '+pr.nm:''} ab ${dstr(HEUTE)}`);
-  snack(`<b>${p.n}</b> → ${zName(z)} eingeteilt${warAbw?' (wieder anwesend)':''} <span class="mail">· ✉ Mitarbeiter informiert</span>`);
-  renderAll(); setTimeout(()=>{ if(S.fresh===pid) S.fresh=null; }, 2500);
-}
-function aufheben(pid){
-  const p = byId[pid]; if(!ZUTEILUNG[pid] && istAn(p)) return;
-  snapshot(); const a = ZUTEILUNG[pid]; delete ZUTEILUNG[pid];
-  const warAbw = !istAn(p); if(warAbw){ p.s='an'; p.grund=p.bis=p.seit=null; }
-  S.sel=null; S.demo=null; closePop();
-  snack(`<b>${p.n}</b> → ${warAbw?'wieder anwesend · ':''}nicht eingeteilt${a&&!warAbw?` (vorher ${zById(a)?zName(zById(a)):a})`:''}`);
+  const warAbw = !istAnw(p);
+  if(ZUTEILUNG[pid]) p.vorh = ZUTEILUNG[pid];
+  p.s = pr.kl==='service' ? 'ex' : 'an'; if(warAbw||p.s==='an'){ p.grund=p.seit=null; } if(p.s==='an') p.bis=null; if(p.s==='ex'&&!p.bis) p.bis='offen';
+  ZUTEILUNG[pid] = nr; S.sel = null; closePop();
+  melde('mail', `Mail an ${p.n} versendet`, `Zuteilung ${pr.nr} ${pr.nm}${pr.kl==='service'?' (externer Service)':''} ab ${dstr(HEUTE)}`);
+  snack(`<b>${p.n}</b> → ${pr.nr} ${pr.nm}${warAbw?' (wieder anwesend)':''} <span class="mail">· ✉ Mitarbeiter informiert</span>`);
   renderAll();
 }
-function setzeStatus(pid, s, o){
+function loesen(pid){
   const p = byId[pid]; snapshot();
-  const a = ZUTEILUNG[pid], pr = projVon(a), z = a && zById(a);
-  p.s = s;
-  p.grund = s==='ab' ? o.grund : null;
-  p.seit = s==='ab' && o.grund==='Krank' ? dstr(HEUTE) : null;
-  p.bis = s==='an' ? null : ({'bis heute':dstr(HEUTE),'bis Fr 20.11.':'20.11.','bis 27.11.':'27.11.','offen':'offen'}[o.bis]||'offen');
-  if(s==='an'){ if(a && prByNr[a]) delete ZUTEILUNG[pid]; }
-  else { delete ZUTEILUNG[pid]; if(s==='ex' && o.target) ZUTEILUNG[pid] = o.target; }
-  let extra = '';
-  if(s!=='an' && pr && !(s==='ex' && o.target===pr.nr)){
-    melde('alert', `${s==='ab'?o.grund+'meldung':STATUS[s].lang||STATUS[s].l}: ${p.n}`, `${pr.nr} ${pr.nm}${z?' ('+zName(z)+')':''} fehlt 1 Person · Ist ${ist(pr)} / Soll ${pr.soll} · Projektleitung informiert`);
-    extra = ` · aus ${pr.nr} entfernt <span class="mail">· PL benachrichtigt</span>`;
-  }
-  if(s==='ex' && o.target) melde('mail', `Mail an ${p.n} versendet`, `Externer Service ${o.target} ${prByNr[o.target].nm}`);
-  S.sel = null; S.demo = null; closePop();
-  snack(`<b>${p.n}</b> → ${s==='ab'?o.grund:STATUS[s].lang||STATUS[s].l}${extra}`, s!=='an');
-  renderAll();
+  const warAbw = !istAnw(p); if(ZUTEILUNG[pid]) p.vorh = ZUTEILUNG[pid];
+  delete ZUTEILUNG[pid]; p.s='an'; p.grund=p.bis=p.seit=null; S.sel=null; closePop();
+  snack(`<b>${p.n}</b> → ${warAbw?'wieder anwesend · ':''}ohne Projekt`); renderAll();
 }
+function setzeStatus(pid, s, g, o){
+  if(s==='an'){ loesen(pid); return; }
+  if(s==='ex'){ zuteilen(pid, o.target); return; }
+  const p = byId[pid]; snapshot();
+  const pr = PR(ZUTEILUNG[pid]);
+  if(ZUTEILUNG[pid]) p.vorh = ZUTEILUNG[pid];
+  delete ZUTEILUNG[pid];
+  p.s = s; p.grund = s==='ab' ? g : null; p.seit = (s==='ab'&&g==='Krank') ? dstr(HEUTE) : null;
+  p.bis = ({'bis heute':dstr(HEUTE),'bis Fr 20.11.':'20.11.','bis 27.11.':'27.11.'}[o.bis]) || 'offen';
+  const lbl = s==='ab' ? g : STATUS[s].l;
+  let extra = '';
+  if(pr){ melde('alert', `${lbl}: ${p.n}`, `${pr.nr} ${pr.nm} fehlt 1 Person · Ist ${ist(pr)} / Soll ${pr.soll} · Projektleitung informiert`);
+          extra = ` · aus ${pr.nr} genommen <span class="mail">· PL benachrichtigt</span>`; }
+  S.sel = null; closePop(); snack(`<b>${p.n}</b> → ${lbl}${extra}`, true); renderAll();
+}
+function platzieren(nr, r){
+  const pr = PR(nr); snapshot(); const war = !!PLAN[nr];
+  PLAN[nr] = {x:r.x,y:r.y,w:r.w,h:r.h}; S.ghost = null; S.selRect = nr; closePop();
+  const f = flaecheVon(r);
+  snack(`<b>${pr.nr} ${pr.nm}</b> → ${f.n} ${war?'verschoben':'platziert'} (${r.w} × ${r.h} m)`); renderAll();
+}
+function ausPlan(nr){ const pr=PR(nr); snapshot(); delete PLAN[nr]; S.selRect=null; snack(`<b>${pr.nr} ${pr.nm}</b> aus dem Hallenplan genommen`, true); renderAll(); }
 
 /* ---------- Snackbar / Toast / Tooltip ---------- */
 let snackT, toastT;
@@ -1184,7 +1138,7 @@ function renderAuswertung(){
       <text x="${x+w/2}" y="${SH-5}" font-size="12" font-weight="600" fill="#5F6870" text-anchor="middle">${m} · ${a}/${b}</text><rect class="hit" x="${L+i*cw}" y="${T}" width="${cw}" height="${SH-T-B}" data-tip="${m} 2026: ${a} von ${b} Projekten pünktlich ausgeliefert (${p} %)"/>`; });
   c3 += '</svg>';
   const c4 = hbars(AUSW.auslastung.map(([l,a,b])=>({l,v:a/b*100,txt:`${Math.round(a/b*100)} % · ${a}/${b} h`})), 120, [0,25,50,75,100], 100, '100 % = Plan', ' %', d=>`${d.l}: gebuchte / geplante Std. ${d.txt}`);
-  const abs = {ab:0,ex:0,dr:0,sc:0}; MITARBEITER.forEach(p=>{ if(!istAn(p)) abs[p.s]++; });
+  const abs = {ab:0,dr:0,sc:0}; MITARBEITER.forEach(p=>{ if(!istAnw(p)) abs[p.s]++; });
   const nAbs = Object.values(abs).reduce((a,b)=>a+b,0);
   const ausl = AUSW.auslastung.reduce((s,x)=>s+x[1],0)/AUSW.auslastung.reduce((s,x)=>s+x[2],0)*100;
   const tA = AUSW.termintreue.reduce((s,x)=>[s[0]+x[1],s[1]+x[2]],[0,0]), tPct = Math.round(tA[0]/tA[1]*100);
@@ -1194,8 +1148,8 @@ function renderAuswertung(){
       <div class="ktile"><div class="k">Termintreue <span class="f">Jun–Nov 2026</span></div><div class="v">${tPct} %<small>${tA[0]} von ${tA[1]} pünktlich</small></div><div class="s">Ziel 90 % · gemessen am vereinbarten Liefertermin</div></div>
       <div class="ktile"><div class="k">Auslastung KW 47 <span class="f">gebuchte ÷ geplante Std.</span></div><div class="v">${fmt(ausl,0)} %<small>Bereich SMB</small></div><div class="s">Niedrigste: ZSA3 mit 74 % (1 krank, 1 Schulung)</div></div>
       <div class="ktile"><div class="k">Abwesenheiten heute</div><div class="v">${nAbs}<small>von ${MITARBEITER.length}</small></div>
-        <div><div class="stackbar">${['ab','ex','dr','sc'].filter(s=>abs[s]).map(s=>`<i class="${STATUS[s].c}" style="flex:${abs[s]}" data-tip="${STATUS[s].lang||STATUS[s].l}: ${abs[s]}"></i>`).join('')}</div>
-        <div class="s" style="margin-top:4px">Abwesend ${abs.ab} · Ext. Service ${abs.ex} · Dienstreise ${abs.dr} · Schulung ${abs.sc}</div></div></div>
+        <div><div class="stackbar">${['ab','dr','sc'].filter(s=>abs[s]).map(s=>`<i class="${STATUS[s].c}" style="flex:${abs[s]}" data-tip="${STATUS[s].lang||STATUS[s].l}: ${abs[s]}"></i>`).join('')}</div>
+        <div class="s" style="margin-top:4px">Krank/Urlaub ${abs.ab} · Dienstreise ${abs.dr} · Schulung ${abs.sc} · +${MITARBEITER.filter(p=>p.s==="ex").length} Ext. Service</div></div></div>
     </div>
     <div class="agrid">
       <div class="chart"><h4>Krankheitsrate je Team <span>Ø letzte 4 Wochen</span></h4><div class="cs">ZSA3 liegt deutlich über dem Bereichsziel von 4 %.</div>${c1}</div>
@@ -1205,11 +1159,12 @@ function renderAuswertung(){
     </div>`;
 }
 
+
 /* =============================================================================
    Gesamt-Render & Ansichten
    ============================================================================= */
 function renderAll(){
-  renderPool(); renderHall(); renderProjects(); renderKPIs();
+  renderPool(); renderMap(); renderProjects(); renderKPIs();
   if(S.pop) renderPop();
   if(!$('#bellMenu').hidden) renderBell();
   if(S.view==='forecast') renderForecast();
@@ -1225,57 +1180,125 @@ function setView(vw){
 }
 
 /* =============================================================================
-   Interaktion
+   Hallenplan: Rechteck aufziehen · verschieben · Größe ändern (Zeiger/Touch)
    ============================================================================= */
-const stage = $('#stage');
-let dragPid = null;
-
-/* Drag & Drop von Personen: Zone = einteilen, „Nicht eingeteilt“ = aufheben, Reiter „Abwesend“ = Status wählen */
-stage.addEventListener('dragstart', e=>{
-  const c = e.target.closest && e.target.closest('[data-pid]'); if(!c || S.layout) return;
-  dragPid = c.dataset.pid; c.classList.add('dragging'); closePop();
-  if(S.demo){ S.demo=null; requestAnimationFrame(()=>{ renderHall(); renderPool(); }); }
-  e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain', dragPid);
+const map = $('#map');
+let dr = null;
+function toM(e){
+  const r = map.getBoundingClientRect(), s = scale(), b = 4*s;
+  return { x:(e.clientX-r.left-b)/(r.width-2*b)*HALLE.w, y:(e.clientY-r.top-b)/(r.height-2*b)*HALLE.h };
+}
+const snapM = v => Math.round(v);
+function norm(a,b,f){
+  const x0=Math.max(f.x,Math.min(a.x,b.x)), y0=Math.max(f.y,Math.min(a.y,b.y));
+  const x1=Math.min(f.x+f.w,Math.max(a.x,b.x)), y1=Math.min(f.y+f.h,Math.max(a.y,b.y));
+  return {x:x0,y:y0,w:x1-x0,h:y1-y0};
+}
+map.addEventListener('pointerdown', e=>{
+  if(e.button>0 || e.target.closest('[data-pid]') || e.target.closest('.del')) return;
+  const m = toM(e), pr = e.target.closest('.pr');
+  if(pr){
+    const nr = pr.dataset.nr;
+    dr = {mode:e.target.closest('.rz')?'rz':'mv', nr, el:pr, m0:m, o:{...PLAN[nr]}, cand:{...PLAN[nr]}, moved:false, ok:true};
+  } else {
+    const fl = e.target.closest('.fl'); if(!fl) return;
+    if(S.pop && S.pop.kind==='place') closePop();
+    const f = FLAECHEN.find(x=>x.id===fl.dataset.fl);
+    dr = {mode:'draw', f, a:{x:snapM(m.x),y:snapM(m.y)}, moved:false};
+  }
+  map.setPointerCapture(e.pointerId); e.preventDefault();
 });
-stage.addEventListener('dragend', ()=>{ dragPid=null; document.querySelectorAll('.dragging,.drop-ok,.drop-over,.drop-tab').forEach(x=>x.classList.remove('dragging','drop-ok','drop-over','drop-tab')); });
-function canTake(zEl){ const z=zById(zEl.dataset.zone); return z && z.t!=='in' && !(z.t==='mp' && !projVonZone(z.id)); }
-function dropTarget(e){
-  const tab = e.target.closest('#poolTabs button'); if(tab) return {tab};
-  const ne = e.target.closest('[data-drop="ne"]'); if(ne) return {ne};
-  const z = e.target.closest('.zone'); if(z && canTake(z)) return {z};
-  return null;
+map.addEventListener('pointermove', e=>{
+  if(!dr) return; const m = toM(e);
+  if(dr.mode==='draw'){
+    const r = norm(dr.a, {x:snapM(m.x),y:snapM(m.y)}, dr.f);
+    if(r.w<1 && r.h<1) return;
+    dr.moved = true; r.bad = r.w<6 || r.h<6 || !frei(r); S.ghost = r; dr.r = r; renderMap(); return;
+  }
+  const dx = snapM(m.x-dr.m0.x), dy = snapM(m.y-dr.m0.y), o = dr.o;
+  if(dx||dy) dr.moved = true; if(!dr.moved) return;
+  const c = dr.mode==='rz' ? {x:o.x,y:o.y,w:Math.max(6,o.w+dx),h:Math.max(6,o.h+dy)} : {x:o.x+dx,y:o.y+dy,w:o.w,h:o.h};
+  dr.cand = c; dr.ok = !!flaecheVon(c) && frei(c, dr.nr);
+  dr.el.setAttribute('style', box(c)); dr.el.classList.toggle('bad', !dr.ok);
+  const dm = dr.el.querySelector('.dim-m'); if(dm) dm.textContent = `${c.w} × ${c.h} m`;
+});
+map.addEventListener('pointerup', e=>{
+  if(!dr) return; const d = dr; dr = null; S.noClick = true; setTimeout(()=>S.noClick=false, 0);
+  if(d.mode==='draw'){
+    if(!d.moved || !d.r){ if(S.selRect||S.focus){ S.selRect=S.focus=null; renderAll(); } return; }
+    if(d.r.bad){ S.ghost=null; renderMap(); toast(d.r.w<6||d.r.h<6 ? 'Rechteck zu klein – mindestens 6 × 6 m' : 'Fläche überschneidet ein anderes Projekt'); return; }
+    renderMap();
+    openPop('place', map.querySelector('.ghost').getBoundingClientRect());
+    return;
+  }
+  if(!d.moved){
+    if(S.sel){ zuteilen(S.sel, d.nr); return; }
+    S.selRect = S.selRect===d.nr ? null : d.nr; S.focus = S.selRect; renderAll(); return;
+  }
+  if(d.ok){ snapshot(); PLAN[d.nr] = d.cand; S.selRect = d.nr; renderAll(); }
+  else { renderMap(); toast('Nicht möglich – Projekt muss frei auf einer Montagefläche liegen'); }
+});
+
+/* =============================================================================
+   Drag & Drop (Maus): Personenbilder und Projektkarten
+   ============================================================================= */
+let drag = null;   // {pid} oder {nr}
+const stage = $('#stage');
+stage.addEventListener('dragstart', e=>{
+  const p = e.target.closest && e.target.closest('[data-pid]'), c = e.target.closest && e.target.closest('.pc[draggable="true"]');
+  if(p){ drag = {pid:p.dataset.pid}; p.classList.add('dragging'); }
+  else if(c){ drag = {nr:c.dataset.nr}; c.classList.add('dragging'); }
+  else return;
+  closePop(); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain','x');
+});
+const clearDrop = () => document.querySelectorAll('.drop-ok').forEach(x=>x.classList.remove('drop-ok'));
+stage.addEventListener('dragend', ()=>{ drag=null; clearDrop(); document.querySelectorAll('.dragging').forEach(x=>x.classList.remove('dragging')); if(S.ghost&&!S.pop){S.ghost=null;renderMap();} });
+function ziel(e){
+  if(!drag) return null;
+  if(drag.pid){
+    const t = e.target.closest('.pr,.pc,[data-drop]'); return t;
+  }
+  return e.target.closest('.fl,.pr');
 }
 stage.addEventListener('dragover', e=>{
-  if(!dragPid) return; const t = dropTarget(e);
-  document.querySelectorAll('.drop-ok,.drop-over,.drop-tab').forEach(x=>x.classList.remove('drop-ok','drop-over','drop-tab'));
-  if(!t) return; e.preventDefault();
-  if(t.tab) t.tab.classList.add('drop-tab');
-  else if(t.ne) t.ne.classList.add('drop-ok');
-  else { const z=zById(t.z.dataset.zone); const n=leuteIn(z.id).length + (ZUTEILUNG[dragPid]===z.id?0:1); t.z.classList.add(z.cap && n>z.cap ? 'drop-over' : 'drop-ok'); }
+  const t = ziel(e); clearDrop(); if(!t) return; e.preventDefault(); t.classList.add('drop-ok');
 });
 stage.addEventListener('drop', e=>{
-  if(!dragPid) return; const t = dropTarget(e); if(!t) return; e.preventDefault();
-  const pid = dragPid; dragPid = null;
-  if(t.tab){ if(t.tab.dataset.v==='abs'){ if(istAn(byId[pid])) openPop(pid, t.tab, 'ab'); } else aufheben(pid); return; }
-  if(t.ne){ aufheben(pid); return; }
-  zuteilen(pid, t.z.dataset.zone);
+  const t = ziel(e); if(!t) return; e.preventDefault(); const d = drag; drag = null; clearDrop();
+  if(d.pid){
+    const p = byId[d.pid];
+    if(t.dataset.nr) return zuteilen(d.pid, t.dataset.nr);
+    if(t.dataset.drop==='ab'){ if(istAnw(p)) openPop('person', t.getBoundingClientRect(), {pid:d.pid, pending:['ab','Krank']}); return; }
+    if(t.dataset.drop==='an'||t.dataset.drop==='ohne'){ if(!istAnw(p)||ZUTEILUNG[d.pid]) loesen(d.pid); return; }
+    return;
+  }
+  // Projektkarte auf Fläche → Standardrechteck an der Abwurfstelle
+  const pr = PR(d.nr), m = toM(e), f = FLAECHEN.find(x=>m.x>=x.x&&m.x<=x.x+x.w) || FLAECHEN[0];
+  const sz = PLAN[d.nr] ? {w:PLAN[d.nr].w,h:PLAN[d.nr].h} : {w:Math.max(8,Math.min(14,pr.soll*2+4)), h:8};
+  const r = freiePos(f, sz.w, sz.h, m.x, m.y, d.nr);
+  if(!r){ toast('Kein freier Platz in dieser Größe – Rechteck selbst aufziehen'); return; }
+  platzieren(d.nr, r);
 });
 
-/* Klicks / Antippen */
+/* =============================================================================
+   Klicks / Antippen
+   ============================================================================= */
 stage.addEventListener('click', e=>{
   const T = e.target;
   if(T.closest('#pop')){
     const P = S.pop, b = T.closest('button'); if(!P || !b) return;
-    if(b.dataset.close!==undefined){ S.sel=null; closePop(); renderPool(); renderHall(); return; }
-    if(b.dataset.st){ P.pending = b.dataset.st===byId[P.pid].s ? null : b.dataset.st; P.target=null; P.bis='offen'; renderPop(); return; }
-    if(b.dataset.grund){ P.grund=b.dataset.grund; renderPop(); return; }
+    if(b.dataset.close!==undefined){ S.sel=null; closePop(); renderPool(); return; }
+    if(b.dataset.place){ platzieren(b.dataset.place, S.ghost); return; }
+    if(b.dataset.st){ const k=[b.dataset.st, b.dataset.g||null]; const p=byId[P.pid];
+      const same = p.s===k[0] && (k[0]!=='ab'||p.grund===k[1]);
+      P.pending = same ? null : k; P.target=null; P.bis='offen'; renderPop(); return; }
     if(b.dataset.target){ P.target=b.dataset.target; renderPop(); return; }
     if(b.dataset.bis){ P.bis=b.dataset.bis; renderPop(); return; }
     if(b.dataset.cancel!==undefined){ P.pending=null; renderPop(); return; }
-    if(b.dataset.apply!==undefined){ setzeStatus(P.pid, P.pending, {grund:P.grund,target:P.target,bis:P.bis}); return; }
+    if(b.dataset.apply!==undefined){ setzeStatus(P.pid, P.pending[0], P.pending[1], {target:P.target,bis:P.bis}); return; }
     if(b.dataset.assign){ zuteilen(P.pid, b.dataset.assign); return; }
-    if(b.dataset.unassign!==undefined){ aufheben(P.pid); return; }
-    if(b.dataset.mail!==undefined){ const p=byId[P.pid]; melde('mail',`Mail an ${p.n} versendet`,`Einsatzplan KW 47 · ${code(ZUTEILUNG[p.id])}`); renderKPIs(); toast(`✉ Einsatzplan KW 47 an ${p.n} gesendet`); return; }
+    if(b.dataset.unassign!==undefined){ loesen(P.pid); return; }
+    if(b.dataset.mail!==undefined){ const p=byId[P.pid]; melde('mail',`Mail an ${p.n} versendet`,`Einsatzplan KW 47 · ${ZUTEILUNG[p.id]}`); renderKPIs(); toast(`✉ Einsatzplan KW 47 an ${p.n} gesendet`); return; }
     return;
   }
   if(T.closest('#bellMenu')){ if(T.closest('#allRead')){ MELDUNGEN.forEach(m=>m.neu=0); renderKPIs(); renderBell(); } return; }
@@ -1284,37 +1307,42 @@ stage.addEventListener('click', e=>{
   if(T.closest('#modal') || T.closest('#snack')) return;
   const tab = T.closest('#tabs button'); if(tab){ setView(tab.dataset.view); return; }
   const kwb = T.closest('[data-kw]'); if(kwb){ S.kwOff = kwb.dataset.kw==='0' ? 0 : S.kwOff+Number(kwb.dataset.kw); setKW(); return; }
-  const seg = T.closest('[data-seg] button'); if(seg){ seg.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===seg)); if(seg.textContent==='Tag') toast('Tagesansicht: Schicht- und Stundenplanung je Tag (folgt)'); return; }
+  const seg = T.closest('[data-seg] button'); if(seg){ seg.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===seg)); return; }
   const kpi = T.closest('.kpi'); if(kpi){ kpiClick(kpi.dataset.k); return; }
   if(T.closest('#newProj')){ openModal(); return; }
-  const hm = T.closest('#hallMode button'); if(hm){ setLayout(hm.dataset.m==='lay'); return; }
-  if(T.closest('#lyCancel')){ BEREICHE.forEach((z,i)=>Object.assign(z, S.lyBackup[i])); setLayout(false); toast('Änderungen am Hallenlayout verworfen'); return; }
-  if(T.closest('#lySave')){ setLayout(false); toast('Hallenlayout gespeichert'); return; }
-  const pt = T.closest('#poolTabs button'); if(pt){ S.poolTab = pt.dataset.v; renderPool(); return; }
+  if(T.closest('#clearPlan')){ if(!Object.keys(PLAN).length) return; snapshot(); PLAN={}; S.selRect=S.focus=null; snack('Montageflächen geleert – alle Projekte „nicht im Plan“', true); renderAll(); return; }
   if(S.view==='forecast'){ const r=T.closest('.fc-row.r'); if(r){ S.hl = S.hl===r.dataset.nr?null:r.dataset.nr; renderForecast(); } return; }
-  if(S.view!=='board' || S.layout) return;
-  const card = T.closest('[data-pid]');
-  if(card){
-    const pid = card.dataset.pid;
-    if(S.sel===pid && S.pop){ S.sel=null; closePop(); renderPool(); renderHall(); return; }
-    const kind = card.classList.contains('mcard') ? '.mcard' : '.pcard';
-    S.sel = pid; renderPool(); renderHall();
-    openPop(pid, document.querySelector(`${kind}[data-pid="${pid}"]`) || document.querySelector(`[data-pid="${pid}"]`));
-    return;
+  if(S.view!=='board') return;
+  const del = T.closest('[data-del]'); if(del){ ausPlan(del.dataset.del); return; }
+  if(S.noClick) return;
+  const person = T.closest('[data-pid]');
+  if(!person && T.closest('#map .pr')) return;
+  if(person){
+    const pid = person.dataset.pid;
+    if(S.sel===pid && S.pop){ S.sel=null; closePop(); renderPool(); return; }
+    S.sel = pid; S.focus = null; S.selRect = null;
+    const r = person.getBoundingClientRect(); renderPool(); renderMap(); renderProjects();
+    openPop('person', r, {pid}); return;
   }
-  const tl = T.closest('.tile'); if(tl){ S.hl = tl.dataset.nr; setView('forecast'); return; }
-  const z = T.closest('.zone');
-  if(z && S.sel && canTake(z)){ zuteilen(S.sel, z.dataset.zone); return; }
-  if(S.pop || S.sel){ S.sel=null; closePop(); renderPool(); renderHall(); }
+  const pcard = T.closest('.pc');
+  if(pcard){
+    if(S.sel){ zuteilen(S.sel, pcard.dataset.nr); return; }
+    S.focus = S.focus===pcard.dataset.nr ? null : pcard.dataset.nr; S.selRect = PLAN[S.focus] ? S.focus : null; renderAll(); return;
+  }
+  const area = T.closest('[data-drop="ab"]');
+  if(area && S.sel && S.pop && S.pop.kind==='person' && istAnw(byId[S.sel])){ S.pop.pending=['ab','Krank']; renderPop(); return; }
+  if(S.pop || S.sel || S.focus){ S.sel=null; S.focus=null; S.selRect=null; closePop(); renderAll(); }
 });
+stage.addEventListener('dblclick', e=>{ const c = e.target.closest('.pc,.pr'); if(c){ S.hl=c.dataset.nr; setView('forecast'); } });
 $('#undo').addEventListener('click', ()=>{ undo(); $('#snack').classList.add('hide'); });
 
 function kpiClick(k){
   if(S.view!=='board') setView('board');
-  const flash = el=>{ el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
-  if(k==='ne'){ S.poolTab='an'; renderPool(); flash($('#grpNE')); }
-  if(k==='an'){ S.poolTab = S.poolTab==='an'?'abs':'an'; renderPool(); }
-  if(k==='under') document.querySelectorAll('.tile.under').forEach(flash);
+  const flash = el=>{ if(!el) return; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+  if(k==='an') flash($('.sect.ab'));
+  if(k==='ohne') flash($('#ohne'));
+  if(k==='under') document.querySelectorAll('.pc.under').forEach(flash);
+  if(k==='plan') document.querySelectorAll('.pc .tag.plan').forEach(t=>flash(t.closest('.pc')));
   if(k==='rot'){ S.hl = (PROJEKTE.find(p=>forecast(p).amp.includes('r'))||{}).nr; setView('forecast'); }
   if(k==='mn') toast('3 Maßnahmen überfällig – Ansicht „Maßnahmen“ folgt');
 }
@@ -1324,62 +1352,29 @@ function setKW(){
   if(S.kwOff) toast(`${S.kwOff>0?'Vorschau':'Rückblick'} KW ${kw(mo)} – im Prototyp werden die Daten von KW 47 gezeigt`);
 }
 
-/* ---------- Layout-Modus: Bereiche verschieben / skalieren ---------- */
-function setLayout(on){
-  if(on && !S.layout) S.lyBackup = BEREICHE.map(z=>({x:z.x,y:z.y,w:z.w,h:z.h}));
-  S.layout = on; S.sel=null; S.demo=null; closePop();
-  document.querySelectorAll('#hallMode button').forEach(b=>b.classList.toggle('on', (b.dataset.m==='lay')===on));
-  $('#hallLegend').hidden = on; $('#layoutHint').hidden = !on; $('#layoutBtns').hidden = !on;
-  renderAll();
-}
-let ly = null;
-function cellAt(e){
-  const r=$('#hall').getBoundingClientRect(), s=scale(), pad=6*s;
-  return { x:Math.floor((e.clientX-r.left-pad)/(r.width-2*pad)*24), y:Math.floor((e.clientY-r.top-pad)/(r.height-2*pad)*16) };
-}
-const hits = (a,b) => a.x < b.x+b.w && b.x < a.x+a.w && a.y < b.y+b.h && b.y < a.y+a.h;
-$('#hall').addEventListener('pointerdown', e=>{
-  if(!S.layout) return; const el=e.target.closest('.zone'); if(!el) return;
-  const z = zById(el.dataset.zone); e.preventDefault(); el.setPointerCapture(e.pointerId);
-  ly = {z, el, rz:!!e.target.closest('.rz'), c0:cellAt(e), o:{x:z.x,y:z.y,w:z.w,h:z.h}, bad:false};
-  el.classList.add('moving');
-});
-$('#hall').addEventListener('pointermove', e=>{
-  if(!ly) return; const c=cellAt(e), dx=c.x-ly.c0.x, dy=c.y-ly.c0.y, z=ly.z, o=ly.o;
-  if(ly.rz){ z.w=Math.max(1,Math.min(24-o.x,o.w+dx)); z.h=Math.max(1,Math.min(16-o.y,o.h+dy)); }
-  else { z.x=Math.max(0,Math.min(24-o.w,o.x+dx)); z.y=Math.max(0,Math.min(16-o.h,o.y+dy)); }
-  ly.el.style.gridColumn=`${z.x+1} / span ${z.w}`; ly.el.style.gridRow=`${z.y+1} / span ${z.h}`;
-  ly.bad = BEREICHE.some(b=>b!==z && hits(z,b)); ly.el.classList.toggle('collide', ly.bad);
-});
-$('#hall').addEventListener('pointerup', ()=>{
-  if(!ly) return;
-  if(ly.bad){ Object.assign(ly.z, ly.o); toast('Bereiche dürfen sich nicht überlappen – zurückgesetzt'); }
-  ly = null; renderHall();
-});
-
 /* ---------- Neues Projekt per Projektnummer ---------- */
 function openModal(){
   const m = $('#modal'); m.hidden = false; closePop();
-  m.innerHTML = `<div class="modal"><h3>Neues Projekt anlegen</h3><p>Projektnummer eingeben – Kunde, Termine, Soll-Besetzung und Plan-Stunden werden aus den Stammdaten übernommen.</p>
+  m.innerHTML = `<div class="modal"><h3>Neues Projekt anlegen</h3><p>Projektnummer eingeben – Kunde, Termine, Soll-Besetzung und Plan-Stunden kommen aus den Stammdaten. Danach auf einer Montagefläche ein Rechteck aufziehen.</p>
     <div class="field"><input id="pnr" value="P-24141" spellcheck="false" autocomplete="off"><button class="btn" id="pSearch">Abrufen</button></div><div id="pRes"></div>
     <div class="pop-f"><button class="btn" id="pCancel">Abbrechen</button><button class="btn pri" id="pOk" disabled>Anlegen</button></div></div>`;
   const look = ()=>{
     const nr = $('#pnr').value.trim().toUpperCase(), d = ERP[nr], res = $('#pRes');
     if(!d){ res.innerHTML = `<div class="nf">Projektnummer „${nr}“ nicht gefunden.</div>`; $('#pOk').disabled=true; return; }
-    if(prByNr[nr] || S.reserved===nr){ res.innerHTML = `<div class="nf">${nr} ist bereits angelegt.</div>`; $('#pOk').disabled=true; return; }
-    res.innerHTML = `<div class="preview"><div class="full"><span class="nm">${d.nm}</span><span class="logo logo-${d.c}">${d.cust}</span></div>
-      <div><div class="k">Projektklasse</div><div class="v">${d.kl}</div></div><div><div class="k">Zeitraum</div><div class="v">${d.from}–${d.to}</div></div>
-      <div><div class="k">Soll-Besetzung</div><div class="v">${d.soll} Personen</div></div><div><div class="k">Plan-Stunden</div><div class="v">${fmt(d.plan)} h</div></div>
-      <div class="full"><div><div class="k">Montageplatz-Vorschlag</div><div class="v">${d.platz==='—'?'im Zeitraum kein Platz frei':d.platz+' · frei ab 27.11.'}</div></div></div></div>`;
+    if(PR(nr)){ res.innerHTML = `<div class="nf">${nr} ist bereits angelegt.</div>`; $('#pOk').disabled=true; return; }
+    res.innerHTML = `<div class="preview"><div class="full"><span class="nm">${d.nm}</span><span style="display:flex;align-items:center;gap:6px">${mk(d.c,'mk" style="width:22px;height:22px')}<b style="font-size:12px;letter-spacing:.06em">${LOGO[d.c].n}</b></span></div>
+      <div><div class="k">Projektart</div><div class="v">${d.kl==='extern'?'Extern':'Intern'}</div></div><div><div class="k">Zeitraum</div><div class="v">${d.from}–${d.to}</div></div>
+      <div><div class="k">Soll-Besetzung</div><div class="v">${d.soll} Personen</div></div><div><div class="k">Plan-Stunden</div><div class="v">${fmt(d.plan)} h</div></div></div>`;
     $('#pOk').disabled=false; $('#pOk').dataset.nr=nr;
   };
   $('#pSearch').onclick = look; $('#pnr').onkeydown = e=>{ if(e.key==='Enter') look(); };
   $('#pCancel').onclick = ()=>{ m.hidden=true; };
   m.onclick = e=>{ if(e.target===m) m.hidden=true; };
   $('#pOk').onclick = ()=>{ const nr=$('#pOk').dataset.nr, d=ERP[nr]; m.hidden=true;
-    if(d.platz==='B3') S.reserved = nr;
-    melde('mail','Projekt angelegt',`${nr} ${d.nm} · Start ${d.from}${d.platz==='B3'?' · Montageplatz B3 reserviert':''}`);
-    renderAll(); toast(`${nr} ${d.nm} angelegt – erscheint ab ${d.from} als aktives Projekt`); };
+    PROJEKTE.push({nr, nm:d.nm, kl:d.kl, c:d.c, from:d.from, to:d.to, cur:'Vormontage', soll:d.soll, q:'g', plan:d.plan, ist:0, pct:0, pak:[0,20],
+      ph:[['Vormontage',d.from,'18.12.'],['Montage','19.12.','29.01.'],['IBN','30.01.','05.02.']]});
+    melde('mail','Projekt angelegt',`${nr} ${d.nm} · Start ${d.from} · noch nicht im Hallenplan`);
+    renderAll(); toast(`${nr} ${d.nm} angelegt – jetzt Rechteck auf einer Montagefläche aufziehen`); };
   look(); setTimeout(()=>{ const i=$('#pnr'); if(i) i.select(); },50);
 }
 
@@ -1389,7 +1384,6 @@ addEventListener('resize', ()=>{ fit(); if(S.pop) renderPop(); }); fit();
 function tick(){ $('#clock').textContent = new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}); }
 tick(); setInterval(tick, 10000);
 renderAll();
-setTimeout(()=>{ if(S.fresh==='becker') S.fresh=null; }, 3000);
 </script>
 </body>
 </html>

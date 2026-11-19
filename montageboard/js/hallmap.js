@@ -131,7 +131,7 @@ Board.hall = (function () {
       const sel = ui.auswahl && ui.auswahl.art === "p" && ui.auswahl.id === pr.id;
       const wpx = r.b * skala, hpx = r.t * skala;
       const kopfH = 1.9 * R, av = 2.75 * R + 4;
-      const gross = hpx >= 11.5 * R && wpx >= 8 * R;
+      const gross = hpx >= 10 * R && wpx >= 8 * R;
       const inhaltH = gross ? 4.9 * R : 1.6 * R;
       const spalten = Math.max(1, Math.floor((wpx - 10) / av));
       const zeilen = Math.max(0, Math.floor((hpx - kopfH - inhaltH - 6) / av));

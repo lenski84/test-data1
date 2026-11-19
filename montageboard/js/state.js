@@ -11,7 +11,7 @@ window.Board = window.Board || {};
 Board.state = (function () {
   "use strict";
   const U = Board.util;
-  const SPEICHER_SCHLUESSEL = "montageboard.v1";
+  const SPEICHER_SCHLUESSEL = "montageboard.v2";
   const UNDO_MAX = 30;
 
   /** Aktueller Datenstand (wird gespeichert). */
@@ -141,21 +141,19 @@ Board.state = (function () {
      ========================================================================= */
 
   /**
-   * Wo liegt die Karte einer Person? Jede Person liegt – wie ein Magnet – an
-   * genau EINER Stelle:
-   *  - projektId gesetzt → auf diesem Projekt (Fläche im Plan, Service-Eintrag
-   *    rechts oder – bei Projekt ohne Fläche – beim Listeneintrag rechts)
-   *  - kein Projekt & anwesenheit "Anwesend" → Personal, eigene Abteilung, Spalte Anwesend
-   *  - kein Projekt & sonst → Personal, eigene Abteilung, Spalte Abwesend
+   * Wo wird eine Person angezeigt? Eine anwesende Person erscheint DREIMAL:
+   *  1. links in ihrer Abteilung, Spalte „Anwesend“
+   *  2. im Hallenplan auf der Fläche ihres Projekts (externe und interne
+   *     Projekte werden direkt im Montagebereich bearbeitet)
+   *  3. rechts beim externen bzw. internen Projekt
+   * Service: links unter „Anwesend“ (blauer Punkt) und rechts unter „Beim
+   * Kunden“ – NICHT im Hallenplan.
+   * Abwesend/Dienstreise/Schulung: nur links in der Spalte „Abwesend“.
    * @param {object} p Person
-   * @returns {{typ:"projekt", projekt:object}|{typ:"abteilung", spalte:"an"|"ab"}}
+   * @returns {"an"|"ab"} Spalte in der Personaltabelle
    */
-  function ort(p) {
-    if (p.projektId) {
-      const pr = projekt(p.projektId);
-      if (pr) return { typ: "projekt", projekt: pr };
-    }
-    return { typ: "abteilung", spalte: p.anwesenheit === "Anwesend" ? "an" : "ab" };
+  function spalte(p) {
+    return (p.anwesenheit === "Anwesend" || p.anwesenheit === "Service") ? "an" : "ab";
   }
 
   /** Ist-Besetzung = Anzahl Personen mit dieser projektId. */
@@ -594,7 +592,7 @@ Board.state = (function () {
     daten: function () { return daten; },
     laden: laden, pruefen: pruefen,
     person: person, projekt: projekt, abteilung: abteilung,
-    ort: ort, ist: ist, personenAuf: personenAuf, besetzung: besetzung, laeuft: laeuft,
+    spalte: spalte, ist: ist, personenAuf: personenAuf, besetzung: besetzung, laeuft: laeuft,
     bereichVon: bereichVon, schneiden: schneiden, ueberschneidungen: ueberschneidungen, kennzahlen: kennzahlen,
     personAblegen: personAblegen, anwesenheitSetzen: anwesenheitSetzen, vorarbeiterSetzen: vorarbeiterSetzen, fotoSetzen: fotoSetzen,
     flaecheSetzen: flaecheSetzen, geometrieSetzen: geometrieSetzen, projektWechseln: projektWechseln, ausPlanEntfernen: ausPlanEntfernen,

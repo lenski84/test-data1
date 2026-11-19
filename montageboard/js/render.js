@@ -82,16 +82,14 @@ Board.render = (function () {
       const an = [], ab = [];
       d.personen.forEach(function (p) {
         if (p.abteilungId !== a.id) return;
-        const o = S.ort(p);
-        if (o.typ !== "abteilung") return;
-        (o.spalte === "an" ? an : ab).push(p);
+        (S.spalte(p) === "an" ? an : ab).push(p);
       });
       nAn += an.length; nAb += ab.length;
       const hlOhne = ui.hervorheben === "ohne" ? " hl" : "";
       return '<div class="pt-zeile' + (ui.filterAbt && ui.filterAbt !== a.id ? " gedimmt" : "") + '">' +
         '<div class="abt"><b>' + U.esc(a.kuerzel) + "</b><small>" + U.esc(a.funktion === "Inbetriebnahme" ? "IBN" : "Montage") + "</small></div>" +
         '<div class="zone an' + (ui.hervorheben === "anwesend" ? " hl" : "") + '" data-drop="abteilung" data-abt="' + a.id + '" data-spalte="an">' +
-          (an.length ? an.map(function (p) { return karte(p, false, hlOhne); }).join("") : '<span class="leer">–</span>') + "</div>" +
+          (an.length ? an.map(function (p) { return karte(p, false, hlOhne && !p.projektId ? hlOhne : ""); }).join("") : '<span class="leer">–</span>') + "</div>" +
         '<div class="zone ab" data-drop="abteilung" data-abt="' + a.id + '" data-spalte="ab">' +
           (ab.length ? ab.map(function (p) { return karte(p); }).join("") : '<span class="leer">–</span>') + "</div>" +
         "</div>";
@@ -106,12 +104,12 @@ Board.render = (function () {
      ========================================================================= */
 
   /**
-   * Ein Listeneintrag. Projekte ohne Fläche und Service-Projekte zeigen ihre
-   * Personen hier (dort „liegt“ der Magnet).
+   * Ein Listeneintrag. Jedes Projekt zeigt hier seine zugeteilten Personen
+   * (zusätzlich zur Anzeige links und im Hallenplan).
    */
   function eintrag(pr, ausserhalb) {
     const ui = S.ui;
-    const zeigtPersonen = pr.art === "Service" || !pr.flaeche;
+    const zeigtPersonen = true;
     const leute = zeigtPersonen ? S.personenAuf(pr.id) : [];
     const hl = (ui.hervorheben === "plan" && pr.art !== "Service" && !pr.flaeche && !ausserhalb) ||
                (ui.hervorheben === "rot" && pr.status === "Verzug" && !ausserhalb) ||

@@ -9,6 +9,20 @@ Projekte werden als Flächen frei auf einem maßstäblichen Hallenplan platziert
 * läuft vollständig **offline**, keine externen Ressourcen
 * Basisauflösung 1920 × 1080, skaliert exakt auf 3840 × 2160 (1 rem = 16 px bzw. 32 px)
 
+### Startdaten (bewusst klein für die Übersicht)
+
+| Person | Abteilung | Projekt | Status |
+|---|---|---|---|
+| Lennart Kleemann (Vorarbeiter) | SZA1 | Lucid Prüfstand (extern) | Anwesend |
+| Hulk | SZA3 | Lucid Prüfstand (extern) | Anwesend |
+| Thor Odinson | SZA2 | SEM Montagezelle (intern) | Anwesend |
+| Hawkeye | SZA4 | Kunde A Vor-Ort (Service) | Service |
+| Hannah Mör | SZA2 | – | Abwesend |
+
+Drei Projekte: **Lucid Prüfstand** (extern) und **SEM Montagezelle** (intern) werden
+direkt im Montagebereich bearbeitet und haben eine Fläche im Hallenplan;
+**Kunde A Vor-Ort** ist ein Service-Projekt beim Kunden (nie im Hallenplan).
+
 ---
 
 ## Bedienung
@@ -86,7 +100,7 @@ Bedienung (Pointer Events, Klicks, Tasten)
 
 ```js
 {
-  schemaVersion: 1,
+  schemaVersion: 2,
   halle: { breiteM: 60, tiefeM: 40,
            bereiche: [{ id, name, x, y, b, t }],     // Hintergrundflächen, fest
            hauptgang: { y, t, label },
@@ -111,10 +125,14 @@ im Dialog „Projekt platzieren“ mit **„Als freie Fläche behalten“** best
 
 ### Ableitungsregeln (`state.js`)
 
-* **Wo liegt eine Karte?** Jede Person liegt an genau einer Stelle:
-  `projektId` gesetzt → auf dem Projekt (Fläche, Service-Eintrag oder – bei Projekt ohne
-  Fläche – beim Listeneintrag); sonst in der eigenen Abteilung, Spalte **Anwesend**
-  (bei `anwesenheit = "Anwesend"`) bzw. **Abwesend**.
+* **Wo wird eine Person angezeigt?** (`spalte()` in `state.js`)
+  * **anwesend mit Projekt → dreimal:** links in der eigenen Abteilung unter **Anwesend**,
+    im **Hallenplan** auf der Fläche ihres Projekts und **rechts** beim externen bzw.
+    internen Projekt (externe Projekte werden ebenfalls direkt im Montagebereich bearbeitet).
+  * **Service → zweimal:** links unter **Anwesend** (blauer Punkt) und rechts unter
+    **Beim Kunden** – nicht im Hallenplan.
+  * **Abwesend / Dienstreise / Schulung → einmal:** links unter **Abwesend**.
+  * Jede dieser Karten kann gezogen werden; die Zuordnung gilt immer für die Person.
 * **Ist-Besetzung** = Anzahl Personen mit dieser `projektId`; Badge grün (Ist = Soll),
   rot (Ist < Soll), orange (Ist > Soll).
 * **Projekt läuft in KW**, wenn `startKW ≤ KW ≤ endKW` (Zahlenvergleich JJJJWW,
@@ -141,10 +159,10 @@ Im Popover gilt: *Abwesend/Dienstreise/Schulung* nehmen die Person aus ihrem Pro
 
 ## Speichern
 
-1. **Automatisch im Browser** (`localStorage`, Schlüssel `montageboard.v1`, mit
-   `schemaVersion`). Fehlt der Inhalt oder ist er defekt, werden die Startdaten geladen.
+1. **Automatisch im Browser** (`localStorage`, Schlüssel `montageboard.v2`, mit
+   `schemaVersion` 2). Fehlt der Inhalt oder ist er defekt, werden die Startdaten geladen.
 2. **Export/Import** über das Menü: kompletter Stand als `montageboard-JJJJ-MM-TT.json`;
-   beim Import Prüfung und Vorschau („9 Projekte, 35 Personen – übernehmen?“).
+   beim Import Prüfung und Vorschau („3 Projekte, 5 Personen – übernehmen?“).
 3. **Mit Datei verbinden** (nur sichtbar, wenn der Browser `showSaveFilePicker` anbietet):
    neue Datei anlegen oder vorhandene öffnen (z. B. im OneDrive-/Teams-Ordner). Jede
    Änderung wird nach 1 s in die Datei geschrieben, alle 30 s wird geprüft, ob die Datei
@@ -165,17 +183,17 @@ zusätzlich mit echten Touch-Ereignissen (Chrome DevTools Protocol) bei 1920 × 
 | # | Testfall | Ergebnis |
 |---|---|---|
 | 1 | `index.html` per `file://` öffnen | ✅ vollständig, 0 Konsolenfehler, 0 Netzwerkanfragen |
-| 2 | Lennart Kleemann von „Lucid Prüfstand“ auf „SEW Linie 3“ ziehen | ✅ Ist Lucid 4→3, SEW 3→4, Statusleiste aktualisiert |
-| 3 | Thor Odinson auf „Kunde A Vor-Ort“ ziehen | ✅ Status Service (blauer Punkt), Karte unter „Beim Kunden“ |
-| 4 | Hulk in SZA3 → Abwesend ziehen | ✅ Projekt leer, Status Abwesend, roter Punkt |
+| 2 | Lennart Kleemann von „Lucid Prüfstand“ auf „SEM Montagezelle“ ziehen | ✅ Ist Lucid 2→1, SEM 1→2; Lennart weiterhin 3× sichtbar (links, Plan, rechts) |
+| 3 | Thor Odinson auf „Kunde A Vor-Ort“ ziehen | ✅ Status Service (blauer Punkt), Karte unter „Beim Kunden“, nicht mehr im Plan |
+| 4 | Hulk in SZA3 → Abwesend ziehen | ✅ Projekt leer, Status Abwesend, roter Punkt, nur noch links |
 | 5 | Hulk in SZA1 → Anwesend ziehen | ✅ abgelehnt, federt zurück, Hinweis |
-| 6 | 12 × 10 m aufziehen → „Wafer-Handling“ platzieren | ✅ Fläche mit Projekt, „Nicht im Plan“ 2→1 |
+| 6 | 12 × 10 m aufziehen → Projekt „hierher verschieben“ | ✅ Fläche mit Projekt an neuer Stelle |
 | 7 | Fläche über Kopfzeile verschieben, an Ecke vergrößern | ✅ Maße im 0,5-m-Raster, Überschneidung rot markiert |
 | 8 | Strg+Z | ✅ letzte Änderung zurückgenommen |
 | 9 | Seite neu laden | ✅ Stand exakt identisch |
-| 10 | KW 202652 → weiterblättern | ✅ KW 52 (21.12.–27.12.2026) → **KW 53** (28.12.–03.01.2027) → KW 1 (04.01.–10.01.2027); laufende Projekte außerhalb ausgegraut |
+| 10 | KW 202652 → weiterblättern | ✅ KW 52 (21.12.–27.12.2026) → **KW 53** (28.12.–03.01.2027) → KW 1 (04.01.–10.01.2027); Projekte außerhalb ausgegraut |
 | 11 | Touch bei 1920 × 1080 und 3840 × 2160 | ✅ Ziehen, Antippen (Popover) und Aufziehen funktionieren, kein Überlauf |
-| 12 | Export → Startdaten → Import | ✅ alter Stand wieder da |
+| 12 | Export → Startdaten → Import | ✅ alter Stand wieder da („3 Projekte, 5 Personen – übernehmen?“) |
 
 Hinweis zu Fall 10: 2026 hat nach ISO 8601 **53 Kalenderwochen** (das Jahr beginnt an
 einem Donnerstag). Zwischen 202652 und 202701 liegt deshalb korrekt die KW 202653.

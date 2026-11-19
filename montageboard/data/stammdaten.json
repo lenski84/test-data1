@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "abteilungen": [
+    { "id": 1, "kuerzel": "SZA1", "funktion": "Montage" },
+    { "id": 2, "kuerzel": "SZA2", "funktion": "Inbetriebnahme" },
+    { "id": 3, "kuerzel": "SZA3", "funktion": "Montage" },
+    { "id": 4, "kuerzel": "SZA4", "funktion": "Inbetriebnahme" }
+  ],
+  "projekte": [
+    { "id": 1, "nummer": "P-24101", "name": "SEW Linie 3", "kunde": "SEW Eurodrive", "art": "Extern", "startKW": 202645, "endKW": 202648, "status": "Im Plan", "soll": 2, "abteilungId": 1, "icon": "gear", "flaeche": null },
+    { "id": 2, "nummer": "P-24117", "name": "Lucid Prüfstand", "kunde": "Lucid", "art": "Extern", "startKW": 202646, "endKW": 202652, "status": "Im Plan", "soll": 2, "abteilungId": 2, "icon": "bolt", "flaeche": null },
+    { "id": 3, "nummer": "I-26003", "name": "SEM Montagezelle", "kunde": "SEN", "art": "Intern", "startKW": 202646, "endKW": 202650, "status": "Im Plan", "soll": 2, "abteilungId": 3, "icon": "cell", "flaeche": null },
+    { "id": 4, "nummer": "S-25031", "name": "Kunde A Vor-Ort", "kunde": "Kunde A", "art": "Service", "startKW": 202647, "endKW": 202649, "status": "Im Plan", "soll": 1, "abteilungId": 4, "icon": "truck", "flaeche": null }
+  ],
+  "personen": [
+    { "id": 1, "name": "Lennart Kleemann", "abteilungId": 1, "projektId": 2, "anwesenheit": "Anwesend", "vorarbeiter": false },
+    { "id": 2, "name": "Thor Odinson", "abteilungId": 2, "projektId": 3, "anwesenheit": "Anwesend", "vorarbeiter": false },
+    { "id": 3, "name": "Hulk", "abteilungId": 3, "projektId": 1, "anwesenheit": "Anwesend", "vorarbeiter": false },
+    { "id": 4, "name": "Hawkeye", "abteilungId": 4, "projektId": 4, "anwesenheit": "Service", "vorarbeiter": false },
+    { "id": 5, "name": "Hannah Mör", "abteilungId": 2, "projektId": null, "anwesenheit": "Schulung", "vorarbeiter": false },
+    { "id": 6, "name": "Matteo Friedrich", "abteilungId": 4, "projektId": null, "anwesenheit": "Anwesend", "vorarbeiter": false }
+  ]
+}
